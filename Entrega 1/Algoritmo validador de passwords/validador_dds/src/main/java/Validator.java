@@ -62,12 +62,14 @@ public class Validator {
     }
 
     static boolean validarPassword(String password) {
+        // Metodo principal
         String parsedPassword = parsePassword(password);
         return masDeOchoCaracteres(parsedPassword)
                 && !getCommonPasswords().contains(password);
     }
 
     static int potenciaPassword(String password) {
+
         int potencia = 0;
 
         if (masDeOchoCaracteres(parsePassword(password))) {

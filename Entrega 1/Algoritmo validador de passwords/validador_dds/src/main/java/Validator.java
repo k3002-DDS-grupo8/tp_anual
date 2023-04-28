@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validator {
-
+    private static List<String> commonPasswords = getCommonPasswords();
     static boolean masDeOchoCaracteres(String string) {
         return string.length() >= 8;
     }
@@ -60,12 +60,11 @@ public class Validator {
         }
         return listaPasswords;
     }
-
     static boolean validarPassword(String password) {
         // Metodo principal
         String parsedPassword = parsePassword(password);
         return masDeOchoCaracteres(parsedPassword)
-                && !getCommonPasswords().contains(password);
+                && !commonPasswords.contains(password);
     }
 
     static int potenciaPassword(String password) {

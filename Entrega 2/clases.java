@@ -54,13 +54,13 @@ class Establecimiento {
     final String nombre;
     final String ubicacionGeografica;
     final GrupoServicios[] grupoServicios;
-    final Servicio[] servicios; // Y esto por qué? Si tengo grupoServicios
+    final Servicio[] servicios;
 }
 
 class EntidadPrestadora {
     final String nombre;
     final Establecimiento[] listaEstablecimientos;
-    final Localizacion[] localizacion; // ¿No sería "localizaciones"?
+    final Localizacion[] localizacion; 
 }
 
 class Usuario {

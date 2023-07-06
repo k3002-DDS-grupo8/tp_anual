@@ -1,3 +1,5 @@
+package main;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -7,46 +9,41 @@ import java.util.regex.Pattern;
 
 public class Validator {
     private static List<String> commonPasswords = getCommonPasswords();
-    static boolean masDeOchoCaracteres(String string) {
+
+    public static boolean masDeOchoCaracteres(String string) {
         return string.length() >= 8;
     }
 
-    static boolean tieneMayuscula(String string) {
+    public static boolean tieneMayuscula(String string) {
         Pattern pattern = Pattern.compile(".*[A-Z].*");
         Matcher matcher = pattern.matcher(string);
-        boolean tieneMayuscula = matcher.matches();
-        return tieneMayuscula;
+        return matcher.matches();
     }
 
-    static boolean tieneMinuscula(String string) {
+    public static boolean tieneMinuscula(String string) {
         Pattern pattern = Pattern.compile(".*[a-z].*");
         Matcher matcher = pattern.matcher(string);
-        boolean tieneMinuscula = matcher.matches();
-        return tieneMinuscula;
+        return  matcher.matches();
     }
 
-    static boolean tieneNumeros(String string) {
+    public static boolean tieneNumeros(String string) {
         Pattern pattern = Pattern.compile(".*[0-9].*");
         Matcher matcher = pattern.matcher(string);
-        boolean tieneNumero = matcher.matches();
-        return tieneNumero;
+        return  matcher.matches();
     }
 
-    static boolean tieneCaracteresEspeciales(String string) {
+    public static boolean tieneCaracteresEspeciales(String string) {
         Pattern pattern = Pattern.compile(".*[^a-zA-Z0-9 ].*");
         Matcher matcher = pattern.matcher(string);
-        boolean tieneCaracterEspecial = matcher.matches();
-        return tieneCaracterEspecial;
+        return matcher.matches();
     }
 
-    static String parsePassword(String password) {
-        String parsedPassword = password.replaceAll("\\s+", " ");
-        return parsedPassword;
+    public static String parsePassword(String password) {
+        return password.replaceAll("\\s+", " ");
     }
 
-
-    static List<String> getCommonPasswords() {
-        String archivo = "10-million-password-list-top-10000.txt";
+    public static List<String> getCommonPasswords() {
+        String archivo = "./src/main/10-million-password-list-top-10000.txt";
 
         List<String> listaPasswords = new ArrayList<>();
 
@@ -58,17 +55,16 @@ public class Validator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return listaPasswords;
     }
-    static boolean validarPassword(String password) {
-        // Metodo principal
+    public static boolean validarPassword(String password) {
         String parsedPassword = parsePassword(password);
         return masDeOchoCaracteres(parsedPassword)
                 && !commonPasswords.contains(password);
     }
 
-    static int potenciaPassword(String password) {
-
+    public static int potenciaPassword(String password) {
         int potencia = 0;
 
         if (masDeOchoCaracteres(parsePassword(password))) {
@@ -93,5 +89,4 @@ public class Validator {
 
         return potencia;
     }
-
 }

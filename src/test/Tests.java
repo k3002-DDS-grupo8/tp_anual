@@ -1,9 +1,9 @@
+package test;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
+import main.Validator;
 
 public class Tests {
-    // Tests rapidos para probar un poco los metodos que usamos
     @Test
     public void cantidadCaracteresUnicode() {
         assertEquals(2, "日本".length());
@@ -21,7 +21,7 @@ public class Tests {
 
     @Test
     public void masDeOchoCaracteresUnicode() {
-        assertEquals(true, Validator.validarPassword("日本日本日本日本"));
+        assertTrue(Validator.validarPassword("日本日本日本日本"));
     }
 
     @Test

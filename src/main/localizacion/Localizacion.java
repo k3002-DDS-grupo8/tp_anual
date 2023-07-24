@@ -10,4 +10,6 @@ public class Localizacion {
         this.departamento = departamento;
         this.municipio = municipio;
     }
+
+    public boolean estaEnCercania(Localizacion localizacionConsultada) { return true; }
 }

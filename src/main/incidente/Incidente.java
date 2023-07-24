@@ -12,8 +12,8 @@ public class Incidente {
     Servicio servicio;
     String observaciones;
     public EstadoIncidente estado = EstadoIncidente.ABIERTO;
-    LocalDateTime horarioDeApertura = LocalDateTime.now();
-    float tiempoFueraDeServicio;
+    public LocalDateTime horarioDeApertura = LocalDateTime.now();
+    public float tiempoFueraDeServicio;
 
     public Incidente(Comunidad comunidad, String observaciones) {
         this.comunidad = comunidad;

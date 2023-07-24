@@ -8,4 +8,8 @@ public class MiembroComunidad {
         this.usuario = usuario;
         this.rol = rol;
     }
+
+    public void CambiarRol(Rol nuevoRol){
+        this.rol = nuevoRol;
+    }
 }

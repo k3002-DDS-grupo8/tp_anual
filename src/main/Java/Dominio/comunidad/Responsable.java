@@ -1,5 +1,6 @@
 package Dominio.comunidad;
 
+
 public class Responsable {
     final String nombre;
     final String email;

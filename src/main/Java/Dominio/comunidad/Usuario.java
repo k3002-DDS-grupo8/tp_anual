@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Usuario {
 
     @Id
@@ -19,15 +20,17 @@ public class Usuario {
     private long id;
     final String nombre;
     final String email;
-    @OneToMany(mappedBy = "idUsuario")
+    @ManyToMany
     final List<Servicio> serviciosDeInteres;
 
-    @OneToOne
-    public Localizacion localizacionDeInteres;
-    @OneToOne
-    public Localizacion localizacionActual;
-    ArrayList<EntidadPrestadora> entidadesPrestadorasFav;
-    ArrayList<Comunidad> comunidades;
+    @Transient
+    Localizacion localizacionDeInteres;
+    @Transient
+    Localizacion localizacionActual;
+    @OneToMany
+    List<EntidadPrestadora> entidadesPrestadorasFav;
+    @ManyToMany
+    List<Comunidad> comunidades;
     public String getNombre() {
         return nombre;
     }
@@ -52,15 +55,15 @@ public class Usuario {
         this.localizacionActual = localizacionActual;
     }
 
-    public ArrayList<EntidadPrestadora> getEntidadesPrestadorasFav() {
+    public List<EntidadPrestadora> getEntidadesPrestadorasFav() {
         return entidadesPrestadorasFav;
     }
 
-    public void setEntidadesPrestadorasFav(ArrayList<EntidadPrestadora> entidadesPrestadorasFav) {
+    public void setEntidadesPrestadorasFav(List<EntidadPrestadora> entidadesPrestadorasFav) {
         this.entidadesPrestadorasFav = entidadesPrestadorasFav;
     }
 
-    public ArrayList<Comunidad> getComunidades() {
+    public List<Comunidad> getComunidades() {
         return comunidades;
     }
 

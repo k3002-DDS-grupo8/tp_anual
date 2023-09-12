@@ -7,11 +7,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Servicio {
     final String nombre;
     private long idUsuario;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idServicio;
     @OneToOne
     public Establecimiento establecimiento;

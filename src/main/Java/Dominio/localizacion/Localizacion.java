@@ -2,7 +2,6 @@ package Dominio.localizacion;
 
 import javax.persistence.*;
 
-@Entity
 public class Localizacion {
     public Lugar getProvincia() {
         return provincia;
@@ -28,15 +27,9 @@ public class Localizacion {
         this.municipio = municipio;
     }
 
-    @OneToOne
     Lugar provincia;
-    @OneToOne
     Lugar departamento;
-    @OneToOne
     Lugar municipio;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long idLocalizacion;
 
     public Localizacion(Lugar provincia, Lugar departamento, Lugar municipio) {
         this.provincia = provincia;

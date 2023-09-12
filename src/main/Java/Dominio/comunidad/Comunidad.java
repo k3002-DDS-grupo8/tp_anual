@@ -5,13 +5,20 @@ import Dominio.notificacion.AdapterNotificacion;
 import Dominio.notificacion.Notificacion;
 import Dominio.servicio.GrupoServicios;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Comunidad {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
     final String nombre;
     ArrayList<MiembroComunidad> miembros;
     GrupoServicios[] serviciosDeInteres;
-    ArrayList<Incidente> incidentes;
+    @OneToMany
+    List<Incidente> incidentes;
 
     public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, GrupoServicios[] serviciosDeInteres) {
         this.nombre = nombre;

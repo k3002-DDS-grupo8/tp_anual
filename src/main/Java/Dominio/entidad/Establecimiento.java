@@ -13,7 +13,7 @@ public class Establecimiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     final String nombre;
-    @OneToOne
+    @Transient
     public final Localizacion ubicacionGeografica;
     final ArrayList<GrupoServicios> grupoServicios;
     public final ArrayList<Servicio> servicios;

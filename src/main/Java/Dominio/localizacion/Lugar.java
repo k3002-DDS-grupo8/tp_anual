@@ -5,12 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
 public class Lugar {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    final int id;
     final String nombre;
+    private int id;
 
     public Lugar(int id, String nombre) {
         this.id = id;

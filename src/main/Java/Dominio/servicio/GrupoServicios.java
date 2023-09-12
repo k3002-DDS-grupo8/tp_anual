@@ -1,10 +1,18 @@
 package Dominio.servicio;
 
-public class GrupoServicios {
-    final String nombre;
-    final Servicio[] servicio;
+import javax.persistence.*;
+import java.util.List;
 
-    public GrupoServicios(String nombre, Servicio[] servicio) {
+@Entity
+public class GrupoServicios {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idGrupoServicio;
+    final String nombre;
+    @ManyToMany
+    final List<Servicio> servicio;
+
+    public GrupoServicios(String nombre, List<Servicio> servicio) {
         this.nombre = nombre;
         this.servicio = servicio;
     }

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 @Entity
 public class MediosElevacion extends Servicio {
+    private String inicio;
+    private String fin;
 
     public String getInicio() {
         return inicio;
@@ -20,12 +22,12 @@ public class MediosElevacion extends Servicio {
         return fin;
     }
 
+    public void setInicio(String inicio) {
+        this.inicio = inicio;
+    }
     public void setFin(String fin) {
         this.fin = fin;
     }
-
-    final String inicio;
-    String fin = null;
 
     public MediosElevacion(String nombre, String inicio, Establecimiento establecimiento, ArrayList<Incidente> incidentes) {
         super(nombre, establecimiento, incidentes);

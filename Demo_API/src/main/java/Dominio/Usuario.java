@@ -2,10 +2,14 @@ package Dominio;
 
 public class Usuario {
     private long id;
-    private int confianza;
+    private int puntosConfianza;
+    private String gradoConfianza;
+    private boolean activo;
 
-    public Usuario(long id, int confianza) {
+    public Usuario(long id, int puntosConfianza, String gradoConfianza, boolean activo) {
         this.id = id;
-        this.confianza = confianza;
+        this.puntosConfianza = puntosConfianza;
+        this.gradoConfianza = gradoConfianza;
+        this.activo = activo;
     }
 }

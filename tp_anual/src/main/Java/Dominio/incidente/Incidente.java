@@ -1,4 +1,5 @@
 package Dominio.incidente;
+import Dominio.comunidad.Usuario;
 import Dominio.localizacion.Localizacion;
 import Dominio.servicio.Servicio;
 
@@ -17,6 +18,10 @@ public class Incidente {
     Comunidad comunidad;
     @OneToOne
     Servicio servicio;
+    @OneToOne
+    Usuario usuarioOpen;
+    @OneToOne
+    Usuario usuarioClose;
     String observaciones;
     public EstadoIncidente estado = EstadoIncidente.ABIERTO;
     public LocalDateTime horarioDeApertura = LocalDateTime.now();

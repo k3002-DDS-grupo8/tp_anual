@@ -19,6 +19,9 @@ public class Comunidad {
     GrupoServicios[] serviciosDeInteres;
     @OneToMany
     List<Incidente> incidentes;
+    private int puntosConfianza;
+    private String gradoConfianza;
+    private boolean activo;
 
     public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, GrupoServicios[] serviciosDeInteres) {
         this.nombre = nombre;

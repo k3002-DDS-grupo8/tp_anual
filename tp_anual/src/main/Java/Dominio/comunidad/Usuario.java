@@ -14,14 +14,12 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Usuario {
-
     @Id
     private long id;
     final String nombre;
     final String email;
     @ManyToMany
     final List<Servicio> serviciosDeInteres;
-
     @Transient
     Localizacion localizacionDeInteres;
     @Transient
@@ -30,6 +28,10 @@ public class Usuario {
     List<EntidadPrestadora> entidadesPrestadorasFav;
     @ManyToMany
     List<Comunidad> comunidades;
+    private int puntosConfianza;
+    private String gradoConfianza;
+    private boolean activo;
+
     public String getNombre() {
         return nombre;
     }

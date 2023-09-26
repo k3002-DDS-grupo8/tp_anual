@@ -6,15 +6,19 @@ public class Incidente {
     private long idComunidad;
     private long idServicio;
     private String estado;
-    public LocalDateTime horarioDeApertura;
-    public LocalDateTime horarioDeCierre;
+    private LocalDateTime horarioDeApertura;
+    private LocalDateTime horarioDeCierre;
+    private long idUsuarioOpen;
+    private long idUsuarioClose;
 
-    public Incidente(long id, long idComunidad, long idServicio, String estado, LocalDateTime horarioDeApertura, LocalDateTime horarioDeCierre) {
+    public Incidente(long id, long idComunidad, long idServicio, String estado, LocalDateTime horarioDeApertura, LocalDateTime horarioDeCierre, long idUsuarioOpen, long idUsuarioClose) {
         this.id = id;
         this.idComunidad = idComunidad;
         this.idServicio = idServicio;
         this.estado = estado;
         this.horarioDeApertura = horarioDeApertura;
         this.horarioDeCierre = horarioDeCierre;
+        this.idUsuarioOpen = idUsuarioOpen;
+        this.idUsuarioClose = idUsuarioClose;
     }
 }

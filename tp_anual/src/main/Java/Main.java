@@ -1,5 +1,4 @@
 import Utils.BDUtils;
-
 import javax.persistence.EntityManager;
 
 public class Main {

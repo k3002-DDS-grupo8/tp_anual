@@ -20,6 +20,7 @@ public class Incidente {
     String observaciones;
     public EstadoIncidente estado = EstadoIncidente.ABIERTO;
     public LocalDateTime horarioDeApertura = LocalDateTime.now();
+    public LocalDateTime horarioDeCierre;
     public float tiempoFueraDeServicio;
 
     public Incidente(Comunidad comunidad, String observaciones) {
@@ -30,6 +31,7 @@ public class Incidente {
     public void cerrar() {
         this.estado = EstadoIncidente.CERRADO;
         tiempoFueraDeServicio = ChronoUnit.SECONDS.between(LocalDateTime.now(), horarioDeApertura);
+        horarioDeCierre = LocalDateTime.now();
     }
 
     public void actualizarEstado(EstadoIncidente nuevoEstado) {

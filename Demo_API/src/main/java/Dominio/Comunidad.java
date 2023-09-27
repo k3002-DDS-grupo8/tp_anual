@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Comunidad {
     private long id;
-    private int puntosConfianza;
+    private float puntosConfianza;
     private String gradoConfianza;
     private boolean activo;
 
@@ -11,7 +11,7 @@ public class Comunidad {
         this.id = id;
     }
 
-    public void setPuntosConfianza(int puntosConfianza) {
+    public void setPuntosConfianza(float puntosConfianza) {
         this.puntosConfianza = puntosConfianza;
     }
 

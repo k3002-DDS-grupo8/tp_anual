@@ -28,7 +28,7 @@ public class Usuario {
     List<EntidadPrestadora> entidadesPrestadorasFav;
     @ManyToMany
     List<Comunidad> comunidades;
-    private int puntosConfianza;
+    private float puntosConfianza;
     private String gradoConfianza;
     private boolean activo;
 

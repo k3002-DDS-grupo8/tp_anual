@@ -3,7 +3,7 @@ package Dominio;
 public class ComunidadParaCalculo {
     private long id;
     private long[] usuariosIDs;
-    private int puntosConfianza;
+    private float puntosConfianza;
     private String gradoConfianza;
     private boolean activo;
 
@@ -15,7 +15,7 @@ public class ComunidadParaCalculo {
         this.usuariosIDs = usuariosIDs;
     }
 
-    public void setPuntosConfianza(int puntosConfianza) {
+    public void setPuntosConfianza(float puntosConfianza) {
         this.puntosConfianza = puntosConfianza;
     }
 

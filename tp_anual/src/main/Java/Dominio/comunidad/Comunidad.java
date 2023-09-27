@@ -19,7 +19,7 @@ public class Comunidad {
     GrupoServicios[] serviciosDeInteres;
     @OneToMany
     List<Incidente> incidentes;
-    private int puntosConfianza;
+    private float puntosConfianza;
     private String gradoConfianza;
     private boolean activo;
 

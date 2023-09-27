@@ -36,7 +36,7 @@ public class MainApi {
             for (Object[] row : rows) {
                 Usuario usuario = new Usuario();
                 usuario.setId(Long.parseLong(row[0].toString()));
-                usuario.setPuntosConfianza(Integer.parseInt(row[1].toString()));
+                usuario.setPuntosConfianza(Float.parseFloat(row[1].toString()));
                 usuario.setGradoConfianza(row[2].toString());
                 usuario.setActivo(Boolean.parseBoolean(row[3].toString()));
                 usuarios.add(usuario);
@@ -60,7 +60,7 @@ public class MainApi {
             Object[] row = (Object[]) query.getSingleResult();
             Usuario usuario = new Usuario();
             usuario.setId(id);
-            usuario.setPuntosConfianza(Integer.parseInt(row[1].toString()));
+            usuario.setPuntosConfianza(Float.parseFloat(row[1].toString()));
             usuario.setGradoConfianza(row[2].toString());
             usuario.setActivo(Boolean.parseBoolean(row[3].toString()));
             tx.commit();
@@ -83,7 +83,7 @@ public class MainApi {
             for (Object[] row : rows) {
                 Comunidad comunidad = new Comunidad();
                 comunidad.setId(Long.parseLong(row[0].toString()));
-                comunidad.setPuntosConfianza(Integer.parseInt(row[1].toString()));
+                comunidad.setPuntosConfianza(Float.parseFloat(row[1].toString()));
                 comunidad.setGradoConfianza(row[2].toString());
                 comunidad.setActivo(Boolean.parseBoolean(row[3].toString()));
                 comunidades.add(comunidad);
@@ -107,7 +107,7 @@ public class MainApi {
             Object[] row = (Object[]) query.getSingleResult();
             Comunidad comunidad = new Comunidad();
             comunidad.setId(id);
-            comunidad.setPuntosConfianza(Integer.parseInt(row[1].toString()));
+            comunidad.setPuntosConfianza(Float.parseFloat(row[1].toString()));
             comunidad.setGradoConfianza(row[2].toString());
             comunidad.setActivo(Boolean.parseBoolean(row[3].toString()));
             tx.commit();

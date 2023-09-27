@@ -6,7 +6,7 @@ import java.util.List;
 public class CalculadorGradoDeConfianza {
     List<Incidente> incidentes = new ArrayList<>();
     List<Usuario> usuarios = new ArrayList<>();
-    List<Comunidad> comunidades = new ArrayList<>();
+    List<ComunidadParaCalculo> comunidades = new ArrayList<>();
 
     public List<Incidente> obtenerIncidentesFromDB() {
         List<Incidente> incidentes = new ArrayList<>();
@@ -18,8 +18,8 @@ public class CalculadorGradoDeConfianza {
         return usuarios;
     }
 
-    public List<Comunidad> obtenerComunidadesFromDB() {
-        List<Comunidad> comunidades = new ArrayList<>();
+    public List<ComunidadParaCalculo> obtenerComunidadesFromDB() {
+        List<ComunidadParaCalculo> comunidades = new ArrayList<>();
         return comunidades;
     }
 

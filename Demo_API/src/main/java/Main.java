@@ -1,4 +1,5 @@
-import Dominio.Persona;
+import Dominio.Usuario;
+import Dominio.Comunidad;
 import java.util.List;
 import io.javalin.Javalin;
 import org.quartz.*;
@@ -21,15 +22,27 @@ public class Main {
 
         //JAVALIN API
         var app = Javalin.create()
-                .get("/insertarPersona", ctx -> {
+                .get("/obtenerUsuarios", ctx -> {
                     MainApi mainApi = new MainApi();
-                    mainApi.insertPersona();
-                    ctx.result("Carga Completada");
+                    List<Usuario> usuarios = mainApi.obtenerUsuarios();
+                    ctx.json(usuarios);
                 })
-                .get("/obtenerPersonas", ctx -> {
+                .get("/obtenerUsuarios/{id}", ctx -> {
+                    long id = Integer.parseInt(ctx.pathParam("id"));
                     MainApi mainApi = new MainApi();
-                    List<Persona> personas = mainApi.obtenerPersonas();
-                    ctx.json(personas);
+                    Usuario usuario = mainApi.obtenerUsuario(id);
+                    ctx.json(usuario);
+                })
+                .get("/obtenerComunidades", ctx -> {
+                    MainApi mainApi = new MainApi();
+                    List<Comunidad> comunidades = mainApi.obtenerComunidades();
+                    ctx.json(comunidades);
+                })
+                .get("/obtenerComunidades/{id}", ctx -> {
+                    long id = Integer.parseInt(ctx.pathParam("id"));
+                    MainApi mainApi = new MainApi();
+                    Comunidad comunidad = mainApi.obtenerComunidad(id);
+                    ctx.json(comunidad);
                 })
                 .start(7070);
     }

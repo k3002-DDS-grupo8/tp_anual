@@ -1,22 +1,28 @@
 package Dominio;
-import java.util.List;
 
 public class Comunidad {
     private long id;
-    private float puntosConfianza;
-    private String gradoConfianza;
+    private GradoConfianza gradoConfianza;
     private boolean activo;
+
+    public long getId() {
+        return id;
+    }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public void setPuntosConfianza(float puntosConfianza) {
-        this.puntosConfianza = puntosConfianza;
+    public GradoConfianza getGradoConfianza() {
+        return gradoConfianza;
     }
 
-    public void setGradoConfianza(String gradoConfianza) {
+    public void setGradoConfianza(GradoConfianza gradoConfianza) {
         this.gradoConfianza = gradoConfianza;
+    }
+
+    public boolean isActivo() {
+        return activo;
     }
 
     public void setActivo(boolean activo) {
@@ -25,8 +31,13 @@ public class Comunidad {
 
     public Comunidad() {
         this.id = 0;
-        this.puntosConfianza = 0;
-        this.gradoConfianza = "";
+        this.gradoConfianza = GradoConfianza.NO_CONFIABLE;
         this.activo = false;
+    }
+
+    public Comunidad(long id, GradoConfianza gradoConfianza, boolean activo) {
+        this.id = id;
+        this.gradoConfianza = gradoConfianza;
+        this.activo = activo;
     }
 }

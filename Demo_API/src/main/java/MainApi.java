@@ -1,12 +1,11 @@
 import Utils.BDUtils;
-import Dominio.Usuario;
-import Dominio.Comunidad;
+import Dominio.*;
 import java.util.List;
 import java.util.ArrayList;
 import org.hibernate.*;
-
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+
 public class MainApi {
     /*public void insertPersona() {
         Session session = BDUtils.getSessionFactory().openSession();
@@ -37,7 +36,8 @@ public class MainApi {
                 Usuario usuario = new Usuario();
                 usuario.setId(Long.parseLong(row[0].toString()));
                 usuario.setPuntosConfianza(Float.parseFloat(row[1].toString()));
-                usuario.setGradoConfianza(row[2].toString());
+                GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[2].toString());
+                usuario.setGradoConfianza(gradoConfianzaEnum);
                 usuario.setActivo(Boolean.parseBoolean(row[3].toString()));
                 usuarios.add(usuario);
             }
@@ -61,7 +61,8 @@ public class MainApi {
             Usuario usuario = new Usuario();
             usuario.setId(id);
             usuario.setPuntosConfianza(Float.parseFloat(row[1].toString()));
-            usuario.setGradoConfianza(row[2].toString());
+            GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[2].toString());
+            usuario.setGradoConfianza(gradoConfianzaEnum);
             usuario.setActivo(Boolean.parseBoolean(row[3].toString()));
             tx.commit();
             return usuario;
@@ -77,15 +78,15 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id, puntosConfianza, gradoConfianza, activo FROM comunidad");
+            Query query = session.createSQLQuery("SELECT id, gradoConfianza, activo FROM comunidad");
             List<Object[]> rows = query.getResultList();
             List<Comunidad> comunidades = new ArrayList<>();
             for (Object[] row : rows) {
                 Comunidad comunidad = new Comunidad();
                 comunidad.setId(Long.parseLong(row[0].toString()));
-                comunidad.setPuntosConfianza(Float.parseFloat(row[1].toString()));
-                comunidad.setGradoConfianza(row[2].toString());
-                comunidad.setActivo(Boolean.parseBoolean(row[3].toString()));
+                GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[1].toString());
+                comunidad.setGradoConfianza(gradoConfianzaEnum);
+                comunidad.setActivo(Boolean.parseBoolean(row[2].toString()));
                 comunidades.add(comunidad);
             }
             tx.commit();
@@ -102,14 +103,14 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id, puntosConfianza, gradoConfianza, activo FROM comunidad WHERE id = :id");
+            Query query = session.createSQLQuery("SELECT id, gradoConfianza, activo FROM comunidad WHERE id = :id");
             query.setParameter("id", id);
             Object[] row = (Object[]) query.getSingleResult();
             Comunidad comunidad = new Comunidad();
             comunidad.setId(id);
-            comunidad.setPuntosConfianza(Float.parseFloat(row[1].toString()));
-            comunidad.setGradoConfianza(row[2].toString());
-            comunidad.setActivo(Boolean.parseBoolean(row[3].toString()));
+            GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[1].toString());
+            comunidad.setGradoConfianza(gradoConfianzaEnum);
+            comunidad.setActivo(Boolean.parseBoolean(row[2].toString()));
             tx.commit();
             return comunidad;
         } catch (NoResultException e) {

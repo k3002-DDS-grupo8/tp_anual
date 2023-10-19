@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="bg-white p-10 rounded shadow-lg w-96">
+    <h2 class="text-3xl font-bold mb-8 text-center">Iniciar Sesión</h2>
+    <form onsubmit="return redirectToIndex()">
+      <div class="mb-6">
+        <label class="block text-gray-700 text-lg font-bold mb-2" for="username">
+          Nombre de Usuario
+        </label>
+        <input class="border border-gray-300 p-3 w-full rounded-lg" type="text" id="username" name="username" required>
+      </div>
+      <div class="mb-8">
+        <label class="block text-gray-700 text-lg font-bold mb-2" for="password">
+          Contraseña
+        </label>
+        <input class="border border-gray-300 p-3 w-full rounded-lg" type="password" id="password" name="password" required>
+      </div>
+      <div class="flex justify-center">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full">
+          Iniciar Sesión
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function redirectToIndex() {
+      window.location.href = 'index.html';
+      return false; // Esto previene que el formulario se envíe realmente (ya que no tenemos un backend real)
+    }
+  </script>
+</body>
+
+</html>

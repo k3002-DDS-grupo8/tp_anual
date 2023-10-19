@@ -7,23 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 public class MainApi {
-    /*public void insertPersona() {
-        Session session = BDUtils.getSessionFactory().openSession();
-        Transaction txPersona = session.beginTransaction();
-        try {
-            Query query3 = session.createSQLQuery("INSERT INTO persona VALUES (:valor1,:valor2)");
-            Random random = new Random();
-            query3.setParameter("valor1", random.nextInt());
-            query3.setParameter("valor2", "Prueba");
-            query3.executeUpdate();
-            txPersona.commit();
-        } catch (Exception e) {
-            txPersona.rollback();
-            throw e;
-        } finally {
-            session.close();
-        }
-    }*/
 
     public List<Usuario> obtenerUsuarios() {
         Session session = BDUtils.getSessionFactory().openSession();

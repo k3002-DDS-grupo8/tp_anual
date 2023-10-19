@@ -1,4 +1,9 @@
 import Dominio.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -13,25 +18,25 @@ public class CalculadorGradoDeConfianza {
     List<Usuario> usuarios = new ArrayList<>();
     List<ComunidadParaCalculo> comunidades = new ArrayList<>();
 
-    public List<Incidente> obtenerIncidentesFromDB() {
-        List<Incidente> incidentes = new ArrayList<>();
+    public static ArrayList<Incidente> obtenerIncidentesFromDB() {
+        ArrayList<Incidente> incidentes = new ArrayList<>();
         Incidente incidente = new Incidente(1L, 1, 1, LocalDateTime.now(), LocalDateTime.now(), 1, 2);
         incidentes.add(incidente);
         return incidentes;
     }
 
-    public List<Usuario> obtenerUsuariosFromDB() {
-        List<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario1 = new Usuario(1L, 2, GradoConfianza.CON_RESERVAS, true);
-        Usuario usuario2 = new Usuario(2L, 5, GradoConfianza.CONFIABLE_NIVEL_1, true);
+    public static ArrayList<Usuario> obtenerUsuariosFromDB() {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        Usuario usuario1 = new Usuario(1L, 2, GradoConfianza.CON_RESERVAS, true, "Pepito", "pepe@gmail.com");
+        Usuario usuario2 = new Usuario(2L, 5, GradoConfianza.CONFIABLE_NIVEL_1, true, "Juancito", "juancito@gmail.com");
         usuarios.add(usuario1);
         usuarios.add(usuario2);
         return usuarios;
     }
 
-    public List<ComunidadParaCalculo> obtenerComunidadesFromDB() {
-        List<ComunidadParaCalculo> comunidades = new ArrayList<>();
-        List<Long> usuariosIDs = new ArrayList<Long>();
+    public static ArrayList<ComunidadParaCalculo> obtenerComunidadesFromDB() {
+        ArrayList<ComunidadParaCalculo> comunidades = new ArrayList<>();
+        ArrayList<Long> usuariosIDs = new ArrayList<Long>();
         usuariosIDs.add(1L);
         usuariosIDs.add(2L);
         ComunidadParaCalculo comunidad = new ComunidadParaCalculo(1L, usuariosIDs , GradoConfianza.CONFIABLE_NIVEL_2, true);
@@ -171,16 +176,55 @@ public class CalculadorGradoDeConfianza {
         return incidentesPosteriores;
     }
 
-    public void guardarUsuariosIntoDB() {
-        System.out.println("Usuarios guardados en DB!");
+    public static void guardarUsuariosIntoDB(ArrayList<Usuario> usuariosParaGuardar) {
+        Session session = Utils.BDUtils.getSessionFactory().openSession();
+        Transaction txPersona = session.beginTransaction();
+        try {
+            for(Usuario usuarioParaGuardar : usuariosParaGuardar) {
+                Query sqlQuery = session.createSQLQuery(String.format("INSERT INTO usuario VALUES ('%s','%s',%s,%s,'%s',%s)",
+                        usuarioParaGuardar.getNombre(),
+                        usuarioParaGuardar.getEmail(), null,
+                        // usuarioParaGuardar.getComunidades(),
+                        usuarioParaGuardar.getPuntosConfianza(),
+                        usuarioParaGuardar.getGradoConfianza(),
+                        usuarioParaGuardar.isActivo()
+                        )
+                );
+                sqlQuery.executeUpdate();
+            }
+            txPersona.commit();
+        } catch (Exception e) {
+            txPersona.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
-    public void guardarComunidadesIntoDB() {
-        System.out.println("Comunidades guardadas en DB!");
+    public static void guardarComunidadesIntoDB(ArrayList<Comunidad> comunidadesParaGuardar) {
+        Session session = Utils.BDUtils.getSessionFactory().openSession();
+        Transaction txPersona = session.beginTransaction();
+        try {
+            for(Comunidad comunidadParaGuardar : comunidadesParaGuardar) {
+                Query sqlQuery = session.createSQLQuery(String.format("INSERT INTO comunidad VALUES ('%s','%s',%s,%s,'%s',%s)",
+                        comunidadParaGuardar.getNombre(),
+                        comunidadParaGuardar.getGradoConfianza(),
+                        comunidadParaGuardar.isActivo()
+                        )
+                );
+                sqlQuery.executeUpdate();
+            }
+            txPersona.commit();
+        } catch (Exception e) {
+            txPersona.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     public void execute() {
         incidentes = obtenerIncidentesFromDB();
-        usuarios = obtenerUsuariosFromDB();
+        ArrayList<Usuario> usuarios = obtenerUsuariosFromDB();
         comunidades = obtenerComunidadesFromDB();
 
         calcularPuntosDeConfianzaUsuarios();
@@ -188,8 +232,9 @@ public class CalculadorGradoDeConfianza {
         calcularGradosDeConfianzaUsuarios();
         calcularGradosDeConfianzaComunidades();
 
-        guardarUsuariosIntoDB();
-        guardarComunidadesIntoDB();
+        //guardarUsuariosIntoDB();
+        //guardarComunidadesIntoDB();
+        guardarUsuariosIntoDB(usuarios);
 
         //PRUEBAS
         System.out.println(usuarios.get(0).getPuntosConfianza());
@@ -199,6 +244,27 @@ public class CalculadorGradoDeConfianza {
         System.out.println(usuarios.get(1).getGradoConfianza());
         System.out.println(usuarios.get(1).isActivo());
         System.out.println(comunidades.get(0).getGradoConfianza());
+    }
+
+    public static void main(String[] args) {
+        List<Incidente> incidentes = obtenerIncidentesFromDB();
+        ArrayList<Usuario> usuarios = obtenerUsuariosFromDB();
+        ArrayList<ComunidadParaCalculo> comunidades = obtenerComunidadesFromDB();
+
+        Usuario usuario1 = new Usuario(1, 4, GradoConfianza.CON_RESERVAS, true, "Pepito", "pepito@gmail.com");
+        Usuario usuario2 = new Usuario(1, 4, GradoConfianza.CONFIABLE_NIVEL_2, true, "Juancito", "juan@gmail.com");
+        ArrayList<Usuario> usuariosParaCargar = new ArrayList<>();
+        usuariosParaCargar.add(usuario1);
+        usuariosParaCargar.add(usuario2);
+        //calcularPuntosDeConfianzaUsuarios();
+
+        //calcularGradosDeConfianzaUsuarios();
+        //calcularGradosDeConfianzaComunidades();
+
+        guardarUsuariosIntoDB(usuariosParaCargar);
+        //guardarComunidadesIntoDB();
+        //guardarUsuariosIntoDB(usuarios);
+
     }
 
 }

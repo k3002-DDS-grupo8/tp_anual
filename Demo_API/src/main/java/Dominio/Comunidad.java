@@ -5,6 +5,13 @@ public class Comunidad {
     private GradoConfianza gradoConfianza;
     private boolean activo;
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    private String nombre;
+
+
     public long getId() {
         return id;
     }

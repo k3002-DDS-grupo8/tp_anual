@@ -1,10 +1,28 @@
 package Dominio;
 
+import java.util.ArrayList;
+
 public class Usuario {
     private long id;
     private float puntosConfianza;
     private GradoConfianza gradoConfianza;
     private boolean activo;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public ArrayList<Comunidad> getComunidades() {
+        return comunidades;
+    }
+
+    private String nombre;
+    private String email;
+    private ArrayList<Comunidad> comunidades;
 
     public void setId(long id) {
         this.id = id;
@@ -45,10 +63,13 @@ public class Usuario {
         this.activo = false;
     }
 
-    public Usuario(long id, float puntosConfianza, GradoConfianza gradoConfianza, boolean activo) {
+    public Usuario(long id, float puntosConfianza, GradoConfianza gradoConfianza, boolean activo, String nombre, String email) {
         this.id = id;
         this.puntosConfianza = puntosConfianza;
         this.gradoConfianza = gradoConfianza;
         this.activo = activo;
+        this.comunidades = null;
+        this.nombre = nombre;
+        this.email = email;
     }
 }

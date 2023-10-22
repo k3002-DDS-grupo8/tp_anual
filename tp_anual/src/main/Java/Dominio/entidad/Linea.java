@@ -1,4 +1,5 @@
 package Dominio.entidad;
+import Dominio.comunidad.EEO;
 import Dominio.localizacion.Localizacion;
 
 import javax.persistence.*;
@@ -13,8 +14,8 @@ public class Linea extends EntidadPrestadora {
     @OneToOne
     final Establecimiento estacionDestino;
 
-    public Linea(String nombre, ArrayList<Establecimiento> listaEstablecimientos, ArrayList<Localizacion> localizacion, TipoMedio tipo, Establecimiento estacionOrigen, Establecimiento estacionDestino) {
-        super(nombre, listaEstablecimientos, localizacion);
+    public Linea(String nombre, ArrayList<Establecimiento> listaEstablecimientos, ArrayList<Localizacion> localizacion, EEO usuarioEEO, TipoMedio tipo, Establecimiento estacionOrigen, Establecimiento estacionDestino) {
+        super(nombre, listaEstablecimientos, localizacion, usuarioEEO);
         this.tipo = tipo;
         this.estacionOrigen = estacionOrigen;
         this.estacionDestino = estacionDestino;

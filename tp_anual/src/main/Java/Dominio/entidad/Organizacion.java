@@ -1,4 +1,5 @@
 package Dominio.entidad;
+import Dominio.comunidad.EEO;
 import Dominio.localizacion.Localizacion;
 
 import javax.persistence.*;
@@ -9,8 +10,8 @@ public class Organizacion extends EntidadPrestadora {
     @Enumerated
     final TipoOrganizacion tipo;
 
-    public Organizacion(String nombre, ArrayList<Establecimiento> listaEstablecimientos, ArrayList<Localizacion> localizacion, TipoOrganizacion tipo) {
-        super(nombre, listaEstablecimientos, localizacion);
+    public Organizacion(String nombre, ArrayList<Establecimiento> listaEstablecimientos, EEO usuarioEEO , ArrayList<Localizacion> localizacion, TipoOrganizacion tipo) {
+        super(nombre, listaEstablecimientos, localizacion, usuarioEEO);
         this.tipo = tipo;
     }
 }

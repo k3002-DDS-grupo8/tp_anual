@@ -1,11 +1,13 @@
 package Dominio.entidad;
+
 import Dominio.localizacion.Localizacion;
-import Dominio.servicio.Servicio;
-import Dominio.servicio.GrupoServicios;
-import Dominio.entidad.EntidadPrestadora;
+import Dominio.servicios.GrupoServicios;
+import Dominio.servicios.Servicio;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 public class Establecimiento {
@@ -15,15 +17,19 @@ public class Establecimiento {
     final String nombre;
     @Transient
     public final Localizacion ubicacionGeografica;
-    final ArrayList<GrupoServicios> grupoServicios;
-    public final ArrayList<Servicio> servicios;
+
+    // tanto grupoServicios como servicios deberian ser un unico atributo, una lista de tipo interfaz Servicios
+    final List<GrupoServicios> grupoServicios;
+    public final List<Servicio> servicios;
+
     @OneToOne
     public EntidadPrestadora entidadPrestadora;
 
-    public Establecimiento(String nombre, Localizacion ubicacionGeografica, ArrayList<GrupoServicios> grupoServicios, ArrayList<Servicio> servicios) {
+    public Establecimiento(String nombre, Localizacion ubicacionGeografica, List<GrupoServicios> grupoServicios, List<Servicio> servicios) {
         this.nombre = nombre;
         this.ubicacionGeografica = ubicacionGeografica;
         this.grupoServicios = grupoServicios;
         this.servicios = servicios;
     }
+
 }

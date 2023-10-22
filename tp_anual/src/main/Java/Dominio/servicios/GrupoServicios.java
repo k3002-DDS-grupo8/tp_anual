@@ -1,10 +1,12 @@
-package Dominio.servicio;
+package Dominio.servicios;
+
+import Dominio.entidad.Establecimiento;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class GrupoServicios {
+public class GrupoServicios implements Servicios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idGrupoServicio;
@@ -15,5 +17,10 @@ public class GrupoServicios {
     public GrupoServicios(String nombre, List<Servicio> servicio) {
         this.nombre = nombre;
         this.servicio = servicio;
+    }
+
+    @Override
+    public void darDeBaja(Establecimiento unEstablecimineto) {
+
     }
 }

@@ -1,4 +1,4 @@
-package Dominio.servicio;
+package Dominio.servicios;
 
 import Dominio.entidad.Establecimiento;
 import Dominio.incidente.Incidente;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Servicio {
+public class Servicio implements Servicios{
     @Id
     private long idServicio;
     final String nombre;
@@ -23,5 +23,10 @@ public class Servicio {
 
     public boolean prestadoHabitualmente() {
         return false;
+    }
+
+    @Override
+    public void darDeBaja(Establecimiento unEstablecimineto) {
+
     }
 }

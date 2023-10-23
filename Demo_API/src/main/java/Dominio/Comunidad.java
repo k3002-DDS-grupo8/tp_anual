@@ -1,8 +1,12 @@
 package Dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Comunidad {
     private long id;
     private GradoConfianza gradoConfianza;
+    private ArrayList<Long> usuariosIDs;
     private boolean activo;
 
     public String getNombre() {
@@ -11,6 +15,9 @@ public class Comunidad {
 
     private String nombre;
 
+    public List<Long> getUsuariosIDs() {
+        return usuariosIDs;
+    }
 
     public long getId() {
         return id;
@@ -42,9 +49,10 @@ public class Comunidad {
         this.activo = false;
     }
 
-    public Comunidad(long id, GradoConfianza gradoConfianza, boolean activo) {
+    public Comunidad(long id, ArrayList<Long> usuariosIDs, GradoConfianza gradoConfianza, boolean activo) {
         this.id = id;
         this.gradoConfianza = gradoConfianza;
         this.activo = activo;
+        this.usuariosIDs = usuariosIDs;
     }
 }

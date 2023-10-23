@@ -1,9 +1,5 @@
 import Dominio.*;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -14,9 +10,7 @@ public class CalculadorGradoDeConfianza {
 
     //TODOS LOS LONG DEBEN LLEVAR UNA "L" A SU DERECHA :)
 
-    List<Incidente> incidentes = new ArrayList<>();
-    List<Usuario> usuarios = new ArrayList<>();
-    List<ComunidadParaCalculo> comunidades = new ArrayList<>();
+    MainApi APIEndpoint = new MainApi();
 
     public static ArrayList<Incidente> obtenerIncidentesFromDB() {
         ArrayList<Incidente> incidentes = new ArrayList<>();
@@ -34,17 +28,18 @@ public class CalculadorGradoDeConfianza {
         return usuarios;
     }
 
-    public static ArrayList<ComunidadParaCalculo> obtenerComunidadesFromDB() {
-        ArrayList<ComunidadParaCalculo> comunidades = new ArrayList<>();
+    public static ArrayList<Comunidad> obtenerComunidadesFromDB() {
+        ArrayList<Comunidad> comunidades = new ArrayList<>();
         ArrayList<Long> usuariosIDs = new ArrayList<Long>();
         usuariosIDs.add(1L);
         usuariosIDs.add(2L);
-        ComunidadParaCalculo comunidad = new ComunidadParaCalculo(1L, usuariosIDs , GradoConfianza.CONFIABLE_NIVEL_2, true);
+        Comunidad comunidad = new Comunidad(1L, usuariosIDs , GradoConfianza.CONFIABLE_NIVEL_2, true);
         comunidades.add(comunidad);
         return comunidades;
     }
 
     public void calcularGradosDeConfianzaUsuarios() {
+        ArrayList<Usuario> usuarios = APIEndpoint.obtenerUsuarios();
         for(Usuario unUsuario : usuarios){
             if (unUsuario.getPuntosConfianza() < 2) {
                 unUsuario.setGradoConfianza(GradoConfianza.NO_CONFIABLE);
@@ -60,8 +55,8 @@ public class CalculadorGradoDeConfianza {
     }
 
     public void calcularGradosDeConfianzaComunidades() {
-
-        for(ComunidadParaCalculo unaComunidad : comunidades) {
+        ArrayList<Comunidad> comunidades = APIEndpoint.obtenerComunidades();
+        for(Comunidad unaComunidad : comunidades) {
             List<Usuario> usuariosDeLaComunidad = new ArrayList<>(getUsuariosComunidad(unaComunidad));
 
             double promedio = calcularPromedioComunidad(usuariosDeLaComunidad);
@@ -101,8 +96,8 @@ public class CalculadorGradoDeConfianza {
         return contador;
     }
 
-    public List<Usuario> getUsuariosComunidad(ComunidadParaCalculo unaComunidad) {
-        List<Usuario> usuariosComunidad = new ArrayList<>();
+    public ArrayList<Usuario> getUsuariosComunidad(Comunidad unaComunidad) {
+        ArrayList<Usuario> usuariosComunidad = new ArrayList<>();
         for(long unIdUsuario : unaComunidad.getUsuariosIDs()){
             usuariosComunidad.add(filtrarUsuario(unIdUsuario));
         }
@@ -111,6 +106,7 @@ public class CalculadorGradoDeConfianza {
 
     public void calcularPuntosDeConfianzaUsuarios() {
         List<Long> conDuplicados = new ArrayList<>();
+        ArrayList<Incidente> incidentes = APIEndpoint.obtenerIncidentes();
         HashSet<Long> sinDuplicados;
         for(Incidente unIncidente : incidentes){
             if(aperturaFraudulenta(unIncidente)){
@@ -157,6 +153,7 @@ public class CalculadorGradoDeConfianza {
     }
 
     public Usuario filtrarUsuario(long id){
+        ArrayList<Usuario> usuarios = APIEndpoint.obtenerUsuarios();
         for(Usuario unUsuario : usuarios){
             if(unUsuario.getId() == id){
                 return unUsuario;
@@ -168,6 +165,7 @@ public class CalculadorGradoDeConfianza {
 
     public List<Incidente> filtarIncidenteSegunApertura(LocalDateTime horarioCierre){
         List<Incidente> incidentesPosteriores = new ArrayList<>();
+        ArrayList<Incidente> incidentes = APIEndpoint.obtenerIncidentes();
         for(Incidente unIncidente : incidentes){
             if(ChronoUnit.MINUTES.between(unIncidente.getHorarioDeApertura(), horarioCierre) < 3 && unIncidente.getHorarioDeApertura().isAfter(horarioCierre)){
                 incidentesPosteriores.add(unIncidente);
@@ -175,55 +173,8 @@ public class CalculadorGradoDeConfianza {
         }
         return incidentesPosteriores;
     }
-
-    public static void guardarUsuariosIntoDB(ArrayList<Usuario> usuariosParaGuardar) {
-        Session session = Utils.BDUtils.getSessionFactory().openSession();
-        Transaction txPersona = session.beginTransaction();
-        try {
-            for(Usuario usuarioParaGuardar : usuariosParaGuardar) {
-                Query sqlQuery = session.createSQLQuery(String.format("INSERT INTO usuario VALUES ('%s','%s',%s,%s,'%s',%s)",
-                        usuarioParaGuardar.getNombre(),
-                        usuarioParaGuardar.getEmail(), null,
-                        // usuarioParaGuardar.getComunidades(),
-                        usuarioParaGuardar.getPuntosConfianza(),
-                        usuarioParaGuardar.getGradoConfianza(),
-                        usuarioParaGuardar.isActivo()
-                        )
-                );
-                sqlQuery.executeUpdate();
-            }
-            txPersona.commit();
-        } catch (Exception e) {
-            txPersona.rollback();
-            throw e;
-        } finally {
-            session.close();
-        }
-    }
-    public static void guardarComunidadesIntoDB(ArrayList<Comunidad> comunidadesParaGuardar) {
-        Session session = Utils.BDUtils.getSessionFactory().openSession();
-        Transaction txPersona = session.beginTransaction();
-        try {
-            for(Comunidad comunidadParaGuardar : comunidadesParaGuardar) {
-                Query sqlQuery = session.createSQLQuery(String.format("INSERT INTO comunidad VALUES ('%s','%s',%s,%s,'%s',%s)",
-                        comunidadParaGuardar.getNombre(),
-                        comunidadParaGuardar.getGradoConfianza(),
-                        comunidadParaGuardar.isActivo()
-                        )
-                );
-                sqlQuery.executeUpdate();
-            }
-            txPersona.commit();
-        } catch (Exception e) {
-            txPersona.rollback();
-            throw e;
-        } finally {
-            session.close();
-        }
-    }
-
     public void execute() {
-        incidentes = obtenerIncidentesFromDB();
+        /* incidentes = obtenerIncidentesFromDB();
         ArrayList<Usuario> usuarios = obtenerUsuariosFromDB();
         comunidades = obtenerComunidadesFromDB();
 
@@ -234,7 +185,7 @@ public class CalculadorGradoDeConfianza {
 
         //guardarUsuariosIntoDB();
         //guardarComunidadesIntoDB();
-        guardarUsuariosIntoDB(usuarios);
+        MainApi.guardarUsuariosIntoDB(usuarios);
 
         //PRUEBAS
         System.out.println(usuarios.get(0).getPuntosConfianza());
@@ -243,13 +194,13 @@ public class CalculadorGradoDeConfianza {
         System.out.println(usuarios.get(1).getPuntosConfianza());
         System.out.println(usuarios.get(1).getGradoConfianza());
         System.out.println(usuarios.get(1).isActivo());
-        System.out.println(comunidades.get(0).getGradoConfianza());
+        System.out.println(comunidades.get(0).getGradoConfianza()); */
     }
 
     public static void main(String[] args) {
         List<Incidente> incidentes = obtenerIncidentesFromDB();
         ArrayList<Usuario> usuarios = obtenerUsuariosFromDB();
-        ArrayList<ComunidadParaCalculo> comunidades = obtenerComunidadesFromDB();
+        ArrayList<Comunidad> comunidades = obtenerComunidadesFromDB();
 
         Usuario usuario1 = new Usuario(1, 4, GradoConfianza.CON_RESERVAS, true, "Pepito", "pepito@gmail.com");
         Usuario usuario2 = new Usuario(1, 4, GradoConfianza.CONFIABLE_NIVEL_2, true, "Juancito", "juan@gmail.com");
@@ -261,7 +212,7 @@ public class CalculadorGradoDeConfianza {
         //calcularGradosDeConfianzaUsuarios();
         //calcularGradosDeConfianzaComunidades();
 
-        guardarUsuariosIntoDB(usuariosParaCargar);
+        MainApi.guardarUsuariosIntoDB(usuariosParaCargar);
         //guardarComunidadesIntoDB();
         //guardarUsuariosIntoDB(usuarios);
 

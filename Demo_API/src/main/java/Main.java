@@ -1,5 +1,7 @@
-import Dominio.Usuario;
 import Dominio.Comunidad;
+import Dominio.Usuario;
+
+import java.util.ArrayList;
 import java.util.List;
 import io.javalin.Javalin;
 import org.quartz.*;
@@ -35,7 +37,7 @@ public class Main {
                 })
                 .get("/obtenerComunidades", ctx -> {
                     MainApi mainApi = new MainApi();
-                    List<Comunidad> comunidades = mainApi.obtenerComunidades();
+                    ArrayList<Comunidad> comunidades = mainApi.obtenerComunidades();
                     ctx.json(comunidades);
                 })
                 .get("/obtenerComunidades/{id}", ctx -> {

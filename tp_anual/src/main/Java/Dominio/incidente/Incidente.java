@@ -1,7 +1,7 @@
 package Dominio.incidente;
 import Dominio.comunidad.Usuario;
 import Dominio.localizacion.Localizacion;
-import Dominio.servicio.Servicio;
+import Dominio.servicios.Servicio;
 
 import Dominio.comunidad.Comunidad;
 

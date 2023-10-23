@@ -3,8 +3,7 @@ import Dominio.entidad.EntidadPrestadora;
 import Dominio.incidente.EstadoIncidente;
 import Dominio.incidente.Incidente;
 import Dominio.notificacion.AdapterNotificacion;
-import Dominio.notificacion.Notificacion;
-import Dominio.servicio.Servicio;
+import Dominio.servicios.Servicio;
 import Dominio.localizacion.Localizacion;
 
 import javax.persistence.*;
@@ -13,11 +12,13 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Usuario {
+public  class Usuario {
     @Id
     private long id;
     final String nombre;
     final String email;
+
+    //servicio cambia a Servicios
     @ManyToMany
     final List<Servicio> serviciosDeInteres;
     @Transient
@@ -29,7 +30,7 @@ public class Usuario {
     @ManyToMany
     List<Comunidad> comunidades;
     private float puntosConfianza;
-    private String gradoConfianza;
+    private GradoConfianza gradoConfianza;
     private boolean activo;
 
     public String getNombre() {

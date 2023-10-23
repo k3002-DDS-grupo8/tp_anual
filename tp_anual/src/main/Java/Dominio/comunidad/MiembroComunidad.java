@@ -1,5 +1,7 @@
 package Dominio.comunidad;
 
+import Dominio.incidente.Incidente;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,20 +11,24 @@ public class MiembroComunidad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idMiembro;
     @OneToOne
-    final Usuario usuario;
+    final UsuarioPersona usuario;
     @OneToOne
     final Comunidad comunidad;
 
     @Enumerated
     Rol rol;
 
-    public MiembroComunidad(Usuario usuario, Rol rol, Comunidad comunidad) {
+    public MiembroComunidad(UsuarioPersona usuario, Rol rol, Comunidad comunidad) {
         this.usuario = usuario;
         this.rol = rol;
         this.comunidad = comunidad;
     }
 
-    public void CambiarRol(Rol nuevoRol){
+    public void cambiarRol(Rol nuevoRol){
         this.rol = nuevoRol;
+    }
+
+    public void cerrarIncidente(Incidente incidente){
+        incidente.cerrar();
     }
 }

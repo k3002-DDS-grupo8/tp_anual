@@ -1,12 +1,9 @@
-package Dominio.servicio;
+package Dominio.servicios;
 
 import Dominio.entidad.Establecimiento;
 import Dominio.incidente.Incidente;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.ArrayList;
 
 @Entity

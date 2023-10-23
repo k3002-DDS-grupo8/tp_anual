@@ -15,16 +15,18 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id, puntosConfianza, gradoConfianza, activo FROM usuario");
+            Query query = session.createSQLQuery("SELECT * FROM usuario");
             List<Object[]> rows = query.getResultList();
             ArrayList<Usuario> usuarios = new ArrayList<>();
             for (Object[] row : rows) {
                 Usuario usuario = new Usuario();
-                usuario.setId(Long.parseLong(row[0].toString()));
-                usuario.setPuntosConfianza(Float.parseFloat(row[1].toString()));
-                GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[2].toString());
+                usuario.setId(Long.parseLong(row[6].toString()));
+                usuario.setPuntosConfianza(Float.parseFloat(row[3].toString()));
+                GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[4].toString());
                 usuario.setGradoConfianza(gradoConfianzaEnum);
-                usuario.setActivo(Boolean.parseBoolean(row[3].toString()));
+                usuario.setActivo(Boolean.parseBoolean(row[5].toString()));
+                usuario.setEmail(row[1].toString());
+                usuario.setNombre(row[0].toString());
                 usuarios.add(usuario);
             }
             tx.commit();
@@ -67,15 +69,17 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id, puntosConfianza, gradoConfianza, activo FROM usuario WHERE id = :id");
+            Query query = session.createSQLQuery("SELECT * FROM usuario WHERE id = :id");
             query.setParameter("id", id);
             Object[] row = (Object[]) query.getSingleResult();
             Usuario usuario = new Usuario();
-            usuario.setId(id);
-            usuario.setPuntosConfianza(Float.parseFloat(row[1].toString()));
-            GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[2].toString());
+            usuario.setId(Long.parseLong(row[6].toString()));
+            usuario.setPuntosConfianza(Float.parseFloat(row[3].toString()));
+            GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[4].toString());
             usuario.setGradoConfianza(gradoConfianzaEnum);
-            usuario.setActivo(Boolean.parseBoolean(row[3].toString()));
+            usuario.setActivo(Boolean.parseBoolean(row[5].toString()));
+            usuario.setEmail(row[1].toString());
+            usuario.setNombre(row[0].toString());
             tx.commit();
             return usuario;
         } catch (NoResultException e) {

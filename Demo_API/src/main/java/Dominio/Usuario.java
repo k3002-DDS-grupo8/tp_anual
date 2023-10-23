@@ -20,6 +20,18 @@ public class Usuario {
         return comunidades;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setComunidades(ArrayList<Comunidad> comunidades) {
+        this.comunidades = comunidades;
+    }
+
     private String nombre;
     private String email;
     private ArrayList<Comunidad> comunidades;

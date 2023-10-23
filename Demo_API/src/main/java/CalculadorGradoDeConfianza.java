@@ -11,33 +11,6 @@ public class CalculadorGradoDeConfianza {
     //TODOS LOS LONG DEBEN LLEVAR UNA "L" A SU DERECHA :)
 
     MainApi APIEndpoint = new MainApi();
-
-    public static ArrayList<Incidente> obtenerIncidentesFromDB() {
-        ArrayList<Incidente> incidentes = new ArrayList<>();
-        Incidente incidente = new Incidente(1L, 1, 1, LocalDateTime.now(), LocalDateTime.now(), 1, 2);
-        incidentes.add(incidente);
-        return incidentes;
-    }
-
-    public static ArrayList<Usuario> obtenerUsuariosFromDB() {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario1 = new Usuario(1L, 2, GradoConfianza.CON_RESERVAS, true, "Pepito", "pepe@gmail.com");
-        Usuario usuario2 = new Usuario(2L, 5, GradoConfianza.CONFIABLE_NIVEL_1, true, "Juancito", "juancito@gmail.com");
-        usuarios.add(usuario1);
-        usuarios.add(usuario2);
-        return usuarios;
-    }
-
-    public static ArrayList<Comunidad> obtenerComunidadesFromDB() {
-        ArrayList<Comunidad> comunidades = new ArrayList<>();
-        ArrayList<Long> usuariosIDs = new ArrayList<Long>();
-        usuariosIDs.add(1L);
-        usuariosIDs.add(2L);
-        Comunidad comunidad = new Comunidad(1L, usuariosIDs , GradoConfianza.CONFIABLE_NIVEL_2, true);
-        comunidades.add(comunidad);
-        return comunidades;
-    }
-
     public void calcularGradosDeConfianzaUsuarios() {
         ArrayList<Usuario> usuarios = APIEndpoint.obtenerUsuarios();
         for(Usuario unUsuario : usuarios){
@@ -198,23 +171,6 @@ public class CalculadorGradoDeConfianza {
     }
 
     public static void main(String[] args) {
-        List<Incidente> incidentes = obtenerIncidentesFromDB();
-        ArrayList<Usuario> usuarios = obtenerUsuariosFromDB();
-        ArrayList<Comunidad> comunidades = obtenerComunidadesFromDB();
-
-        Usuario usuario1 = new Usuario(1, 4, GradoConfianza.CON_RESERVAS, true, "Pepito", "pepito@gmail.com");
-        Usuario usuario2 = new Usuario(1, 4, GradoConfianza.CONFIABLE_NIVEL_2, true, "Juancito", "juan@gmail.com");
-        ArrayList<Usuario> usuariosParaCargar = new ArrayList<>();
-        usuariosParaCargar.add(usuario1);
-        usuariosParaCargar.add(usuario2);
-        //calcularPuntosDeConfianzaUsuarios();
-
-        //calcularGradosDeConfianzaUsuarios();
-        //calcularGradosDeConfianzaComunidades();
-
-        MainApi.guardarUsuariosIntoDB(usuariosParaCargar);
-        //guardarComunidadesIntoDB();
-        //guardarUsuariosIntoDB(usuarios);
 
     }
 

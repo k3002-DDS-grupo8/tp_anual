@@ -23,6 +23,8 @@
           <div class="h-6 border-l border-gray-500"></div>
           <a href="ranking_incidentes.html" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
           <div class="h-6 border-l border-gray-500"></div>
+          <a href="admin_tipos_usurario.html" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
+          <div class="h-6 border-l border-gray-500"></div>
           <a href="inicio_sesion.html" class="text-white hover:text-gray-500">Log In</a>
         </div>
         <div class="relative inline-block">
@@ -47,6 +49,8 @@
             <a href="lista_comunidades.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Lista de Comunidades</a>
             <hr class="my-1 border-gray-100">
             <a href="ranking_incidentes.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Rankings de Incidentes</a>
+            <hr class="my-1 border-gray-100">
+            <a href="admin_tipos_usurario.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Administrar Tipos de Usuario</a>
             <hr class="my-1 border-gray-100">
             <a href="inicio_sesion.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Log In</a>
           </div>
@@ -158,8 +162,8 @@
 
       nuevoIncidente.innerHTML = `
         <div class="flex flex-wrap gap-4">
-          <input type="text" class="servicioIncidente p-2 border border-gray-300 rounded mb-2" placeholder="Servicio del Incidente">
-          <input type="text" class="detalleIncidente p-2 border border-gray-300 rounded mb-2" placeholder="Detalle del Incidente">
+          <input type="text" class="servicioIncidente p-2 border border-gray-300 rounded" placeholder="Servicio del Incidente">
+          <input type="text" class="detalleIncidente p-2 border border-gray-300 rounded" placeholder="Detalle del Incidente">
         </div>
         <div class="flex row gap-4 py-2">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 guardar">

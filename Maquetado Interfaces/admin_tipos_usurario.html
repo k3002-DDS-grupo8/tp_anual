@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Comunidades</title>
+  <title>Interfaz Principal</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="bg-white">
@@ -60,12 +60,19 @@
   </header>
 
   <main class="container mx-auto p-8 flex flex-col items-center">
-    <h2 class="text-2xl font-bold mb-4 text-center">Lista de Comunidades</h2>
-    <ul id="comunidadesList" class="list-none p-0 w-full">
+    <h2 class="text-2xl font-bold mb-4 text-center">Gestión de Tipos de Usuario</h2>
+
+    <div class="flex items-center gap-4 mb-4">
+      <input type="text" id="nuevoTipoUsuario" class="p-2 border border-gray-300 rounded" placeholder="Nuevo Tipo de Usuario">
+      <button id="agregarTipoUsuario" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar</button>
+    </div>
+
+    <ul id="tiposUsuarioList" class="list-none p-0 m-0 w-full">
+      <!-- Lista de tipos de usuario -->
     </ul>
   </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var notificacionesDropdown = document.getElementById('notificacionesDropdown')
@@ -81,36 +88,103 @@
         mobileMenu.classList.toggle('hidden')
       })
 
-      var comunidades = [
-        { nombre: 'Comunidad 1', id: 1 },
-        { nombre: 'Comunidad 2', id: 2 },
-        { nombre: 'Comunidad 3', id: 3 }
-      ]
-
-      var comunidadesList = document.getElementById('comunidadesList')
-
-      comunidades.forEach(function (comunidad) {
-        var nuevaComunidad = document.createElement('li')
-        nuevaComunidad.classList.add('flex', 'items-center', 'flex-wrap', 'justify-between', 'mb-4', 'border', 'border-gray-300', 'p-4')
-        nuevaComunidad.innerHTML = `
-                    <h3 class="text-xl font-bold mr-4">${comunidad.nombre}</h3>
-                    <div class="py-4 flex flex-wrap gap-4">
-                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-                          <i class="fas fa-eye"></i> Comunidad
-                      </button>
-                      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-                          <i class="fas fa-users"></i> Usuarios
-                      </button>
-                      <a href="incidentes_comunidad.html?comunidad_id=${comunidad.id}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-                        <i class="fas fa-exclamation-triangle"></i> Incidentes
-                      </a>
-                    </div>
-                `
-        comunidadesList.appendChild(nuevaComunidad)
-      })
+      imprimirTiposUsuarioHTML()
     })
-  </script>
 
+    var tiposUsuarioList = document.getElementById('tiposUsuarioList')
+    var agregarTipoUsuarioBtn = document.getElementById('agregarTipoUsuario')
+
+    async function obtenerTiposUsuario() {
+      const res = await fetch("http://localhost:7070/obtenerTiposUsuario")
+      let tipos = await res.json()
+      tipos.forEach(tipo => {
+        tiposUsuarios.push(tipo)
+      })
+    }
+
+    var tiposUsuarios = [
+      { id: '1', nombre: 'Administrador' },
+      { id: '2', nombre: 'Miembro de Comunidad' },
+      { id: '3', nombre: 'Observador' }
+    ]
+
+    agregarTipoUsuarioBtn.addEventListener('click', function () {
+      agregarTipoUsuario()
+    })
+
+    async function agregarTipoUsuario() {
+      var nuevoTipoUsuarioInput = document.getElementById('nuevoTipoUsuario')
+      var nuevoTipoUsuario = nuevoTipoUsuarioInput.value.trim()
+
+      if (nuevoTipoUsuario !== "") {
+        var id = Math.random().toString(36).substring(7)
+        var tipoUsuario = {
+          id: id,
+          nombre: nuevoTipoUsuario
+        }
+
+        tiposUsuarios.push(tipoUsuario)
+        agregarTipoUsuarioElemento(tipoUsuario)
+
+        nuevoTipoUsuarioInput.value = ""
+
+        const res = await fetch('http://localhost:7070/insertarTiposUsuario', {
+          method: "POST",
+          body: JSON.stringify(nuevoTipoUsuario)
+        })
+      }
+    }
+
+    function agregarTipoUsuarioElemento(tipoUsuario) {
+      var nuevoTipoUsuarioItem = document.createElement('li')
+      nuevoTipoUsuarioItem.id = tipoUsuario.id
+      nuevoTipoUsuarioItem.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'items-center', 'justify-between')
+
+      nuevoTipoUsuarioItem.innerHTML = `
+                <span>${tipoUsuario.nombre}</span>
+                <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar" onclick="eliminarTipoUsuario('${tipoUsuario.id}')">Eliminar</button>
+            `
+
+      tiposUsuarioList.appendChild(nuevoTipoUsuarioItem)
+    }
+
+    async function eliminarTipoUsuario(id) {
+      var tipoUsuarioIndex = tiposUsuarios.findIndex(function (tipo) {
+        return tipo.id === id
+      })
+
+      if (tipoUsuarioIndex !== -1) {
+        tiposUsuarios.splice(tipoUsuarioIndex, 1)
+
+        var tipoUsuarioElemento = document.getElementById(id)
+        tipoUsuarioElemento.parentNode.removeChild(tipoUsuarioElemento)
+      }
+
+      const res = await fetch('http://localhost:7070/eliminarTiposUsuario', {
+        method: "POST",
+        body: JSON.stringify(id)
+      })
+    }
+
+    function imprimirTiposUsuarioHTML() {
+      var tiposUsuarioContainer = document.getElementById('tiposUsuarioList')
+
+      tiposUsuarioContainer.innerHTML = ''
+
+      tiposUsuarios.forEach(function (tipo) {
+        var nuevoTipoUsuarioItem = document.createElement('li')
+        nuevoTipoUsuarioItem.id = tipo.id
+        nuevoTipoUsuarioItem.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'items-center', 'justify-between')
+
+        nuevoTipoUsuarioItem.innerHTML = `
+            <span>${tipo.nombre}</span>
+            <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar" onclick="eliminarTipoUsuario('${tipo.id}')">Eliminar</button>
+        `
+
+        tiposUsuarioContainer.appendChild(nuevoTipoUsuarioItem)
+      })
+    }
+  </script>
 </body>
 
 </html>

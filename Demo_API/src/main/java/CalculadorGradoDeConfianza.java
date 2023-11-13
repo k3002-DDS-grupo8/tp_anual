@@ -147,18 +147,16 @@ public class CalculadorGradoDeConfianza {
         return incidentesPosteriores;
     }
     public void execute() {
-        /* incidentes = obtenerIncidentesFromDB();
-        ArrayList<Usuario> usuarios = obtenerUsuariosFromDB();
-        comunidades = obtenerComunidadesFromDB();
+        ArrayList<Incidente> incidentes = APIEndpoint.obtenerIncidentes();
+        ArrayList<Usuario> usuarios = APIEndpoint.obtenerUsuarios();
+        ArrayList<Comunidad> comunidades = APIEndpoint.obtenerComunidades();
 
         calcularPuntosDeConfianzaUsuarios();
 
         calcularGradosDeConfianzaUsuarios();
         calcularGradosDeConfianzaComunidades();
-
-        //guardarUsuariosIntoDB();
-        //guardarComunidadesIntoDB();
-        MainApi.guardarUsuariosIntoDB(usuarios);
+        APIEndpoint.guardarComunidadesIntoDB(comunidades);
+        APIEndpoint.guardarUsuariosIntoDB(usuarios);
 
         //PRUEBAS
         System.out.println(usuarios.get(0).getPuntosConfianza());
@@ -167,7 +165,7 @@ public class CalculadorGradoDeConfianza {
         System.out.println(usuarios.get(1).getPuntosConfianza());
         System.out.println(usuarios.get(1).getGradoConfianza());
         System.out.println(usuarios.get(1).isActivo());
-        System.out.println(comunidades.get(0).getGradoConfianza()); */
+        System.out.println(comunidades.get(0).getGradoConfianza());
     }
 
     public static void main(String[] args) {

@@ -3,6 +3,8 @@ import Dominio.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import io.javalin.Javalin;
 import org.quartz.*;
 
@@ -45,6 +47,11 @@ public class Main {
                     MainApi mainApi = new MainApi();
                     Comunidad comunidad = mainApi.obtenerComunidad(id);
                     ctx.json(comunidad);
+                })
+                .post("/almacenarIncidente", ctx -> {
+                    String body = ctx.body();
+                    System.out.println(body);
+                    // Acá va la lógica de base de datos.
                 })
                 .start(7070);
     }

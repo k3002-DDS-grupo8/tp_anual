@@ -1,4 +1,5 @@
 import Dominio.Comunidad;
+import Dominio.Entidad;
 import Dominio.Usuario;
 
 import java.util.ArrayList;

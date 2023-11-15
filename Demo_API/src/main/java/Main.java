@@ -57,8 +57,8 @@ public class Main {
 
                 .get("/obtenerEntidades", ctx -> {
                     MainApi mainApi = new MainApi();
-                    Entidad entidad = mainApi.obtenerEntidades;
-                    ctx.json(entidad);
+                    ArrayList<Entidad> entidades = mainApi.obtenerEntidades();
+                    ctx.json(entidades);
                 })
                 .post("/cargaMasivaDeEntidades", ctx -> {
                     String body = ctx.body();
@@ -66,33 +66,32 @@ public class Main {
                     // Acá va la lógica de base de datos.
                 })
 
-                .post("/aperturaIncidente", ctx -> {
+                .post("/aperturaIncidente/", ctx -> {
                     String body = ctx.body();
-                    System.out.println(body);
-                    // Acá va la lógica de base de datos.
+                    MainApi.abrirIncidente(body.idComunidad, body.idServicio, body.idUsuarioApertura);
+                })
                 
-                 .post("/cierreIncidente", ctx -> {
-                        String body = ctx.body();
-                        System.out.println(body);
-                        // Acá va la lógica de base de datos.
-                        //update
-                        
+                 .post("/cierreIncidente/{idIncidente}", ctx -> {
+                     String body = ctx.body();
+                     MainApi.cerrarIncidente(ctx.pathParam("idIncidente"), body.idUsuarioCierre);
+                 })
                    .get("/añadirTipoUsuario", ctx -> {
-                            MainApi mainApi = new MainApi();
-                            Usuario usuario = mainApi.añadirTipoUsuario;
-                            ctx.json(usuario);
-                           
+                       MainApi mainApi = new MainApi();
+                       Usuario usuario = mainApi.añadirTipoUsuario;
+                       ctx.json(usuario);
+                   })
                             
                     .get("/eliminarTipoUsuario", ctx -> {
-                                MainApi mainApi = new MainApi();
-                                Usuario usuario = mainApi.eliminarTipoUsuario;
-                                ctx.json(usuario);        
-                                
+                        MainApi mainApi = new MainApi();
+                        Usuario usuario = mainApi.eliminarTipoUsuario;
+                        ctx.json(usuario);
+                    })
                                 
                       .get("/obtenerRankingIncidentes", ctx -> {
-                                    MainApi mainApi = new MainApi();
-                                    Usuario usuario = mainApi.obtenerRankingIncidentes; //no sabemos el tipo de dato
-                                    ctx.json(usuario);
+                          MainApi mainApi = new MainApi();
+                          Usuario usuario = mainApi.obtenerRankingIncidentes; //no sabemos el tipo de dato
+                          ctx.json(usuario);
+                      })
                 .start(7070);
     }
 }

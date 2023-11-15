@@ -54,6 +54,45 @@ public class Main {
                     System.out.println(body);
                     // Acá va la lógica de base de datos.
                 })
+
+                .get("/obtenerEntidades", ctx -> {
+                    MainApi mainApi = new MainApi();
+                    Entidad entidad = mainApi.obtenerEntidades;
+                    ctx.json(entidad);
+                })
+                .post("/cargaMasivaDeEntidades", ctx -> {
+                    String body = ctx.body();
+                    System.out.println(body);
+                    // Acá va la lógica de base de datos.
+                })
+
+                .post("/aperturaIncidente", ctx -> {
+                    String body = ctx.body();
+                    System.out.println(body);
+                    // Acá va la lógica de base de datos.
+                
+                 .post("/cierreIncidente", ctx -> {
+                        String body = ctx.body();
+                        System.out.println(body);
+                        // Acá va la lógica de base de datos.
+                        //update
+                        
+                   .get("/añadirTipoUsuario", ctx -> {
+                            MainApi mainApi = new MainApi();
+                            Usuario usuario = mainApi.añadirTipoUsuario;
+                            ctx.json(usuario);
+                           
+                            
+                    .get("/eliminarTipoUsuario", ctx -> {
+                                MainApi mainApi = new MainApi();
+                                Usuario usuario = mainApi.eliminarTipoUsuario;
+                                ctx.json(usuario);        
+                                
+                                
+                      .get("/obtenerRankingIncidentes", ctx -> {
+                                    MainApi mainApi = new MainApi();
+                                    Usuario usuario = mainApi.obtenerRankingIncidentes; //no sabemos el tipo de dato
+                                    ctx.json(usuario);
                 .start(7070);
     }
 }

@@ -99,6 +99,16 @@
       var comunidadId = params.get('comunidad_id')
       var titulo = document.querySelector('#title')
       titulo.textContent = `Incidentes de Comunidad ${comunidadId}`
+
+      async function obtenerIncidentes() {
+        const res = await fetch(`http://localhost:7070/obtenerIncidentes/${comunidadId}`)
+        let incidentes = await res.json()
+        incidentes.forEach(incidente => {
+          //Imprimir cada Incidente
+        })
+      }
+
+      obtenerIncidentes()
     })
 
     function eliminarIncidente(id) {
@@ -107,7 +117,7 @@
       lista.removeChild(incidente)
     }
 
-    function cerrarIncidente(id) {
+    async function cerrarIncidente(id) {
       var incidente = document.getElementById(id)
       var estado = incidente.querySelector('.estadoIncidente')
       estado.textContent = 'Estado: Cerrado'
@@ -119,9 +129,14 @@
       usuarioCierre.classList.add('usuarioCierre', 'mb-2')
       usuarioCierre.textContent = 'Cerrado por: Usuario 2'
       incidente.appendChild(usuarioCierre)
+
+      const res = await fetch('http://localhost:7070/cerrarIncidente', {
+        method: "POST",
+        body: JSON.stringify({ id, usuarioCierre: usuarioCierre.textContent })
+      })
     }
 
-    function guardarIncidente(id) {
+    async function guardarIncidente(id) {
       var incidente = document.getElementById(id)
       var servicioIncidente = incidente.querySelector('.servicioIncidente').value
       var detalleIncidente = incidente.querySelector('.detalleIncidente').value
@@ -149,6 +164,11 @@
       var botonCerrar = nuevoIncidente.querySelector('.cerrar')
       botonCerrar.addEventListener('click', function () {
         cerrarIncidente(id)
+      })
+
+      const res = await fetch('http://localhost:7070/guardarIncidente', {
+        method: "POST",
+        body: JSON.stringify({ id, servicioIncidente, detalleIncidente, estado })
       })
     }
 

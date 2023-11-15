@@ -206,4 +206,7 @@ public class MainApi {
             session.close();
         }
     }
+
+    // añadirTipoUsuario
+    // eliminarTipoUsuario
 }

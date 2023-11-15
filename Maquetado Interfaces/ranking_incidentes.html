@@ -96,7 +96,17 @@
       toggleMenu.addEventListener('click', function () {
         mobileMenu.classList.toggle('hidden')
       })
+
+      obtenerRankings()
     })
+
+    async function obtenerRankings() {
+      const res = await fetch("http://localhost:7070/obtenerTiposUsuario")
+      let tipos = await res.json()
+      rankings.forEach(ranking => {
+        rankings.push(ranking)
+      })
+    }
 
     var rankings = [
       {

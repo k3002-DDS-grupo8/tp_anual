@@ -89,6 +89,7 @@
       })
 
       imprimirTiposUsuarioHTML()
+      obtenerTiposUsuario()
     })
 
     var tiposUsuarioList = document.getElementById('tiposUsuarioList')
@@ -102,11 +103,7 @@
       })
     }
 
-    var tiposUsuarios = [
-      { id: '1', nombre: 'Administrador' },
-      { id: '2', nombre: 'Miembro de Comunidad' },
-      { id: '3', nombre: 'Observador' }
-    ]
+    var tiposUsuarios = []
 
     agregarTipoUsuarioBtn.addEventListener('click', function () {
       agregarTipoUsuario()
@@ -128,7 +125,7 @@
 
         nuevoTipoUsuarioInput.value = ""
 
-        const res = await fetch('http://localhost:7070/insertarTiposUsuario', {
+        const res = await fetch('http://localhost:7070/insertarTipoUsuario', {
           method: "POST",
           body: JSON.stringify(nuevoTipoUsuario)
         })
@@ -160,7 +157,7 @@
         tipoUsuarioElemento.parentNode.removeChild(tipoUsuarioElemento)
       }
 
-      const res = await fetch('http://localhost:7070/eliminarTiposUsuario', {
+      const res = await fetch('http://localhost:7070/eliminarTipoUsuario', {
         method: "POST",
         body: JSON.stringify(id)
       })

@@ -182,4 +182,28 @@ public class MainApi {
             session.close();
         }
     }
+
+    public ArrayList<Entidad> obtenerEntidades() {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("SELECT  id, nombre, email, descripcion  FROM entidad");
+            List<Object[]> rows = query.getResultList();
+            ArrayList<Entidad> entidades = new ArrayList<>();
+            for (Object[] row : rows) {
+                Entidad entidad = new Entidad();
+                entidad.setId(Long.parseLong(row[0].toString()));
+                entidad.setNombre((row[1].toString());
+                entidad.setEmail((row[2].toString());
+                entidad.setDescripcion((row[3].toString());
+            }
+            tx.commit();
+            return entidades;
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
 }

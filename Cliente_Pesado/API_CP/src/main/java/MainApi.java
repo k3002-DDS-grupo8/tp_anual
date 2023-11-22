@@ -22,8 +22,8 @@ public class MainApi {
                 Usuario usuario = new Usuario();
                 usuario.setId(Long.parseLong(row[6].toString()));
                 usuario.setPuntosConfianza(Float.parseFloat(row[3].toString()));
-                GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[4].toString());
-                usuario.setGradoConfianza(gradoConfianzaEnum);
+                //GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[4].toString());
+                //usuario.setGradoConfianza(gradoConfianzaEnum);
                 usuario.setActivo(Boolean.parseBoolean(row[5].toString()));
                 usuario.setEmail(row[1].toString());
                 usuario.setNombre(row[0].toString());
@@ -75,8 +75,8 @@ public class MainApi {
             Usuario usuario = new Usuario();
             usuario.setId(Long.parseLong(row[6].toString()));
             usuario.setPuntosConfianza(Float.parseFloat(row[3].toString()));
-            GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[4].toString());
-            usuario.setGradoConfianza(gradoConfianzaEnum);
+            //GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[4].toString());
+            //usuario.setGradoConfianza(gradoConfianzaEnum);
             usuario.setActivo(Boolean.parseBoolean(row[5].toString()));
             usuario.setEmail(row[1].toString());
             usuario.setNombre(row[0].toString());
@@ -100,8 +100,8 @@ public class MainApi {
             for (Object[] row : rows) {
                 Comunidad comunidad = new Comunidad();
                 comunidad.setId(Long.parseLong(row[0].toString()));
-                GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[1].toString());
-                comunidad.setGradoConfianza(gradoConfianzaEnum);
+                //GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[1].toString());
+                //comunidad.setGradoConfianza(gradoConfianzaEnum);
                 comunidad.setActivo(Boolean.parseBoolean(row[2].toString()));
                 comunidades.add(comunidad);
             }
@@ -124,8 +124,8 @@ public class MainApi {
             Object[] row = (Object[]) query.getSingleResult();
             Comunidad comunidad = new Comunidad();
             comunidad.setId(id);
-            GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[1].toString());
-            comunidad.setGradoConfianza(gradoConfianzaEnum);
+            //GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[1].toString());
+            //comunidad.setGradoConfianza(gradoConfianzaEnum);
             comunidad.setActivo(Boolean.parseBoolean(row[2].toString()));
             tx.commit();
             return comunidad;
@@ -182,7 +182,6 @@ public class MainApi {
             session.close();
         }
     }
-
     public ArrayList<Entidad> obtenerEntidades() {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();

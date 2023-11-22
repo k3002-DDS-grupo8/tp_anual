@@ -66,6 +66,16 @@ public class Incidente {
         this.idUsuarioCierre = idUsuarioCierre;
     }
 
+
+
+    public Incidente() {
+        this.idComunidad = 101;
+        this.idServicio = 102;
+        this.horarioDeApertura = LocalDateTime.now();
+        this.horarioDeCierre = null;
+        this.idUsuarioApertura = 103;
+        this.idUsuarioCierre = 0;
+    }
     public Incidente(long idComunidad, long idServicio, long idUsuarioApertura) {
         this.idComunidad = idComunidad;
         this.idServicio = idServicio;

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incidentes Comunidad</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="bg-white">
+  <header class="sticky top-0 bg-gray-800 text-white p-4">
+    <div class="container mx-auto">
+      <div class="flex justify-between items-center">
+        <div>
+          <a href="index.html" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
+        </div>
+        <div class="hidden md:flex space-x-4">
+          <a href="carga_datos.html" class="text-white hover:text-gray-500">Carga de Datos</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="lista_comunidades.html" class="text-white hover:text-gray-500">Lista de Comunidades</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="ranking_incidentes.html" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="admin_tipos_usurario.html" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="inicio_sesion.html" class="text-white hover:text-gray-500">Log In</a>
+        </div>
+        <div class="relative inline-block">
+          <button id="notificacionesDropdown" class="text-white focus:outline-none hover:text-gray-500">
+            <i class="fas fa-bell"></i>
+          </button>
+          <div id="notificacionesMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Sugerencia Incidente 1</a>
+            <hr class="my-1 border-gray-100">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Sugerencia Incidente 2</a>
+            <hr class="my-1 border-gray-100">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Sugerencia Incidente 3</a>
+          </div>
+        </div>
+        <div class="relative inline-block md:hidden">
+          <button id="toggleMenu" class="text-white focus:outline-none">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div id="mobileMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
+            <a href="carga_datos.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Carga de Datos</a>
+            <hr class="my-1 border-gray-100">
+            <a href="lista_comunidades.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Lista de Comunidades</a>
+            <hr class="my-1 border-gray-100">
+            <a href="ranking_incidentes.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Rankings de Incidentes</a>
+            <hr class="my-1 border-gray-100">
+            <a href="admin_tipos_usurario.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Administrar Tipos de Usuario</a>
+            <hr class="my-1 border-gray-100">
+            <a href="inicio_sesion.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Log In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto p-8 flex flex-col items-center">
+    <h2 id="title" class="text-2xl font-bold mb-4 text-center">Incidentes de Comunidad</h2>
+    <div class="flex justify-between mb-4 gap-4">
+      <button onclick="filtrarIncidentes('Abierto')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Ver Abiertos
+      </button>
+      <button onclick="filtrarIncidentes('Cerrado')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Ver Cerrados
+      </button>
+      <button onclick="mostrarTodos()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Ver Todos
+      </button>
+    </div>
+    <button id="addIncidente" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+      Abrir Incidente
+    </button>
+    <ul id="incidentesList" class="list-none p-0 w-full">
+    </ul>
+  </main>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var notificacionesDropdown = document.getElementById('notificacionesDropdown')
+      var notificacionesMenu = document.getElementById('notificacionesMenu')
+      var toggleMenu = document.getElementById('toggleMenu')
+      var mobileMenu = document.getElementById('mobileMenu')
+
+      notificacionesDropdown.addEventListener('click', function () {
+        notificacionesMenu.classList.toggle('hidden')
+      })
+
+      toggleMenu.addEventListener('click', function () {
+        mobileMenu.classList.toggle('hidden')
+      })
+
+      var params = new URLSearchParams(window.location.search)
+      var comunidadId = params.get('comunidad_id')
+      var titulo = document.querySelector('#title')
+      titulo.textContent = `Incidentes de Comunidad ${comunidadId}`
+
+      async function obtenerIncidentes() {
+        const res = await fetch(`http://localhost:7070/obtenerIncidentes/${comunidadId}`)
+        let incidentes = await res.json()
+        incidentes.forEach(incidente => {
+          //Imprimir cada Incidente
+        })
+      }
+
+      obtenerIncidentes()
+    })
+
+    function eliminarIncidente(id) {
+      var incidente = document.getElementById(id)
+      var lista = document.getElementById('incidentesList')
+      lista.removeChild(incidente)
+    }
+
+    async function cerrarIncidente(id) {
+      var incidente = document.getElementById(id)
+      var estado = incidente.querySelector('.estadoIncidente')
+      estado.textContent = 'Estado: Cerrado'
+
+      var botonCerrar = incidente.querySelector('.cerrar')
+      botonCerrar.style.display = 'none'
+
+      var usuarioCierre = document.createElement('p')
+      usuarioCierre.classList.add('usuarioCierre', 'mb-2')
+      usuarioCierre.textContent = 'Cerrado por: Usuario 2'
+      incidente.appendChild(usuarioCierre)
+
+      const res = await fetch('http://localhost:7070/cerrarIncidente', {
+        method: "POST",
+        body: JSON.stringify({ id, usuarioCierre: usuarioCierre.textContent })
+      })
+    }
+
+    async function guardarIncidente(id) {
+      var incidente = document.getElementById(id)
+      var servicioIncidente = incidente.querySelector('.servicioIncidente').value
+      var detalleIncidente = incidente.querySelector('.detalleIncidente').value
+      var estado = "Abierto"
+
+      var nuevoIncidente = document.createElement('li')
+      nuevoIncidente.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'flex-wrap', 'items-center', 'justify-between')
+      nuevoIncidente.id = id
+
+      nuevoIncidente.innerHTML = `
+        <div>
+          <h3 class="text-xl font-bold">Servicio: ${servicioIncidente}</h3>
+          <p>Detalle: ${detalleIncidente}</p>
+          <p>Abierto por: Usuario 1</p>
+          <p class="estadoIncidente">Estado: ${estado}</p>
+        </div>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full cerrar">
+          Cerrar
+        </button>
+      `
+
+      var incidentesList = document.getElementById('incidentesList')
+      incidentesList.replaceChild(nuevoIncidente, incidente)
+
+      var botonCerrar = nuevoIncidente.querySelector('.cerrar')
+      botonCerrar.addEventListener('click', function () {
+        cerrarIncidente(id)
+      })
+
+      const res = await fetch('http://localhost:7070/guardarIncidente', {
+        method: "POST",
+        body: JSON.stringify({ id, servicioIncidente, detalleIncidente, estado })
+      })
+    }
+
+    function agregarIncidente() {
+      var id = Math.random().toString(36).substring(7)
+      var incidentesList = document.getElementById('incidentesList')
+
+      var nuevoIncidente = document.createElement('li')
+      nuevoIncidente.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'flex-wrap', 'items-center', 'justify-between')
+      nuevoIncidente.id = id
+
+      nuevoIncidente.innerHTML = `
+        <div class="flex flex-wrap gap-4">
+          <input type="text" class="servicioIncidente p-2 border border-gray-300 rounded" placeholder="Servicio del Incidente">
+          <input type="text" class="detalleIncidente p-2 border border-gray-300 rounded" placeholder="Detalle del Incidente">
+        </div>
+        <div class="flex row gap-4 py-2">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 guardar">
+            Guardar
+          </button>
+          <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      `
+
+      incidentesList.appendChild(nuevoIncidente)
+
+      var botonGuardar = nuevoIncidente.querySelector('.guardar')
+      botonGuardar.addEventListener('click', function () {
+        guardarIncidente(id)
+      })
+
+      var botonEliminar = nuevoIncidente.querySelector('.eliminar')
+      botonEliminar.addEventListener('click', function () {
+        eliminarIncidente(id)
+      })
+    }
+
+    var addIncidente = document.getElementById('addIncidente')
+    addIncidente.addEventListener('click', function () {
+      agregarIncidente()
+    })
+
+    function filtrarIncidentes(estado) {
+      var incidentes = document.querySelectorAll('.estadoIncidente')
+
+      incidentes.forEach(function (incidente) {
+        var li = incidente.parentElement.parentElement
+        if (!incidente.textContent.includes(estado)) {
+          li.style.display = 'none'
+        } else {
+          li.style.display = 'flex'
+        }
+      })
+    }
+
+    function mostrarTodos() {
+      var incidentes = document.querySelectorAll('.estadoIncidente')
+
+      incidentes.forEach(function (incidente) {
+        var li = incidente.parentElement.parentElement
+        li.style.display = 'flex'
+      })
+    }
+
+  </script>
+</body>
+
+</html>

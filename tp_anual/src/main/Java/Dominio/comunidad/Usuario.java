@@ -17,6 +17,7 @@ public  class Usuario {
     private long id;
     final String nombre;
     final String email;
+    final String contrasenia;
     final String telefono;
 
     //servicio cambia a Servicios
@@ -41,7 +42,11 @@ public  class Usuario {
     public String getEmail() {
         return email;
     }
-
+    
+    public String getContrasenia() {
+        return contrasenia;
+    }
+    
     public String getTelefono() {return telefono;}
     public List<Servicio> getServiciosDeInteres() {
         return serviciosDeInteres;
@@ -74,9 +79,15 @@ public  class Usuario {
     public void setComunidades(ArrayList<Comunidad> comunidades) {
         this.comunidades = comunidades;
     }
-    public Usuario(String nombre, String email, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacionActual, ArrayList<Comunidad> comunidades) {
+
+    public String setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+    
+    public Usuario(String nombre, String email, String contrasenia, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacionActual, ArrayList<Comunidad> comunidades) {
         this.nombre = nombre;
         this.email = email;
+        this.contrasenia = contrasenia;
         this.telefono = telefono;
         this.serviciosDeInteres = serviciosDeInteres;
         this.localizacionActual = localizacionActual;

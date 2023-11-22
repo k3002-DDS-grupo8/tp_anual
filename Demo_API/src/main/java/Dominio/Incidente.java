@@ -66,23 +66,12 @@ public class Incidente {
         this.idUsuarioCierre = idUsuarioCierre;
     }
 
-    public Incidente() {
-        this.id = 0;
-        this.idComunidad = 0;
-        this.idServicio = 0;
-        this.horarioDeApertura = LocalDateTime.now();
-        this.horarioDeCierre = LocalDateTime.now();
-        this.idUsuarioApertura = 0;
-        this.idUsuarioCierre = 0;
-    }
-
-    public Incidente(long id, long idComunidad, long idServicio, LocalDateTime horarioDeApertura, LocalDateTime horarioDeCierre, long idUsuarioApertura, long idUsuarioCierre) {
-        this.id = id;
+    public Incidente(long idComunidad, long idServicio, long idUsuarioApertura) {
         this.idComunidad = idComunidad;
         this.idServicio = idServicio;
-        this.horarioDeApertura = horarioDeApertura;
-        this.horarioDeCierre = horarioDeCierre;
+        this.horarioDeApertura = LocalDateTime.now();
+        this.horarioDeCierre = null;
         this.idUsuarioApertura = idUsuarioApertura;
-        this.idUsuarioCierre = idUsuarioCierre;
+        this.idUsuarioCierre = 0;
     }
 }

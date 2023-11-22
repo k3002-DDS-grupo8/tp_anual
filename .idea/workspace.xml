@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b79e880-efcd-4f79-bfb1-e015a639a304" name="Changes" comment="" />
+    <list default="true" id="8b79e880-efcd-4f79-bfb1-e015a639a304" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Demo_API/src/main/java/CalculadorGradoDeConfianza.java" beforeDir="false" afterPath="$PROJECT_DIR$/Demo_API/src/main/java/CalculadorGradoDeConfianza.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Demo_API/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Demo_API/src/main/java/Main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +42,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "D:/Documentos/UTN/2023/Diseño de Sistemas/Code/Demo_API_2/Demo_API",
+    "last_opened_file_path": "D:/Documentos/UTN/2023/Diseño de Sistemas/Code/TP anual/tp_anual/Demo_API",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -77,5 +80,16 @@
       <updated>1690150996401</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

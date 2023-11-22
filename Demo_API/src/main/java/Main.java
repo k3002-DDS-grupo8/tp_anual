@@ -54,6 +54,44 @@ public class Main {
                     System.out.println(body);
                     // Acá va la lógica de base de datos.
                 })
+
+                .get("/obtenerEntidades", ctx -> {
+                    MainApi mainApi = new MainApi();
+                    ArrayList<Entidad> entidades = mainApi.obtenerEntidades();
+                    ctx.json(entidades);
+                })
+                .post("/cargaMasivaDeEntidades", ctx -> {
+                    String body = ctx.body();
+                    System.out.println(body);
+                    // Acá va la lógica de base de datos.
+                })
+
+                .post("/aperturaIncidente/", ctx -> {
+                    String body = ctx.body();
+                    MainApi.abrirIncidente(body.idComunidad, body.idServicio, body.idUsuarioApertura);
+                })
+                
+                 .post("/cierreIncidente/{idIncidente}", ctx -> {
+                     String body = ctx.body();
+                     MainApi.cerrarIncidente(ctx.pathParam("idIncidente"), body.idUsuarioCierre);
+                 })
+                   .get("/añadirTipoUsuario", ctx -> {
+                       MainApi mainApi = new MainApi();
+                       Usuario usuario = mainApi.añadirTipoUsuario;
+                       ctx.json(usuario);
+                   })
+                            
+                    .get("/eliminarTipoUsuario", ctx -> {
+                        MainApi mainApi = new MainApi();
+                        Usuario usuario = mainApi.eliminarTipoUsuario;
+                        ctx.json(usuario);
+                    })
+                                
+                      .get("/obtenerRankingIncidentes", ctx -> {
+                          MainApi mainApi = new MainApi();
+                          Usuario usuario = mainApi.obtenerRankingIncidentes; //no sabemos el tipo de dato
+                          ctx.json(usuario);
+                      })
                 .start(7070);
     }
 }

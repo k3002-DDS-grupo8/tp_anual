@@ -61,13 +61,17 @@
 
   <main class="container mx-auto p-8 flex flex-col items-center">
     <h2 class="text-2xl font-bold mb-4 text-center">Carga de Entidades Prestadoras y Organismos de Control</h2>
-    <div class="flex items-center gap-4">
+    <div class="flex flex-col items-center gap-4">
       <button id="addEntidad" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Agregar Entidad
       </button>
-      <button id="cargaCSV" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Cargar CSV
-      </button>
+      <div class="mb-4">
+        <label for="csvFile" class="text-sm font-semibold">Cargar CSV:</label>
+        <input type="file" id="csvFile" accept=".csv" class="ml-2 mb-2">
+        <button id="cargarCSV" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Cargar CSV
+        </button>
+      </div>
     </div>
     <ul id="entidadesList" class="list-none p-0 m-0 w-full">
     </ul>
@@ -88,7 +92,17 @@
       toggleMenu.addEventListener('click', function () {
         mobileMenu.classList.toggle('hidden')
       })
+
+      obtenerEntidades()
     })
+
+    async function obtenerEntidades() {
+      const res = await fetch("http://localhost:7070/obtenerEntidades")
+      let entidades = await res.json()
+      entidades.forEach(entidad => {
+        //...
+      })
+    }
 
     function eliminarEntidad(id) {
       var entidad = document.getElementById(id)
@@ -165,6 +179,76 @@
     addEntidad.addEventListener('click', function () {
       agregarEntidad()
     })
+
+    var cargarCSVButton = document.getElementById('cargarCSV')
+    cargarCSVButton.addEventListener('click', function () {
+      var csvFileInput = document.getElementById('csvFile')
+
+      if (csvFileInput.files.length > 0) {
+        var file = csvFileInput.files[0]
+
+        var reader = new FileReader()
+
+        reader.onload = function (event) {
+          var csvContent = event.target.result
+
+          var csvRows = csvContent.split('\n')
+          var entidades = []
+
+          var headers = csvRows[0].split(',')
+
+          for (var i = 1; i < csvRows.length; i++) {
+            var rowData = csvRows[i].split(',')
+            var entidad = {}
+
+            for (var j = 0; j < headers.length; j++) {
+              entidad[headers[j]] = rowData[j]
+            }
+
+            entidades.push(entidad)
+          }
+
+          for (var k = 0; k < entidades.length; k++) {
+            agregarEntidadFromCSV(entidades[k])
+          }
+        }
+
+        reader.readAsText(file)
+      } else {
+        alert('Por favor, seleccione un archivo CSV.')
+      }
+    })
+
+    async function agregarEntidadFromCSV(entidadData) {
+      var entidadesList = document.getElementById('entidadesList')
+
+      var nuevaEntidad = document.createElement('div')
+      nuevaEntidad.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'items-center', 'justify-between')
+      nuevaEntidad.id = entidadData['ID']
+
+      nuevaEntidad.innerHTML = `
+    <div>
+      <h3 class="text-xl font-bold">Nombre: ${entidadData['Nombre']}</h3>
+      <p>Descripción: ${entidadData['Descripcion']}</p>
+      <p>Email: ${entidadData['Email']}</p>
+    </div>
+    <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar">
+      <i class="fas fa-trash"></i>
+    </button>
+  `
+
+      entidadesList.appendChild(nuevaEntidad)
+
+      var botonEliminar = nuevaEntidad.querySelector('.eliminar')
+      botonEliminar.addEventListener('click', function () {
+        eliminarEntidad(entidadData['ID'])
+      })
+
+      const res = await fetch('http://localhost:7070/insertarEntidad', {
+        method: "POST",
+        body: JSON.stringify({ id: entidadData['ID'], nombre: entidadData['Nombre'], descripcion: entidadData['Descripcion'], email: entidadData['Email'] })
+      })
+    }
 
   </script>
 </body>

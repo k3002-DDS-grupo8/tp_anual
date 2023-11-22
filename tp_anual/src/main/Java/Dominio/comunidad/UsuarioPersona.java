@@ -19,8 +19,8 @@ public class UsuarioPersona extends Usuario {
     final MedioComunicacion medioComunicacion;
     ArrayList<HorariosPosibles> horarioDeNotificaciones;
     ArrayList<EEO> eeoDeInteres;
-    public UsuarioPersona(String nombre, String email, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacion, String apellido, ArrayList<Comunidad> comunidades, MedioComunicacion medioComunicacion, ArrayList<HorariosPosibles> horarioDeNotificaciones, ArrayList<EEO> eeoDeInteres) {
-        super(nombre, email, serviciosDeInteres, localizacion, comunidades);
+    public UsuarioPersona(String nombre, String email, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacion, String apellido, ArrayList<Comunidad> comunidades, MedioComunicacion medioComunicacion, ArrayList<HorariosPosibles> horarioDeNotificaciones, ArrayList<EEO> eeoDeInteres) {
+        super(nombre, email, telefono, serviciosDeInteres, localizacion, comunidades);
         this.apellido = apellido;
         this.medioComunicacion = medioComunicacion;
         this.horarioDeNotificaciones = horarioDeNotificaciones;

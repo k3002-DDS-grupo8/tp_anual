@@ -5,6 +5,10 @@ public class Incidente {
     private long id;
     private long idComunidad;
     private long idServicio;
+
+
+
+    private EstadoIncidente estado;
     private LocalDateTime horarioDeApertura;
     private LocalDateTime horarioDeCierre;
     private long idUsuarioApertura;
@@ -33,7 +37,12 @@ public class Incidente {
     public void setIdServicio(long idServicio) {
         this.idServicio = idServicio;
     }
-
+    public EstadoIncidente getEstado() {
+        return estado;
+    }
+    public void setEstado(EstadoIncidente estado) {
+        this.estado = estado;
+    }
     public LocalDateTime getHorarioDeApertura() {
         return horarioDeApertura;
     }
@@ -69,6 +78,7 @@ public class Incidente {
     public Incidente(long idComunidad, long idServicio, long idUsuarioApertura) {
         this.idComunidad = idComunidad;
         this.idServicio = idServicio;
+        this.estado = EstadoIncidente.ABIERTO;
         this.horarioDeApertura = LocalDateTime.now();
         this.horarioDeCierre = null;
         this.idUsuarioApertura = idUsuarioApertura;

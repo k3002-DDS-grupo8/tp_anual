@@ -1,5 +1,6 @@
 import Dominio.Comunidad;
 import Dominio.Entidad;
+import Dominio.Incidente;
 import Dominio.Usuario;
 
 import java.util.ArrayList;
@@ -41,6 +42,24 @@ public class Main {
                     System.out.println(body);
                     // Acá va la lógica de base de datos.
                 })
+                .get("/obtenerIncidentesComunidad/{idComunidad}", ctx -> {
+                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
+                    MainApi mainApi = new MainApi();
+                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidad(idComunidad);
+                    ctx.json(incidentes);
+                })
+                .get("/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> {
+                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
+                    MainApi mainApi = new MainApi();
+                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidadAbierto(idComunidad);
+                    ctx.json(incidentes);
+                })
+                .get("/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> {
+                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
+                    MainApi mainApi = new MainApi();
+                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidadCerrado(idComunidad);
+                    ctx.json(incidentes);
+                })
 
                 .get("/obtenerEntidades", ctx -> {
                     MainApi mainApi = new MainApi();
@@ -64,19 +83,22 @@ public class Main {
                  })
                    .get("/añadirTipoUsuario", ctx -> {
                        MainApi mainApi = new MainApi();
-                       Usuario usuario = mainApi.añadirTipoUsuario;
+                       Usuario usuario = mainApi.añadirTipoUsuario();
+                       //añadir un usuario no deberia devolver el usuario, o solamente una confirmacion
                        ctx.json(usuario);
                    })
                             
                     .get("/eliminarTipoUsuario", ctx -> {
                         MainApi mainApi = new MainApi();
-                        Usuario usuario = mainApi.eliminarTipoUsuario;
+                        Usuario usuario = mainApi.eliminarTipoUsuario();
+                        //eliminar un usuario no deberia devolver nada, o solamente una confirmacion
                         ctx.json(usuario);
                     })
+
                                 
                       .get("/obtenerRankingIncidentes", ctx -> {
                           MainApi mainApi = new MainApi();
-                          Usuario usuario = mainApi.obtenerRankingIncidentes; //no sabemos el tipo de dato
+                          Usuario usuario = mainApi.obtenerRankingIncidentes(); //no sabemos el tipo de dato
                           ctx.json(usuario);
                       })
                 .start(7070);

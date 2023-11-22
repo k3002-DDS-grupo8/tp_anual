@@ -136,6 +136,84 @@ public class MainApi {
             session.close();
         }
     }
+    public ArrayList<Incidente> obtenerIncidentesComunidad(long idComunidad) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("SELECT comunidad, servicio, horarioDeApertura, horarioDeCierre, id FROM incidente WHERE comunidad = :idComunidad");
+            query.setParameter("idComunidad", idComunidad);
+            List<Object[]> rows = query.getResultList();
+            ArrayList<Incidente> incidentes = new ArrayList<>();
+            for (Object[] row : rows) {
+                Incidente incidente = new Incidente();
+                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
+                incidente.setIdServicio(Long.parseLong(row[1].toString()));
+                incidente.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
+                incidente.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
+                incidente.setId(Long.parseLong(row[4].toString()));
+                incidentes.add(incidente);
+            }
+            tx.commit();
+            return incidentes;
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+    public ArrayList<Incidente> obtenerIncidentesComunidadAbierto(long idComunidad) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("SELECT comunidad, servicio, horarioDeApertura, horarioDeCierre, id FROM incidente WHERE comunidad = :idComunidad and estado = 0");
+            query.setParameter("idComunidad", idComunidad);
+            List<Object[]> rows = query.getResultList();
+            ArrayList<Incidente> incidentes = new ArrayList<>();
+            for (Object[] row : rows) {
+                Incidente incidente = new Incidente();
+                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
+                incidente.setIdServicio(Long.parseLong(row[1].toString()));
+                incidente.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
+                incidente.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
+                incidente.setId(Long.parseLong(row[4].toString()));
+                incidentes.add(incidente);
+            }
+            tx.commit();
+            return incidentes;
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+    public ArrayList<Incidente> obtenerIncidentesComunidadCerrado(long idComunidad) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("SELECT comunidad, servicio, horarioDeApertura, horarioDeCierre, id FROM incidente WHERE comunidad = :idComunidad and estado = 1");
+            query.setParameter("idComunidad", idComunidad);
+            List<Object[]> rows = query.getResultList();
+            ArrayList<Incidente> incidentes = new ArrayList<>();
+            for (Object[] row : rows) {
+                Incidente incidente = new Incidente();
+                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
+                incidente.setIdServicio(Long.parseLong(row[1].toString()));
+                incidente.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
+                incidente.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
+                incidente.setId(Long.parseLong(row[4].toString()));
+                incidentes.add(incidente);
+            }
+            tx.commit();
+            return incidentes;
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
 
     public static void guardarUsuariosIntoDB(ArrayList<Usuario> usuariosParaGuardar) {
         Session session = Utils.BDUtils.getSessionFactory().openSession();
@@ -147,7 +225,7 @@ public class MainApi {
                                 usuarioParaGuardar.getEmail(), null,
                                 // usuarioParaGuardar.getComunidades(),
                                 usuarioParaGuardar.getPuntosConfianza(),
-                                usuarioParaGuardar.getGradoConfianza(),
+                                //usuarioParaGuardar.getGradoConfianza(),
                                 usuarioParaGuardar.isActivo()
                         )
                 );
@@ -240,4 +318,5 @@ public class MainApi {
 
     // añadirTipoUsuario
     // eliminarTipoUsuario
+    // ModificarTipoUsuairo (cambiarRol)
 }

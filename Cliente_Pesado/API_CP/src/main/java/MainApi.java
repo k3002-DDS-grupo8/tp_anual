@@ -2,7 +2,6 @@ import Utils.BDUtils;
 import Dominio.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import org.hibernate.*;
@@ -313,6 +312,31 @@ public class MainApi {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public boolean validarLogIn(String usuario, char[] pws) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        try {
+            Query query = session.createSQLQuery("SELECT * FROM usuario WHERE usuario = :usuario and contrasenia = :pws");
+            query.setParameter("usuario", usuario);
+            query.setParameter("pws", pws);
+
+            Object[] row = (Object[]) query.getSingleResult();
+
+            if (row != null) {
+                tx.commit();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            tx.rollback();
+            throw new RuntimeException("Error al validar el usario solicitado", e);
+        } finally {
+            session.close();
         }
     }
 

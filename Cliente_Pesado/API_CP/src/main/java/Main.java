@@ -15,6 +15,13 @@ public class Main {
     
         //JAVALIN API
         var app = Javalin.create()
+                .get("/logIn/usuario/{user}/pws/{pws}", ctx -> {
+                    String usuario = ctx.pathParam("user");
+                    char[] pws = ctx.pathParam("pws").toCharArray();
+                    MainApi mainApi = new MainApi();
+                    boolean rta = mainApi.validarLogIn(usuario, pws);
+                    ctx.json(rta);
+                })
                 .get("/obtenerUsuarios", ctx -> {
                     MainApi mainApi = new MainApi();
                     List<Usuario> usuarios = mainApi.obtenerUsuarios();

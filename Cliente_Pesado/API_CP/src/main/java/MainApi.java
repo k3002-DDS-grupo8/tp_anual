@@ -199,6 +199,7 @@ public class MainApi {
                 Incidente incidente = new Incidente();
                 incidente.setIdComunidad(Long.parseLong(row[0].toString()));
                 incidente.setIdServicio(Long.parseLong(row[1].toString()));
+                incidente.setEstado(EstadoIncidente.CERRADO);
                 incidente.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
                 incidente.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
                 incidente.setId(Long.parseLong(row[4].toString()));
@@ -209,6 +210,45 @@ public class MainApi {
         } catch (Exception e) {
             tx.rollback();
             throw e;
+        } finally {
+            session.close();
+        }
+    }
+    public Incidente obtenerIncidenteCercano(long idComunidad, String localizacion) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("SELECT comunidad, servicio, horarioDeApertura, horarioDeCierre, id FROM incidente join Servicio on idServicio = servicio join Establecimiento on Establecimiento.id = establecimiento WHERE comunidad = :id and estado = 0 and Establecimiento.ubicacionGeografica = :local ");
+            query.setParameter("id",idComunidad);
+            query.setParameter("local",localizacion);
+
+
+            Object[] row = (Object[]) query.getSingleResult();
+            Incidente incidenteCercano = new Incidente();
+            incidenteCercano.setIdComunidad(Long.parseLong(row[0].toString()));
+            incidenteCercano.setIdServicio(Long.parseLong(row[1].toString()));
+            incidenteCercano.setEstado(EstadoIncidente.ABIERTO);
+            incidenteCercano.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
+            incidenteCercano.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
+            incidenteCercano.setId(Long.parseLong(row[4].toString()));
+            /*
+            List<Object[]> rows = query.getResultList();
+            ArrayList<Incidente> incidentes = new ArrayList<>();
+            for (Object[] row : rows) {
+                Incidente incidente = new Incidente();
+                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
+                incidente.setIdServicio(Long.parseLong(row[1].toString()));
+                incidente.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
+                incidente.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
+                incidente.setId(Long.parseLong(row[4].toString()));
+                incidentes.add(incidente);
+            }*/
+
+            tx.commit();
+            return incidenteCercano;
+        } catch (NoResultException e) {
+            tx.rollback();
+            throw new RuntimeException("No se encontró ninguna comunidad con el ID especificado: " + id);
         } finally {
             session.close();
         }

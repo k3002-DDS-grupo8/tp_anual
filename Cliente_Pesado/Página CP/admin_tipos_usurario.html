@@ -89,19 +89,10 @@
       })
 
       imprimirTiposUsuarioHTML()
-      obtenerTiposUsuario()
     })
 
     var tiposUsuarioList = document.getElementById('tiposUsuarioList')
     var agregarTipoUsuarioBtn = document.getElementById('agregarTipoUsuario')
-
-    async function obtenerTiposUsuario() {
-      const res = await fetch("http://localhost:7070/obtenerTiposUsuario")
-      let tipos = await res.json()
-      tipos.forEach(tipo => {
-        tiposUsuarios.push(tipo)
-      })
-    }
 
     var tiposUsuarios = []
 

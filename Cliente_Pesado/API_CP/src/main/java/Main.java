@@ -1,130 +1,85 @@
-import Dominio.Comunidad;
 import Dominio.Entidad;
 import Dominio.Incidente;
-import Dominio.Usuario;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+import Dominio.TipoUsuario;
+import org.json.JSONObject;
+
 import io.javalin.Javalin;
-import org.quartz.*;
 
 public class Main {
-    public static void main(String[] args) throws SchedulerException {
-    
+    public static void main(String[] args) {
         //JAVALIN API
         var app = Javalin.create()
-                .get("/logIn/usuario/{user}/pws/{pws}", ctx -> {
-                    String usuario = ctx.pathParam("user");
-                    char[] pws = ctx.pathParam("pws").toCharArray();
-                    MainApi mainApi = new MainApi();
-                    boolean rta = mainApi.validarLogIn(usuario, pws);
-                    ctx.json(rta);
-                })
-                .get("/obtenerUsuarios", ctx -> {
-                    MainApi mainApi = new MainApi();
-                    List<Usuario> usuarios = mainApi.obtenerUsuarios();
-                    ctx.json(usuarios);
-                })
-                .get("/obtenerUsuarios/{id}", ctx -> {
-                    long id = Integer.parseInt(ctx.pathParam("id"));
-                    MainApi mainApi = new MainApi();
-                    Usuario usuario = mainApi.obtenerUsuario(id);
-                    ctx.json(usuario);
-                })
-                .get("/obtenerComunidades", ctx -> {
-                    MainApi mainApi = new MainApi();
-                    ArrayList<Comunidad> comunidades = mainApi.obtenerComunidades();
-                    ctx.json(comunidades);
-                })
-                .get("/obtenerComunidades/{id}", ctx -> {
-                    long id = Integer.parseInt(ctx.pathParam("id"));
-                    MainApi mainApi = new MainApi();
-                    Comunidad comunidad = mainApi.obtenerComunidad(id);
-                    ctx.json(comunidad);
-                })
-                .post("/almacenarIncidente", ctx -> {
-                    String body = ctx.body();
-                    System.out.println(body);
-                    // Acá va la lógica de base de datos.
-                })
                 .get("/obtenerIncidentesComunidad/{idComunidad}", ctx -> {
                     long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
                     MainApi mainApi = new MainApi();
                     ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidad(idComunidad);
                     ctx.json(incidentes);
-                })
-                .get("/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> {
-                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
-                    MainApi mainApi = new MainApi();
-                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidadAbierto(idComunidad);
-                    ctx.json(incidentes);
-                })
-                .get("/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> {
-                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
-                    MainApi mainApi = new MainApi();
-                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidadCerrado(idComunidad);
-                    ctx.json(incidentes);
-                })
-
-                .get("/obtenerIncidenteCercano/{idComunidad}/localizacion/{local}", ctx -> {
-                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
-                    String localizacion = ctx.pathParam("local");
-                    MainApi mainApi = new MainApi();
-                    Incidente incidenteCercano = mainApi.obtenerIncidenteCercano(idComunidad,  localizacion);
-                    ctx.json(incidenteCercano);
-                })
-
+                }) // TODO: No lo usamos todavía.
 
                 .get("/obtenerEntidades", ctx -> {
                     MainApi mainApi = new MainApi();
                     ArrayList<Entidad> entidades = mainApi.obtenerEntidades();
                     ctx.json(entidades);
-                })
-                .post("/cargaMasivaDeEntidades", ctx -> {
-                    String body = ctx.body();
-                    System.out.println(body);
-                    // Acá va la lógica de base de datos.
+                }) // TODO: No lo usamos todavía.
+
+                .post("/insertarEntidad", ctx -> {
+                    String cuerpoSolicitud = ctx.body();
+                    JSONObject json = new JSONObject(cuerpoSolicitud);
+                    Entidad entidad = new Entidad(
+                            json.getLong("id"),
+                            json.getString("nombre"),
+                            json.getString("email"),
+                            json.getString("descripcion")
+                    );
+                    MainApi mainApi = new MainApi();
+                    mainApi.insertarEntidad(entidad);
                 })
 
-
+                .post("/eliminarEntidad", ctx -> {
+                    // Acá va la lógica (NO ES REQUERIMIENTO).
+                })
 
                 .post("/aperturaIncidente/", ctx -> {
-                    String body = ctx.body();
-                    MainApi.abrirIncidente(body.idComunidad, body.idServicio, body.idUsuarioApertura);
+                    // Acá va la lógica. (FEDE)
                 })
-                
-                 .post("/cierreIncidente/{idIncidente}", ctx -> {
-                     String body = ctx.body();
-                     MainApi.cerrarIncidente(ctx.pathParam("idIncidente"), body.idUsuarioCierre);
-                 })
-                   .get("/añadirTipoUsuario", ctx -> {
-                       String body = ctx.body();
-                       System.out.println(body);
-                       MainApi mainApi = new MainApi();
-                       Usuario usuario = mainApi.añadirTipoUsuario();
-                       //añadir un usuario no deberia devolver el usuario, o solamente una confirmacion
-                       ctx.json(usuario);
-                   })
-                .post("/almacenarIncidente", ctx -> {
-                    String body = ctx.body();
-                    System.out.println(body);
-                    // Acá va la lógica de base de datos.
-                })
-                            
-                    .get("/eliminarTipoUsuario", ctx -> {
-                        MainApi mainApi = new MainApi();
-                        Usuario usuario = mainApi.eliminarTipoUsuario();
-                        //eliminar un usuario no deberia devolver nada, o solamente una confirmacion
-                        ctx.json(usuario);
-                    })
 
-                    .get("/obtenerRankingIncidentes", ctx -> {
-                          MainApi mainApi = new MainApi();
-                          Usuario usuario = mainApi.obtenerRankingIncidentes(); //no sabemos el tipo de dato
-                          ctx.json(usuario);
-                    })
+                .post("/cierreIncidente/{idIncidente}", ctx -> {
+                    // Acá va la lógica. (FEDE)
+                })
+
+                .get("/obtenerTiposUsuario", ctx -> {
+                    MainApi mainApi = new MainApi();
+                    ArrayList<TipoUsuario> tiposUsuario = mainApi.obtenerTiposUsuario();
+                    ctx.json(tiposUsuario);
+                }) // TODO: No lo usamos todavía.
+
+                .post("/insertarTipoUsuario", ctx -> {
+                    String cuerpoSolicitud = ctx.body();
+                    JSONObject json = new JSONObject(cuerpoSolicitud);
+                    long id = json.getLong("id");
+                    String nombre = json.getString("nombre");
+                    MainApi mainApi = new MainApi();
+                    mainApi.insertarTipoUsuario(id, nombre);
+                })
+
+                .post("/eliminarTipoUsuario", ctx -> {
+                    String cuerpoSolicitud = ctx.body();
+                    JSONObject json = new JSONObject(cuerpoSolicitud);
+                    long id = json.getLong("id");
+                    MainApi mainApi = new MainApi();
+                    mainApi.eliminarTipoUsuario(id);
+                })
+
+                .get("/obtenerRankingEntidades/{idRanking}", ctx -> {
+                    long idRanking = Integer.parseInt(ctx.pathParam("idRanking"));
+                    MainApi mainApi = new MainApi();
+                    ArrayList<Entidad> entidadesEnRanking = mainApi.obtenerRankingEntidades(idRanking);
+                    ctx.json(entidadesEnRanking);
+                }) // TODO: No lo usamos todavía. (Hay que cambiar la lógica de la página)
+
                 .start(7070);
     }
 }

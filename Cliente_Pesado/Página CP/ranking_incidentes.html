@@ -100,12 +100,10 @@
       obtenerRankings()
     })
 
-    async function obtenerRankings() {
-      const res = await fetch("http://localhost:7070/obtenerTiposUsuario")
-      let tipos = await res.json()
-      rankings.forEach(ranking => {
-        rankings.push(ranking)
-      })
+    async function obtenerRanking(idRanking) {
+      const res = await fetch(`http://localhost:7070/obtenerRankingEntidades/${idRanking}`)
+      let entidades = await res.json()
+      rankings.push({ criterio: idRanking, elementos: entidades })
     }
 
     var rankings = [

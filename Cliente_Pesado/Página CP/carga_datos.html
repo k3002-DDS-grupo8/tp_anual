@@ -62,9 +62,6 @@
   <main class="container mx-auto p-8 flex flex-col items-center">
     <h2 class="text-2xl font-bold mb-4 text-center">Carga de Entidades Prestadoras y Organismos de Control</h2>
     <div class="flex flex-col items-center gap-4">
-      <button id="addEntidad" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Agregar Entidad
-      </button>
       <div class="mb-4">
         <label for="csvFile" class="text-sm font-semibold">Cargar CSV:</label>
         <input type="file" id="csvFile" accept=".csv" class="ml-2 mb-2">
@@ -92,93 +89,13 @@
       toggleMenu.addEventListener('click', function () {
         mobileMenu.classList.toggle('hidden')
       })
-
-      obtenerEntidades()
     })
-
-    async function obtenerEntidades() {
-      const res = await fetch("http://localhost:7070/obtenerEntidades")
-      let entidades = await res.json()
-      entidades.forEach(entidad => {
-        //...
-      })
-    }
 
     function eliminarEntidad(id) {
       var entidad = document.getElementById(id)
       var lista = document.getElementById('entidadesList')
       lista.removeChild(entidad)
     }
-
-    function guardarEntidad(id) {
-      var entidad = document.getElementById(id)
-      var nombreEntidad = entidad.querySelector('.nombreEntidad').value
-      var descripcionEntidad = entidad.querySelector('.descripcionEntidad').value
-      var emailEntidad = entidad.querySelector('.emailEntidad').value
-
-      var nuevoTexto = document.createElement('div')
-      nuevoTexto.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'items-center', 'justify-between')
-      nuevoTexto.id = id
-
-      nuevoTexto.innerHTML = `
-      <div>
-        <h3 class="text-xl font-bold">Nombre: ${nombreEntidad}</h3>
-        <p>Descripción: ${descripcionEntidad}</p>
-        <p>Email: ${emailEntidad}</p>
-      </div>
-      <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar">
-        <i class="fas fa-trash"></i>
-      </button>
-    `
-
-      var entidadesList = document.getElementById('entidadesList')
-      entidadesList.replaceChild(nuevoTexto, entidad)
-
-      var botonEliminar = nuevoTexto.querySelector('.eliminar')
-      botonEliminar.addEventListener('click', function () {
-        eliminarEntidad(id)
-      })
-    }
-
-    function agregarEntidad() {
-      var id = Math.random().toString(36).substring(7)
-      var entidadesList = document.getElementById('entidadesList')
-
-      var nuevaEntidad = document.createElement('div')
-      nuevaEntidad.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'flex-wrap', 'items-center', 'justify-between')
-      nuevaEntidad.id = id
-
-      nuevaEntidad.innerHTML = `
-      <div class="flex flex-wrap gap-4">
-        <input type="text" class="nombreEntidad p-2 border border-gray-300 rounded" placeholder="Nombre de la entidad">
-        <input type="text" class="descripcionEntidad p-2 border border-gray-300 rounded" placeholder="Descripción de la entidad">
-        <input type="email" class="emailEntidad p-2 border border-gray-300 rounded" placeholder="Email de la entidad">
-      </div>
-      <div class="flex row gap-4 py-2">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 guardar">Guardar</button>
-        <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
-    `
-
-      entidadesList.appendChild(nuevaEntidad)
-
-      var botonGuardar = nuevaEntidad.querySelector('.guardar')
-      botonGuardar.addEventListener('click', function () {
-        guardarEntidad(id)
-      })
-
-      var botonEliminar = nuevaEntidad.querySelector('.eliminar')
-      botonEliminar.addEventListener('click', function () {
-        eliminarEntidad(id)
-      })
-    }
-
-    var addEntidad = document.getElementById('addEntidad')
-    addEntidad.addEventListener('click', function () {
-      agregarEntidad()
-    })
 
     var cargarCSVButton = document.getElementById('cargarCSV')
     cargarCSVButton.addEventListener('click', function () {

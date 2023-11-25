@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Comunidades</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-white">
+  <header class="sticky top-0 bg-gray-800 text-white p-4">
+    <div class="container mx-auto">
+      <div class="flex justify-between items-center">
+        <div>
+          <a href="index.html" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
+        </div>
+        <div class="hidden md:flex space-x-4">
+          <a href="carga_datos.html" class="text-white hover:text-gray-500">Carga de Datos</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="lista_comunidades.html" class="text-white hover:text-gray-500">Lista de Comunidades</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="ranking_incidentes.html" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="admin_tipos_usurario.html" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
+          <div class="h-6 border-l border-gray-500"></div>
+          <a href="inicio_sesion.html" class="text-white hover:text-gray-500">Log In</a>
+        </div>
+        <div class="relative inline-block">
+          <button id="notificacionesDropdown" class="text-white focus:outline-none hover:text-gray-500">
+            <i class="fas fa-bell"></i>
+          </button>
+          <div id="notificacionesMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Sugerencia Incidente 1</a>
+            <hr class="my-1 border-gray-100">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Sugerencia Incidente 2</a>
+            <hr class="my-1 border-gray-100">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Sugerencia Incidente 3</a>
+          </div>
+        </div>
+        <div class="relative inline-block md:hidden">
+          <button id="toggleMenu" class="text-white focus:outline-none">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div id="mobileMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
+            <a href="carga_datos.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Carga de Datos</a>
+            <hr class="my-1 border-gray-100">
+            <a href="lista_comunidades.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Lista de Comunidades</a>
+            <hr class="my-1 border-gray-100">
+            <a href="ranking_incidentes.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Rankings de Incidentes</a>
+            <hr class="my-1 border-gray-100">
+            <a href="admin_tipos_usurario.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Administrar Tipos de Usuario</a>
+            <hr class="my-1 border-gray-100">
+            <a href="inicio_sesion.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Log In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto p-8 flex flex-col items-center">
+    <h2 class="text-2xl font-bold mb-4 text-center">Lista de Comunidades</h2>
+    <ul id="comunidadesList" class="list-none p-0 w-full">
+    </ul>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var notificacionesDropdown = document.getElementById('notificacionesDropdown')
+      var notificacionesMenu = document.getElementById('notificacionesMenu')
+      var toggleMenu = document.getElementById('toggleMenu')
+      var mobileMenu = document.getElementById('mobileMenu')
+
+      notificacionesDropdown.addEventListener('click', function () {
+        notificacionesMenu.classList.toggle('hidden')
+      })
+
+      toggleMenu.addEventListener('click', function () {
+        mobileMenu.classList.toggle('hidden')
+      })
+
+      var comunidades = [
+        { nombre: 'Comunidad 1', id: 1 },
+        { nombre: 'Comunidad 2', id: 2 },
+        { nombre: 'Comunidad 3', id: 3 }
+      ]
+
+      var comunidadesList = document.getElementById('comunidadesList')
+
+      comunidades.forEach(function (comunidad) {
+        var nuevaComunidad = document.createElement('li')
+        nuevaComunidad.classList.add('flex', 'items-center', 'flex-wrap', 'justify-between', 'mb-4', 'border', 'border-gray-300', 'p-4')
+        nuevaComunidad.innerHTML = `
+                    <h3 class="text-xl font-bold mr-4">${comunidad.nombre}</h3>
+                    <div class="py-4 flex flex-wrap gap-4">
+                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">
+                          <i class="fas fa-eye"></i> Comunidad
+                      </button>
+                      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mr-2">
+                          <i class="fas fa-users"></i> Usuarios
+                      </button>
+                      <a href="incidentes_comunidad.html?comunidad_id=${comunidad.id}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                        <i class="fas fa-exclamation-triangle"></i> Incidentes
+                      </a>
+                    </div>
+                `
+        comunidadesList.appendChild(nuevaComunidad)
+      })
+    })
+  </script>
+
+</body>
+
+</html>

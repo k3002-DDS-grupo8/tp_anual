@@ -1,13 +1,17 @@
 package Dominio.servicios;
 
 import Dominio.entidad.Establecimiento;
-import Dominio.Incidente;
+import Dominio.incidente.Incidente;
 import javax.persistence.*;
 import java.util.ArrayList;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Servicio implements Servicios{
+    @Id
     private long idServicio;
     final String nombre;
+    @OneToOne
     public Establecimiento establecimiento;
     public ArrayList<Incidente> incidentes;
 

@@ -1,4 +1,8 @@
 package Presentacion;
 
-public class GetIncidenteIdComunidadHandler {
+import io.javalin.http.Context;
+import io.javalin.http.Handler;
+import org.jetbrains.annotations.NotNull;
+
+public class GetIncidenteIdComunidadHandler implements Handler {
 }

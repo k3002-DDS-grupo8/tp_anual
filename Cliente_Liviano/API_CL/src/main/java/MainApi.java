@@ -214,14 +214,14 @@ public class MainApi {
             session.close();
         }
     }
-    public Incidente obtenerIncidenteCercano(long idComunidad, String localizacion) {
+
+    // todavia no se fija que este cerca, solamente sugiere revisar el primero que aparece
+    public Incidente obtenerIncidenteCercano(long idUsuario) {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT comunidad, servicio, horarioDeApertura, horarioDeCierre, id FROM incidente join Servicio on idServicio = servicio join Establecimiento on Establecimiento.id = establecimiento WHERE comunidad = :id and estado = 0 and Establecimiento.ubicacionGeografica = :local ");
-            query.setParameter("id",idComunidad);
-            query.setParameter("local",localizacion);
-
+            Query query = session.createSQLQuery("SELECT TOP 1 id, comunidad.nombre, servicio.nombre, horarioDeApertura, observaciones FROM incidente JOIN comunindad ON id = comunidad.comunindad_id JOIN miembrocomunidad on incidente.comunidad = miembrocomunidad.comunidad_id JOIN Servicio on incidente.servicio = servicio.idServicio WHERE estado = 0 AND miembrocomunidad.usuario_id = :id");
+            query.setParameter("id",idUsuario);
 
             Object[] row = (Object[]) query.getSingleResult();
             Incidente incidenteCercano = new Incidente();

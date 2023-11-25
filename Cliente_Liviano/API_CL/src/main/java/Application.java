@@ -4,6 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Presentacion.LoginHandler;
+import Presentacion.GetUsuariosHandler;
+import Presentacion.GetUsuarioIdHandler;
+import Presentacion.GetComunidadesHandler;
+import Presentacion.GetComunidadIdHandler;
+import Presentacion.PostIncidenteHandler;
+import Presentacion.GetIncidentesComunidadHandler;
+import Presentacion.GetIncidenteIdComunidadHandler;
+import Presentacion.GetIncidenteIdComunidadAbiertoHandler;
+import Presentacion.GetIncidenteIdComunidadCerradoHandler;
+import Presentacion.GetIncidenteIdCercanoHandler;
+import Presentacion.GetEntidadesHandler;
+import Presentacion.PostCargaMasivaEntidadesHandler;
+import Presentacion.PostAperturaIncidenteHandler;
+import Presentacion.PostCierreIdIncidenteHandler;
+import Presentacion.PostInsertarTipoUsuarioHandler;
+import Presentacion.PostAlmacenarIncidenteHandler;
+import Presentacion.PostEliminarTipoUsuarioHandler;
+import Presentacion.GetObtenerRankingIncidentesHandler;
+
+
+
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import io.javalin.Javalin;
 import org.json.JSONObject;

@@ -16,16 +16,16 @@ public class MiembroComunidad {
     final Comunidad comunidad;
 
     @Enumerated
-    Rol rol;
+    long tipoUsuario;
 
-    public MiembroComunidad(UsuarioPersona usuario, Rol rol, Comunidad comunidad) {
+    public MiembroComunidad(UsuarioPersona usuario, long tipoUsuario, Comunidad comunidad) {
         this.usuario = usuario;
-        this.rol = rol;
+        this.tipoUsuario = tipoUsuario;
         this.comunidad = comunidad;
     }
 
-    public void cambiarRol(Rol nuevoRol){
-        this.rol = nuevoRol;
+    public void cambiarTipoUsuario(long id_TipoUsuario){
+        this.tipoUsuario = id_TipoUsuario;
     }
 
     public void cerrarIncidente(Incidente incidente){

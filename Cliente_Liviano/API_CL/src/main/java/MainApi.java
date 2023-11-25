@@ -216,7 +216,7 @@ public class MainApi {
     }
 
     // todavia no se fija que este cerca, solamente sugiere revisar el primero que aparece
-    public Incidente obtenerIncidenteCercano(long idUsuario) {
+    public RetornoIncidenteCercano obtenerIncidenteCercano(long idUsuario) {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
@@ -224,31 +224,19 @@ public class MainApi {
             query.setParameter("id",idUsuario);
 
             Object[] row = (Object[]) query.getSingleResult();
-            Incidente incidenteCercano = new Incidente();
-            incidenteCercano.setIdComunidad(Long.parseLong(row[0].toString()));
-            incidenteCercano.setIdServicio(Long.parseLong(row[1].toString()));
-            incidenteCercano.setEstado(EstadoIncidente.ABIERTO);
-            incidenteCercano.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
-            incidenteCercano.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
-            incidenteCercano.setId(Long.parseLong(row[4].toString()));
-            /*
-            List<Object[]> rows = query.getResultList();
-            ArrayList<Incidente> incidentes = new ArrayList<>();
-            for (Object[] row : rows) {
-                Incidente incidente = new Incidente();
-                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
-                incidente.setIdServicio(Long.parseLong(row[1].toString()));
-                incidente.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
-                incidente.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
-                incidente.setId(Long.parseLong(row[4].toString()));
-                incidentes.add(incidente);
-            }*/
+            RetornoIncidenteCercano incidenteCercano = new RetornoIncidenteCercano(
+                    Long.parseLong(row[0].toString()),
+                    row[1].toString(),
+                    row[2].toString(),
+                    LocalDateTime.parse(row[3].toString()),
+                    row[4].toString()
+            );
 
             tx.commit();
             return incidenteCercano;
         } catch (NoResultException e) {
             tx.rollback();
-            throw new RuntimeException("No se encontró ninguna comunidad con el ID especificado: " + id);
+            throw new RuntimeException("No se encontró ninguna comunidad con el ID especificado: " + idUsuario);
         } finally {
             session.close();
         }
@@ -381,6 +369,46 @@ public class MainApi {
     }
 
     // añadirTipoUsuario
+
+    public ArrayList<TipoUsuario> obtenerTiposUsuario() {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("SELECT  id, nombre FROM tipoUsuario");
+            List<Object[]> rows = query.getResultList();
+            ArrayList<TipoUsuario> tiposUsuario = new ArrayList<>();
+            for (Object[] row : rows) {
+                TipoUsuario tipoUsuario = new TipoUsuario();
+                tipoUsuario.setId(Long.parseLong(row[0].toString()));
+                tipoUsuario.setNombre(row[1].toString());
+                tiposUsuario.add(tipoUsuario);
+            }
+            tx.commit();
+            return tiposUsuario;
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    public void insertarTipoUsuario(String nombre) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query  query = session.createSQLQuery("INSERT INTO tipoUsuario VALUES (:nombre)");
+            query.setParameter("nombre", nombre);
+            query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
     // eliminarTipoUsuario
     // ModificarTipoUsuairo (cambiarRol)
 }

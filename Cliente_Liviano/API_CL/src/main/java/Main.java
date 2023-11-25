@@ -1,7 +1,4 @@
-import Dominio.Comunidad;
-import Dominio.Entidad;
-import Dominio.Incidente;
-import Dominio.Usuario;
+import Dominio.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +65,10 @@ public class Main {
                     ctx.json(incidentes);
                 })
 
-                .get("/obtenerIncidenteCercano/{idComunidad}/localizacion/{local}", ctx -> {
-                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
-                    String localizacion = ctx.pathParam("local");
+                .get("/obtenerIncidenteCercano/{idUsuario}", ctx -> {
+                    long idUsuario = Integer.parseInt(ctx.pathParam("idUsuario"));
                     MainApi mainApi = new MainApi();
-                    Incidente incidenteCercano = mainApi.obtenerIncidenteCercano(idComunidad,  localizacion);
+                    RetornoIncidenteCercano incidenteCercano = mainApi.obtenerIncidenteCercano(idUsuario);
                     ctx.json(incidenteCercano);
                 })
 
@@ -99,14 +95,15 @@ public class Main {
                      String body = ctx.body();
                      MainApi.cerrarIncidente(ctx.pathParam("idIncidente"), body.idUsuarioCierre);
                  })
-                   .get("/añadirTipoUsuario", ctx -> {
-                       String body = ctx.body();
-                       System.out.println(body);
-                       MainApi mainApi = new MainApi();
-                       Usuario usuario = mainApi.añadirTipoUsuario();
-                       //añadir un usuario no deberia devolver el usuario, o solamente una confirmacion
-                       ctx.json(usuario);
-                   })
+                .post("/insertarTipoUsuario", ctx -> {
+                    String cuerpoSolicitud = ctx.body();
+                    //JSONObject json = new JSONObject(cuerpoSolicitud);
+                    //JSONPObject json = new JSONPObject(cuerpoSolicitud);
+                    //long id = json.
+                    String nombre = json.getString("nombre");
+                    MainApi mainApi = new MainApi();
+                    mainApi.insertarTipoUsuario(id, nombre);
+                })
                 .post("/almacenarIncidente", ctx -> {
                     String body = ctx.body();
                     System.out.println(body);

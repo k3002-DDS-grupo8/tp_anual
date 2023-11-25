@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.ArrayList;
 
-import static Dominio.comunidad.Rol.MIEMBRO;
 
 @Entity
 public class UsuarioPersona extends Usuario {
@@ -30,6 +29,6 @@ public class UsuarioPersona extends Usuario {
         //notificar pedido de revision
     }
     public void unirseAComunidad(Comunidad comunidad){
-        comunidad.agregarAComunidad(new MiembroComunidad(this, MIEMBRO, comunidad));
+        comunidad.agregarAComunidad(new MiembroComunidad(this, 1, comunidad));
     }
 }

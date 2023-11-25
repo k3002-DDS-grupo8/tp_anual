@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Dominio.comunidad.Rol.ADMINISTRADOR;
 
 @Entity
 public class Comunidad {
@@ -56,7 +55,7 @@ public class Comunidad {
     }
 
     public void asignarAdministrador(MiembroComunidad miembro){
-        miembro.cambiarRol(ADMINISTRADOR);
+        miembro.cambiarTipoUsuario(1);
     }
 
     public void agregarAComunidad(MiembroComunidad nuevoMiembro){

@@ -2,6 +2,7 @@ package Dominio.comunidad;
 import Dominio.incidente.EstadoIncidente;
 import Dominio.incidente.Incidente;
 import Dominio.notificacion.AdapterNotificacion;
+import Dominio.servicios.Servicio;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,14 +17,14 @@ public class Comunidad {
     long id;
     final String nombre;
     ArrayList<MiembroComunidad> miembros;
-    Servicios[] serviciosDeInteres;
+    Servicio[] serviciosDeInteres;
 
     @OneToMany
     List<Incidente> incidentes;
     private GradoConfianza gradoConfianza;
     private boolean activo;
 
-    public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, Servicios[] serviciosDeInteres) {
+    public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, Servicio[] serviciosDeInteres) {
         this.nombre = nombre;
         this.miembros = miembros;
         this.serviciosDeInteres = serviciosDeInteres;

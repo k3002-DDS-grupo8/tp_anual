@@ -1,5 +1,7 @@
 package Dominio;
 
+import Dominio.comunidad.GradoConfianza;
+
 import java.util.ArrayList;
 import java.util.List;
 

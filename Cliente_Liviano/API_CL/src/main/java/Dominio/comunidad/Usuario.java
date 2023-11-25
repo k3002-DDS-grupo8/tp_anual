@@ -17,7 +17,7 @@ public  class Usuario {
     private long id;
     final String nombre;
     final String email;
-    final String contrasenia;
+    String contrasenia;
     final String telefono;
 
     //servicio cambia a Servicios
@@ -80,7 +80,7 @@ public  class Usuario {
         this.comunidades = comunidades;
     }
 
-    public String setContrasenia(String contrasenia) {
+    public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
     

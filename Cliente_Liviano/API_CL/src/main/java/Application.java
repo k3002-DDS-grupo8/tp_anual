@@ -25,7 +25,7 @@ public class Application {
                 .get("/api/obtenerComunidades/{id}", ctx -> new GetComunidadIdHandler())
                
                 // este no se si es PostAlmacenarIncidenteHandler o PostIncidenteHandler
-                .post("/api/almacenarIncidente", ctx -> new PostIncidenteHandler())
+                .post("/api/almacenarIncidente", ctx -> new PostAlmacenarIncidenteHandler())
 
                 // estaba GetIncidentesComunidadHandler pero no estaba el get original sin el id
                 .get("/api/obtenerIncidentesComunidad/{idComunidad}", ctx -> new GetIncidenteIdComunidadHandler())

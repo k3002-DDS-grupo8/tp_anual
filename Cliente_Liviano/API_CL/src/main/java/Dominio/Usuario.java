@@ -81,16 +81,6 @@ public class Usuario {
         return activo;
     }
 
-    public Usuario() {
-        this.id = 0;
-        this.puntosConfianza = 5;
-       //this.gradoConfianza = GradoConfianza.CONFIABLE_NIVEL_2;
-        this.activo = false;
-        this.comunidades = null;
-        this.nombre = "mati";
-        this.email = "matikalo@yahoo.com";
-        this.contrasenia = "abruTeAmo";
-    }
 
     public Usuario(long id, float puntosConfianza, /*GradoConfianza gradoConfianza,*/ boolean activo, String nombre, String email, String contrasenia) {
         this.id = id;

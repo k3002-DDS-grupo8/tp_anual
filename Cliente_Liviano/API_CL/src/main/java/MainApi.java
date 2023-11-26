@@ -68,17 +68,18 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT * FROM usuario WHERE id = :id");
+            Query query = session.createSQLQuery("SELECT id, puntosConfianza, activo, nombre, email, contrasenia FROM usuario WHERE id = :id");
             query.setParameter("id", id);
             Object[] row = (Object[]) query.getSingleResult();
-            Usuario usuario = new Usuario();
-            usuario.setId(Long.parseLong(row[6].toString()));
-            usuario.setPuntosConfianza(Float.parseFloat(row[3].toString()));
-            //GradoConfianza gradoConfianzaEnum = GradoConfianza.valueOf(row[4].toString());
-            //usuario.setGradoConfianza(gradoConfianzaEnum);
-            usuario.setActivo(Boolean.parseBoolean(row[5].toString()));
-            usuario.setEmail(row[1].toString());
-            usuario.setNombre(row[0].toString());
+
+            Usuario usuario = new Usuario(
+                    Long.parseLong(row[0].toString()),
+                    Float.parseFloat(row[1].toString()),
+                    Boolean.parseBoolean(row[2].toString()),
+                    row[3].toString(),
+                    row[4].toString(),
+                    row[5].toString()
+            );
             tx.commit();
             return usuario;
         } catch (NoResultException e) {

@@ -39,11 +39,17 @@ public class Application {
             
                 .get("/api/obtenerUsuarios", ctx -> new GetUsuariosHandler())
             
-                .get("/api/obtenerUsuarios/{id}", ctx -> new GetUsuarioIdHandler())
+                .get("/api/obtenerUsuarios/{id}", ctx -> {
+                   long id = Integer.parseInt((ctx.pathParam("id"));
+                   GetUsuarioIdHandler usuarioID = new GetUsuarioIdHandler(id);
+                })
             
                 .get("/api/obtenerComunidades", ctx -> new GetComunidadesHandler())
 
-                .get("/api/obtenerComunidades/{id}", ctx -> new GetComunidadIdHandler())
+                .get("/api/obtenerComunidades/{id}", ctx -> {
+                    long id = Integer.parseInt((ctx.pathParam("id"));
+                    GetComunidadIdHandler comunidadId = new GetComunidadIdHandler(id);
+                    })
                
                 // este no se si es PostAlmacenarIncidenteHandler o PostIncidenteHandler
                 .post("/api/almacenarIncidente", ctx -> new PostAlmacenarIncidenteHandler())

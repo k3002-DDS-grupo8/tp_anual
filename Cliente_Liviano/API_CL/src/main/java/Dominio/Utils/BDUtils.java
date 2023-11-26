@@ -1,4 +1,4 @@
-package Utils;
+package Dominio.Utils;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

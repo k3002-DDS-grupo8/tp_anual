@@ -1,14 +1,16 @@
 package Dominio.comunidad;
 import Dominio.servicios.Servicio;
 import Dominio.localizacion.Localizacion;
+import Dominio.servicios.Servicios;
+import persistencia.RepoTipoUsuario;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.ArrayList;
-
-import static Dominio.comunidad.Rol.MIEMBRO;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class UsuarioPersona extends Usuario {
@@ -19,7 +21,7 @@ public class UsuarioPersona extends Usuario {
     final MedioComunicacion medioComunicacion;
     ArrayList<HorariosPosibles> horarioDeNotificaciones;
     ArrayList<EEO> eeoDeInteres;
-    public UsuarioPersona(String nombre, String email, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacion, String apellido, ArrayList<Comunidad> comunidades, MedioComunicacion medioComunicacion, ArrayList<HorariosPosibles> horarioDeNotificaciones, ArrayList<EEO> eeoDeInteres, String contrasenia) {
+    public UsuarioPersona(String nombre, String email, String telefono, ArrayList<Servicios> serviciosDeInteres, Localizacion localizacion, String apellido, ArrayList<Comunidad> comunidades, MedioComunicacion medioComunicacion, ArrayList<HorariosPosibles> horarioDeNotificaciones, ArrayList<EEO> eeoDeInteres, String contrasenia) {
         super(nombre, email, contrasenia, telefono, serviciosDeInteres, localizacion, comunidades);
         this.apellido = apellido;
         this.medioComunicacion = medioComunicacion;
@@ -30,6 +32,9 @@ public class UsuarioPersona extends Usuario {
         //notificar pedido de revision
     }
     public void unirseAComunidad(Comunidad comunidad){
-        comunidad.agregarAComunidad(new MiembroComunidad(this, MIEMBRO, comunidad));
+        RepoTipoUsuario repoTipos = new RepoTipoUsuario();
+        List<TipoUsuario> tipos = repoTipos.obtenerTodos();
+        Optional<TipoUsuario> miembro = tipos.stream().filter(t -> t.getNombre() == "Miembro" ).findFirst();
+        comunidad.agregarAComunidad(new MiembroComunidad(this, miembro, comunidad));
     }
 }

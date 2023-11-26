@@ -1,39 +1,33 @@
 package persistencia;
 
-import Dominio.Comunidad;
+import Dominio.comunidad.TipoUsuario;
 import Dominio.Usuario;
 import Dominio.Utils.BDUtils;
-import Dominio.comunidad.GradoConfianza;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-public class RepoComunidad {
-
-    public List<Comunidad> obtenerTodos(){
+public class RepoTipoUsuario {
+    public List<TipoUsuario> obtenerTodos(){
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT c.nombre FROM Comunidad c");
+            Query query = session.createSQLQuery("SELECT t.id, t.nombre FROM TipoUsuario t");
             List<Object[]> rows = query.getResultList();
-            ArrayList<Comunidad> comunidades = new ArrayList<>();
-
+            ArrayList<TipoUsuario> tiposUsuarios = new ArrayList<>();
             for (Object[] row : rows) {
-                Comunidad comunidad = new Comunidad(
+                TipoUsuario tipoUsuario = new TipoUsuario(
                         Long.parseLong(row[0].toString()),
-                        (List<Long>) row[1],
-                        (GradoConfianza) row[2],
-                        (Boolean) row[3]
+                        row[1].toString()
                 );
-                comunidades.add(comunidad);
+                tiposUsuarios.add(tipoUsuario);
             }
             tx.commit();
-            return comunidades;
+            return tiposUsuarios;
         } catch (Exception e) {
             tx.rollback();
             throw e;
@@ -42,5 +36,3 @@ public class RepoComunidad {
         }
     }
 }
-
-  //  long id, ArrayList<Long> usuariosIDs, GradoConfianza gradoConfianza, boolean activo

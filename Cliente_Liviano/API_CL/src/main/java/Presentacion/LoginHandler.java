@@ -6,12 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class LoginHandler implements Handler {
 
-    private final Repos repoDueños;
-
-    public LoginHandler() {
-        this.repoDueños = new RepositorioDueños();
-    }
-    @Override
+   @Override
     public void handle(@NotNull Context context) throws Exception {
 
     }

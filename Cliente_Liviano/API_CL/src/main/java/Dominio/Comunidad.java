@@ -8,7 +8,7 @@ import java.util.List;
 public class Comunidad {
     private long id;
     private GradoConfianza gradoConfianza;
-    private ArrayList<Long> usuariosIDs;
+    private List<Long> usuariosIDs;
     private boolean activo;
 
     public String getNombre() {
@@ -45,13 +45,9 @@ public class Comunidad {
         this.activo = activo;
     }
 
-    public Comunidad() {
-        this.id = 0;
-        this.gradoConfianza = GradoConfianza.NO_CONFIABLE;
-        this.activo = false;
-    }
+    public Comunidad() {}
 
-    public Comunidad(long id, ArrayList<Long> usuariosIDs, GradoConfianza gradoConfianza, boolean activo) {
+    public Comunidad(long id, List<Long> usuariosIDs, GradoConfianza gradoConfianza, boolean activo) {
         this.id = id;
         this.gradoConfianza = gradoConfianza;
         this.activo = activo;

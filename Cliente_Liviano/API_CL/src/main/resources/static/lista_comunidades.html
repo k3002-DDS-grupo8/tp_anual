@@ -67,47 +67,23 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var notificacionesDropdown = document.getElementById('notificacionesDropdown')
-      var notificacionesMenu = document.getElementById('notificacionesMenu')
-      var toggleMenu = document.getElementById('toggleMenu')
-      var mobileMenu = document.getElementById('mobileMenu')
+        var app = new Vue({
+        el: "#appVue",
+        data: {
+            comunidades: [],
+        },
+        methods: { //son sólo definiciones de funciones, que no se ejecutan por si solas
+            printAll: function (){
 
-      notificacionesDropdown.addEventListener('click', function () {
-        notificacionesMenu.classList.toggle('hidden')
-      })
-
-      toggleMenu.addEventListener('click', function () {
-        mobileMenu.classList.toggle('hidden')
-      })
-
-      var comunidades = [
-        { nombre: 'Comunidad 1', id: 1 },
-        { nombre: 'Comunidad 2', id: 2 },
-        { nombre: 'Comunidad 3', id: 3 }
-      ]
-
-      var comunidadesList = document.getElementById('comunidadesList')
-
-      comunidades.forEach(function (comunidad) {
-        var nuevaComunidad = document.createElement('li')
-        nuevaComunidad.classList.add('flex', 'items-center', 'flex-wrap', 'justify-between', 'mb-4', 'border', 'border-gray-300', 'p-4')
-        nuevaComunidad.innerHTML = `
-                    <h3 class="text-xl font-bold mr-4">${comunidad.nombre}</h3>
-                    <div class="py-4 flex flex-wrap gap-4">
-                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-                          <i class="fas fa-eye"></i> Comunidad
-                      </button>
-                      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-                          <i class="fas fa-users"></i> Usuarios
-                      </button>
-                      <a href="incidentes_comunidad.html?comunidad_id=${comunidad.id}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-                        <i class="fas fa-exclamation-triangle"></i> Incidentes
-                      </a>
-                    </div>
-                `
-        comunidadesList.appendChild(nuevaComunidad)
-      })
+            }
+        },
+        created() { //se ejecuta al inicio de la instancia Vue
+            fetch('http://localhost:8080/api/obtenerComunidades')
+                .then(response => response.json())
+                .then(data => {
+                    this.comunidades = data
+                })
+        }
     })
   </script>
 

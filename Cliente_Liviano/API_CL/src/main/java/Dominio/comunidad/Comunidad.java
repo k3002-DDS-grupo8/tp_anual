@@ -1,35 +1,47 @@
 package Dominio.comunidad;
+import Dominio.comunidad.TipoUsuario;
 import Dominio.incidente.EstadoIncidente;
 import Dominio.incidente.Incidente;
 import Dominio.notificacion.AdapterNotificacion;
 import Dominio.servicios.Servicio;
+import Dominio.comunidad.GradoConfianza;
+import persistencia.RepoTipoUsuario;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static Dominio.comunidad.Rol.ADMINISTRADOR;
 
 @Entity
 public class Comunidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    final String nombre;
+    String nombre;
     ArrayList<MiembroComunidad> miembros;
     Servicio[] serviciosDeInteres;
 
     @OneToMany
     List<Incidente> incidentes;
+
     private GradoConfianza gradoConfianza;
     private boolean activo;
 
-    public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, Servicio[] serviciosDeInteres) {
+    public Comunidad() {}
+
+    public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, Servicio[] serviciosDeInteres, List<Incidente> incidentes, GradoConfianza gradoConfianza, boolean activo) {
         this.nombre = nombre;
         this.miembros = miembros;
         this.serviciosDeInteres = serviciosDeInteres;
+        this.incidentes = incidentes;
+        this.gradoConfianza = gradoConfianza;
+        this.activo = activo;
     }
 
+    public long getId() {
+        return id;
+    }
 
     public List<Incidente> getIncidentes() {
         return incidentes;
@@ -57,7 +69,10 @@ public class Comunidad {
     }
 
     public void asignarAdministrador(MiembroComunidad miembro){
-        miembro.cambiarRol(ADMINISTRADOR);
+        RepoTipoUsuario repoTipos = new RepoTipoUsuario();
+        List<TipoUsuario> tipos = repoTipos.obtenerTodos();
+        Optional<TipoUsuario> administrador = tipos.stream().filter(t -> t.getNombre() == "Administrador" ).findFirst();
+        miembro.cambiarTipoUsuario(administrador);
     }
 
     public void agregarAComunidad(MiembroComunidad nuevoMiembro){

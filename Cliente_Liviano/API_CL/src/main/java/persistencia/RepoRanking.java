@@ -1,2 +1,5 @@
-package persistencia;public class RepoRanking {
+package persistencia;
+
+public class RepoRanking {
+    public void obtenerTodos() {}
 }

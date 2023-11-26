@@ -1,9 +1,11 @@
 package Dominio.comunidad;
 import Dominio.localizacion.Localizacion;
 import Dominio.servicios.Servicio;
+import Dominio.servicios.Servicios;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.SimpleTimeZone;
 
 @Entity
 public class EEO extends Usuario {
@@ -13,7 +15,9 @@ public class EEO extends Usuario {
     @OneToOne
     final Responsable responsable;
 
-    public EEO(String nombre, String email, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacion, Responsable responsable, ArrayList<Comunidad> comunidades, String contrasenia) {
+    final String descripcion;
+
+    public EEO(String nombre, String email, String telefono, ArrayList<Servicios> serviciosDeInteres, Localizacion localizacion, Responsable responsable, String descripcion, ArrayList<Comunidad> comunidades, String contrasenia) {
         super(nombre,
                 email,
                 contrasenia,
@@ -22,6 +26,7 @@ public class EEO extends Usuario {
                 localizacion,
                 comunidades);
         this.responsable = responsable;
+        this.descripcion = descripcion;
     }
     public void consultarRankings(){
         // este metodo debe pedir a donde se almacenan los rankings que los muestre

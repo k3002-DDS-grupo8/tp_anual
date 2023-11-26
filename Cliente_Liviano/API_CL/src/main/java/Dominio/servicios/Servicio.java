@@ -15,10 +15,14 @@ public class Servicio implements Servicios{
     public Establecimiento establecimiento;
     public ArrayList<Incidente> incidentes;
 
+
     public Servicio(String nombre, Establecimiento establecimiento, ArrayList<Incidente> incidentes) {
         this.nombre = nombre;
         this.establecimiento = establecimiento;
         this.incidentes = incidentes;
+    }
+    public long getId()  {
+        return idServicio;
     }
 
     public boolean prestadoHabitualmente() {

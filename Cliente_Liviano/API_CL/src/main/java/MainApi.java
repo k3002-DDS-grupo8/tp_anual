@@ -1,4 +1,3 @@
-import Utils.BDUtils;
 import Dominio.*;
 
 import java.time.LocalDateTime;
@@ -7,7 +6,7 @@ import java.util.ArrayList;
 import org.hibernate.*;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-
+/*
 public class MainApi {
 
     public ArrayList<Usuario> obtenerUsuarios() {
@@ -413,3 +412,4 @@ public class MainApi {
     // eliminarTipoUsuario
     // ModificarTipoUsuairo (cambiarRol)
 }
+*/

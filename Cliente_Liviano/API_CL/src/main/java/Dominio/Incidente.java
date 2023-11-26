@@ -83,14 +83,14 @@ public class Incidente {
         this.idUsuarioCierre = idUsuarioCierre;
     }
 
-    public Incidente(/*long idComunidad, long idServicio, long idUsuarioApertura*/) {
-        this.idComunidad = 1;//idComunidad;
-        this.idServicio = 1;//idServicio;
+    public Incidente(long idComunidad, long idServicio, long idUsuarioApertura) {
+        this.idComunidad = idComunidad;
+        this.idServicio = idServicio;
         this.observaciones = "";
         this.estado = EstadoIncidente.ABIERTO;
         this.horarioDeApertura = LocalDateTime.now();
         this.horarioDeCierre = null;
-        this.idUsuarioApertura = 1;//idUsuarioApertura;
+        this.idUsuarioApertura = idUsuarioApertura;
         this.idUsuarioCierre = 0;
     }
 }

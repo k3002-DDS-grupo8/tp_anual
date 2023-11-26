@@ -5,24 +5,33 @@ import Dominio.incidente.Incidente;
 import Dominio.notificacion.AdapterNotificacion;
 import Dominio.servicios.Servicio;
 import Dominio.localizacion.Localizacion;
+import Dominio.comunidad.TipoUsuario;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import Dominio.servicios.Servicios;
+import kotlin.text.UStringsKt;
+
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public  class Usuario {
+public class Usuario {
     @Id
-    private long id;
-    final String nombre;
-    final String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
+    private String nombre;
+    private String email;
     String contrasenia;
-    final String telefono;
+    private String telefono;
+    private float puntosConfianza;
+    private GradoConfianza gradoConfianza;
+    private boolean activo;
 
     //servicio cambia a Servicios
     @ManyToMany
-    final List<Servicio> serviciosDeInteres;
+    private List<Servicios> serviciosDeInteres;
     @Transient
     Localizacion localizacionDeInteres;
     @Transient
@@ -31,9 +40,7 @@ public  class Usuario {
     List<EntidadPrestadora> entidadesPrestadorasFav;
     @ManyToMany
     List<Comunidad> comunidades;
-    private float puntosConfianza;
-    private GradoConfianza gradoConfianza;
-    private boolean activo;
+
 
     public String getNombre() {
         return nombre;
@@ -42,18 +49,26 @@ public  class Usuario {
     public String getEmail() {
         return email;
     }
+
+    public long getId() {
+        return id;
+    }
     
     public String getContrasenia() {
         return contrasenia;
     }
     
     public String getTelefono() {return telefono;}
-    public List<Servicio> getServiciosDeInteres() {
+    public List<Servicios> getServiciosDeInteres() {
         return serviciosDeInteres;
     }
 
     public Localizacion getLocalizacionDeInteres() {
         return localizacionDeInteres;
+    }
+
+    public void setGradoConfianza(GradoConfianza gradoConfianza) {
+        this.gradoConfianza = gradoConfianza;
     }
 
     public void setLocalizacionDeInteres(Localizacion localizacionDeInteres) {
@@ -84,7 +99,7 @@ public  class Usuario {
         this.contrasenia = contrasenia;
     }
     
-    public Usuario(String nombre, String email, String contrasenia, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacionActual, ArrayList<Comunidad> comunidades) {
+    public Usuario(String nombre, String email, String contrasenia, String telefono, ArrayList<Servicios> serviciosDeInteres, Localizacion localizacionActual, ArrayList<Comunidad> comunidades) {
         this.nombre = nombre;
         this.email = email;
         this.contrasenia = contrasenia;
@@ -94,10 +109,10 @@ public  class Usuario {
         this.comunidades = comunidades;
     }
 
-    public void agregarNuevoIncidente(Servicio servicioAfectado, String observaciones) {
+    public void agregarNuevoIncidente(Comunidad comunidad, Servicio servicioAfectado, Usuario usuarioOpen, String observaciones) {
         // Por cada una de las comunidades a las que pertenece el Usuario, creo un incidente.
-        comunidades.forEach((comunidad -> {
-            Incidente incidenteReportado = new Incidente(comunidad, observaciones);
+        comunidades.forEach((comu -> {
+            Incidente incidenteReportado = new Incidente(comunidad.getId(), servicioAfectado.getId(), usuarioOpen, observaciones);
             comunidad.notificarIncidente(incidenteReportado);
         }));
     }
@@ -118,3 +133,7 @@ public  class Usuario {
     public Localizacion getLocalizacionActual() { return localizacionActual; }
 
 }
+
+
+
+

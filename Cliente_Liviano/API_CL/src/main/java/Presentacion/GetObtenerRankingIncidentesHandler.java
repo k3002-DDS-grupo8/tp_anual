@@ -13,7 +13,7 @@ public class GetObtenerRankingIncidentesHandler implements Handler {
     }
     @Override
     public void handle(@NotNull Context context) throws Exception {
-        // context.json(repoRanking.obtenerTodos());
+        context.json(repoRanking.obtenerTodos());
     }
 }
 

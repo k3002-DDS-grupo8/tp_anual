@@ -1,4 +1,5 @@
 import Dominio.Entidad;
+import Dominio.EstadoIncidente;
 import Dominio.Incidente;
 
 import java.util.ArrayList;
@@ -12,12 +13,6 @@ public class Main {
     public static void main(String[] args) {
         //JAVALIN API
         var app = Javalin.create()
-                .get("/obtenerIncidentesComunidad/{idComunidad}", ctx -> {
-                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
-                    MainApi mainApi = new MainApi();
-                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidad(idComunidad);
-                    ctx.json(incidentes);
-                }) // TODO: No lo usamos todavía.
 
                 .get("/obtenerEntidades", ctx -> {
                     MainApi mainApi = new MainApi();
@@ -38,16 +33,35 @@ public class Main {
                     mainApi.insertarEntidad(entidad);
                 })
 
-                .post("/eliminarEntidad", ctx -> {
-                    // Acá va la lógica (NO ES REQUERIMIENTO).
+                .get("/obtenerIncidentesComunidad/{idComunidad}", ctx -> {
+                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
+                    MainApi mainApi = new MainApi();
+                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidad(idComunidad);
+                    ctx.json(incidentes);
+                }) // TODO: No lo usamos todavía.
+
+                .post("/abrirIncidente/", ctx -> {
+                    String cuerpoSolicitud = ctx.body();
+                    JSONObject json = new JSONObject(cuerpoSolicitud);
+                    Incidente incidente = new Incidente(
+                            json.getLong("id"),
+                            json.getLong("comunidadId"),
+                            json.getLong("servicioIncidente"),
+                            json.getString("detalleIncidente"),
+                            json.getString("estado"),
+                            json.getLong("usuario1Id")
+                    );
+                    MainApi mainApi = new MainApi();
+                    mainApi.abrirIncidente(incidente);
                 })
 
-                .post("/aperturaIncidente/", ctx -> {
-                    // Acá va la lógica. (FEDE)
-                })
-
-                .post("/cierreIncidente/{idIncidente}", ctx -> {
-                    // Acá va la lógica. (FEDE)
+                .post("/cierreIncidente", ctx -> {
+                    String cuerpoSolicitud = ctx.body();
+                    JSONObject json = new JSONObject(cuerpoSolicitud);
+                    long id = json.getLong("id");
+                    long usuarioCierre = json.getLong("usuario2Id");
+                    MainApi mainApi = new MainApi();
+                    mainApi.cerrarIncidente(id, usuarioCierre);
                 })
 
                 .get("/obtenerTiposUsuario", ctx -> {

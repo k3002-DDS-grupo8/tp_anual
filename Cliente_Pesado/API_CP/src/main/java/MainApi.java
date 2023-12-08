@@ -9,33 +9,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 public class MainApi {
-    public ArrayList<Incidente> obtenerIncidentesComunidad(long idComunidad) {
-        Session session = BDUtils.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            Query query = session.createSQLQuery("SELECT comunidad, servicio, horarioDeApertura, horarioDeCierre, id FROM incidente WHERE comunidad = :idComunidad");
-            query.setParameter("idComunidad", idComunidad);
-            List<Object[]> rows = query.getResultList();
-            ArrayList<Incidente> incidentes = new ArrayList<>();
-            for (Object[] row : rows) {
-                Incidente incidente = new Incidente();
-                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
-                incidente.setIdServicio(Long.parseLong(row[1].toString()));
-                incidente.setHorarioDeApertura(LocalDateTime.parse(row[2].toString()));
-                incidente.setHorarioDeCierre(LocalDateTime.parse(row[3].toString()));
-                incidente.setId(Long.parseLong(row[4].toString()));
-                incidentes.add(incidente);
-            }
-            tx.commit();
-            return incidentes;
-        } catch (Exception e) {
-            tx.rollback();
-            throw e;
-        } finally {
-            session.close();
-        }
-    }
-
     public ArrayList<Entidad> obtenerEntidades() {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
@@ -70,6 +43,71 @@ public class MainApi {
             query.setParameter("nombre", entidad.getNombre());
             query.setParameter("descripcion", entidad.getDescripcion());
             query.setParameter("email", entidad.getEmail());
+            query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    public ArrayList<Incidente> obtenerIncidentesComunidad(long idComunidad) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("SELECT comunidad, servicio, estado, id FROM incidente WHERE comunidad = :idComunidad");
+            query.setParameter("idComunidad", idComunidad);
+            List<Object[]> rows = query.getResultList();
+            ArrayList<Incidente> incidentes = new ArrayList<>();
+            for (Object[] row : rows) {
+                Incidente incidente = new Incidente();
+                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
+                incidente.setIdServicio(Long.parseLong(row[1].toString()));
+                incidente.setEstado(EstadoIncidente.valueOf(row[2].toString()));
+                incidente.setId(Long.parseLong(row[3].toString()));
+                incidentes.add(incidente);
+            }
+            tx.commit();
+            return incidentes;
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    public void abrirIncidente(Incidente incidente) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query  query = session.createSQLQuery("INSERT INTO incidente VALUES (:id,:comunidad,:servicio,:detalle,:estado,:usuarioApertura)");
+            query.setParameter("id", incidente.getId());
+            query.setParameter("comunidad", incidente.getIdComunidad());
+            query.setParameter("servicio", incidente.getIdServicio());
+            query.setParameter("detalle", incidente.getObservaciones());
+            query.setParameter("estado", incidente.getEstado());
+            query.setParameter("usuarioApertura", incidente.getIdUsuarioApertura());
+            query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    public void cerrarIncidente(Long id, Long usuarioCierre) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("UPDATE incidente SET estado = :nuevoEstado, idUsuarioCierre = :usuarioCierre WHERE id = :id");
+            query.setParameter("id", id);
+            query.setParameter("nuevoEstado", EstadoIncidente.CERRADO);
+            query.setParameter("idUsuarioCierre", usuarioCierre);
             query.executeUpdate();
             tx.commit();
         } catch (Exception e) {

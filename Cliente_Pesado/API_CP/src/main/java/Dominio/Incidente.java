@@ -12,14 +12,27 @@ public class Incidente {
     private long idUsuarioApertura;
     private long idUsuarioCierre;
 
-    public Incidente(/*long idComunidad, long idServicio, long idUsuarioApertura*/) {
-        this.idComunidad = 1;//idComunidad;
-        this.idServicio = 1;//idServicio;
+    public Incidente() {
+        this.id = 1;
+        this.idComunidad = 1;
+        this.idServicio = 1;
         this.observaciones = "";
         this.estado = EstadoIncidente.ABIERTO;
         this.horarioDeApertura = LocalDateTime.now();
         this.horarioDeCierre = null;
-        this.idUsuarioApertura = 1;//idUsuarioApertura;
+        this.idUsuarioApertura = 1;
+        this.idUsuarioCierre = 0;
+    }
+
+    public Incidente(long id, long idComunidad, long idServicio, String observaciones, String estado, long idUsuarioCierre) {
+        this.id = id;
+        this.idComunidad = idComunidad;
+        this.idServicio = idServicio;
+        this.observaciones = observaciones;
+        this.estado = EstadoIncidente.valueOf(estado);
+        this.horarioDeApertura = LocalDateTime.now();
+        this.horarioDeCierre = null;
+        this.idUsuarioApertura = idUsuarioCierre;
         this.idUsuarioCierre = 0;
     }
 
@@ -57,5 +70,41 @@ public class Incidente {
 
     public void setIdUsuarioCierre(long idUsuarioCierre) {
         this.idUsuarioCierre = idUsuarioCierre;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getIdComunidad() {
+        return idComunidad;
+    }
+
+    public long getIdServicio() {
+        return idServicio;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public EstadoIncidente getEstado() {
+        return estado;
+    }
+
+    public LocalDateTime getHorarioDeApertura() {
+        return horarioDeApertura;
+    }
+
+    public LocalDateTime getHorarioDeCierre() {
+        return horarioDeCierre;
+    }
+
+    public long getIdUsuarioApertura() {
+        return idUsuarioApertura;
+    }
+
+    public long getIdUsuarioCierre() {
+        return idUsuarioCierre;
     }
 }

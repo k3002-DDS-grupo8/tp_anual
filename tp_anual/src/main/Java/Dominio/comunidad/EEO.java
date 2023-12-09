@@ -13,9 +13,10 @@ public class EEO extends Usuario {
     @OneToOne
     final Responsable responsable;
 
-    public EEO(String nombre, String email, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacion, Responsable responsable, ArrayList<Comunidad> comunidades) {
+    public EEO(String nombre, String email,String contrasenia, String telefono, ArrayList<Servicio> serviciosDeInteres, Localizacion localizacion, Responsable responsable, ArrayList<Comunidad> comunidades) {
         super(nombre,
                 email,
+                contrasenia,
                 telefono,
                 serviciosDeInteres,
                 localizacion,

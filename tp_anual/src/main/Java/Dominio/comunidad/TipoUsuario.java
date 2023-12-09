@@ -9,16 +9,16 @@ import javax.persistence.Id;
 public class TipoUsuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_TipoUsuario;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String nombre;
 
     public long getId_TipoUsuario() {
-        return id_TipoUsuario;
+        return id ;
     }
 
     public void setId_TipoUsuario(long id_TipoUsuario) {
-        this.id_TipoUsuario = id_TipoUsuario;
+        this.id = id_TipoUsuario;
     }
 
     public String getNombre() {
@@ -30,7 +30,7 @@ public class TipoUsuario {
     }
 
     public TipoUsuario(long id_TipoUsuario, String nombre) {
-        this.id_TipoUsuario = id_TipoUsuario;
+        this.id = id_TipoUsuario;
         this.nombre = nombre;
     }
     public TipoUsuario() {

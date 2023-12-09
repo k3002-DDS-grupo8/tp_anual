@@ -10,8 +10,8 @@ public class Organizacion extends EntidadPrestadora {
     @Enumerated
     final TipoOrganizacion tipo;
 
-    public Organizacion(String nombre, ArrayList<Establecimiento> listaEstablecimientos, EEO usuarioEEO , ArrayList<Localizacion> localizacion, TipoOrganizacion tipo) {
-        super(nombre, listaEstablecimientos, localizacion, usuarioEEO);
+    public Organizacion(String nombre, ArrayList<Establecimiento> listaEstablecimientos, EEO usuarioEEO , ArrayList<Localizacion> localizacion, TipoOrganizacion tipo, String email, String descripcion) {
+        super(nombre, listaEstablecimientos, localizacion, usuarioEEO, email, descripcion);
         this.tipo = tipo;
     }
 }

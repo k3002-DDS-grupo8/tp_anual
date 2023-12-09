@@ -19,7 +19,10 @@ public class Establecimiento {
     public final Localizacion ubicacionGeografica;
 
     // tanto grupoServicios como servicios deberian ser un unico atributo, una lista de tipo interfaz Servicios
+    @Transient
     final List<GrupoServicios> grupoServicios;
+
+    @Transient
     public final List<Servicio> servicios;
 
     @OneToOne

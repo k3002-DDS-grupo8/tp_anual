@@ -14,8 +14,8 @@ public class Linea extends EntidadPrestadora {
     @OneToOne
     final Establecimiento estacionDestino;
 
-    public Linea(String nombre, ArrayList<Establecimiento> listaEstablecimientos, ArrayList<Localizacion> localizacion, EEO usuarioEEO, TipoMedio tipo, Establecimiento estacionOrigen, Establecimiento estacionDestino) {
-        super(nombre, listaEstablecimientos, localizacion, usuarioEEO);
+    public Linea(String nombre, ArrayList<Establecimiento> listaEstablecimientos, ArrayList<Localizacion> localizacion, EEO usuarioEEO, TipoMedio tipo, Establecimiento estacionOrigen, Establecimiento estacionDestino,String email, String descripcion ) {
+        super(nombre, listaEstablecimientos, localizacion, usuarioEEO, email, descripcion);
         this.tipo = tipo;
         this.estacionOrigen = estacionOrigen;
         this.estacionDestino = estacionDestino;

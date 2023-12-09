@@ -12,24 +12,24 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public  class Usuario {
+public class Usuario {
     @Id
     private long id;
     final String nombre;
     final String email;
-    final String contrasenia;
+    private String contrasenia;
     final String telefono;
 
     //servicio cambia a Servicios
-    @ManyToMany
+    @ManyToMany //esto en db deberia llamarse serviciosDeInteres
     final List<Servicio> serviciosDeInteres;
     @Transient
     Localizacion localizacionDeInteres;
     @Transient
     Localizacion localizacionActual;
-    @OneToMany
+    @OneToMany //esto en db deberia llamarse entidadesPrestadorasFav
     List<EntidadPrestadora> entidadesPrestadorasFav;
-    @ManyToMany
+    @Transient
     List<Comunidad> comunidades;
     private float puntosConfianza;
     private GradoConfianza gradoConfianza;
@@ -80,7 +80,7 @@ public  class Usuario {
         this.comunidades = comunidades;
     }
 
-    public String setContrasenia(String contrasenia) {
+    public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
     

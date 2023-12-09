@@ -1,13 +1,14 @@
 package Dominio;
 
 public class Entidad {
-
-    public Entidad(/*long id, String nombre, String email, String descripcion*/) {
+/*
+    public Entidad(/*long id, String nombre, String email, String descripcion) {
         this.id = 1;
         this.nombre = "hola";
         this.email = "hola@.com";
         this.descripcion = "hola + hola";
     }
+*/
     public Entidad(long id, String nombre, String email, String descripcion) {
         this.id = id;
         this.nombre = nombre;

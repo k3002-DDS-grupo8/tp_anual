@@ -8,7 +8,7 @@ import Presentacion.GetIncidenteIdComunidadCerradoHandler;
 import Presentacion.GetEntidadesHandler;
 import Presentacion.PostCierreIdIncidenteHandler;
 import Presentacion.PostInsertarTipoUsuarioHandler;
-import Presentacion.PostAlmacenarIncidenteHandler;
+import Presentacion.PostAperturaIncidenteHandler;
 import Presentacion.PostEliminarTipoUsuarioHandler;
 import Presentacion.GetObtenerRankingIncidentesHandler;
 
@@ -34,16 +34,15 @@ public class Application {
                     GetComunidadIdHandler comunidadId = new GetComunidadIdHandler();
                     })
                 // este no se si es PostAlmacenarIncidenteHandler o PostIncidenteHandler
-                .post("/api/almacenarIncidente", ctx -> new PostAlmacenarIncidenteHandler())
+                .post("/api/aperturaIncidente", ctx -> new PostAperturaIncidenteHandler())
 
                 // estaba GetIncidentesComunidadHandler pero no estaba el get original sin el id
                 .get("/api/obtenerIncidentesComunidad/{idComunidad}", ctx -> new GetIncidenteIdComunidadHandler())
-                
+
                 .get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> new GetIncidenteIdComunidadAbiertoHandler())
                 
                 .get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> new GetIncidenteIdComunidadCerradoHandler())
 
-                
                 .get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler())
             
                 //.post("/api/cargaMasivaDeEntidades", ctx -> new PostCargaMasivaEntidadesHandler())
@@ -51,7 +50,7 @@ public class Application {
                 //.post("/api/aperturaIncidente/", ctx -> new PostAperturaIncidenteHandler())
                       
                 .post("/api/cierreIncidente/", ctx -> new PostCierreIdIncidenteHandler())
-                 
+
                 .post("/api/insertarTipoUsuario", ctx -> new PostInsertarTipoUsuarioHandler())
                       
                 .get("/api/eliminarTipoUsuario", ctx -> new PostEliminarTipoUsuarioHandler())

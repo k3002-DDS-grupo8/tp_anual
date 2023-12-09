@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class RepoIncidente {
 
     public List<Incidente> obtenerTodos(){
@@ -36,6 +37,22 @@ public class RepoIncidente {
             session.close();
         }
     }
+    public static boolean abrirIncidente(long idComunidad, long idServicio, long idUsuarioApertura) {
+        try {
+            Session session = BDUtils.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            org.hibernate.query.Query sqlQuery = session.createSQLQuery(String.format("INSERT INTO incidente VALUES SET idComunidad = '%s', idServicio = %s, idUsuarioApertura = %s)",
+                    idComunidad,
+                    idServicio,
+                    idUsuarioApertura
+            ));
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static boolean cerrarIncidente(long idIncidente, long idUsuarioCierre) {
         try {
             Session session = BDUtils.getSessionFactory().openSession();

@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Dominio.Incidente;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
@@ -15,13 +16,10 @@ public class PostCierreIdIncidenteHandler implements Handler {
     }
  @Override
     public void handle(@NotNull Context context) throws Exception {
+        Incidente incidente = context.bodyAsClass(Incidente.class);
 
-
-        // dsp se cambia
-        long idIncidente = 0;
-        long idUsuarioCierre = 0;
-
-        //falta incializarlos =>  context.body() o algo
+        long idIncidente = incidente.getId();
+        long idUsuarioCierre = incidente.getIdUsuarioCierre();
 
      if(repoIncidente.cerrarIncidente(idIncidente, idUsuarioCierre))
      {

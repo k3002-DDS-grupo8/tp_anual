@@ -1,13 +1,21 @@
 package Dominio.ranking;
 
-import Dominio.entidad.EntidadPrestadora;
-import Dominio.entidad.RepositorioEntidadesPrestadoras;
-import Dominio.incidente.TipoRanking;
+import Dominio.Entidad;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+public class Informe {
+    private InformePK primaryKey;
+    private Entidad entidad;
 
-public class RepositorioRankings {
+    public Informe(InformePK primaryKey, Entidad entidad) {
+        this.primaryKey = primaryKey;
+        this.entidad = entidad;
+    }
+
+    public long getRankingId(){
+        return primaryKey.getRankingId();
+    }
+
+    /*
     public RepositorioEntidadesPrestadoras entidades;
     public TipoInforme informeSemanal;
 
@@ -18,4 +26,6 @@ public class RepositorioRankings {
         // ArrayList<TipoRanking> segunGradoDeImpacto = (new SegunGradoDeImpacto()).calcular(entidadesPrestadoras);
         // informeSemanal = new TipoInforme(segunCantIncidentes, segunTiempoDeCierre, segunGradoDeImpacto);
     }
+
+     */
 }

@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,21 @@ public class RepoIncidente {
             throw e;
         } finally {
             session.close();
+        }
+    }
+    public static boolean cerrarIncidente(long idIncidente, long idUsuarioCierre) {
+        try {
+            Session session = BDUtils.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            org.hibernate.query.Query sqlQuery = session.createSQLQuery(String.format("UPDATE incidente SET horarioDeCierre = '%s', idUsuarioCierre = '%s' WHERE id = '%s'",
+                    LocalDateTime.now(),
+                    idUsuarioCierre,
+                    idIncidente
+            ));
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

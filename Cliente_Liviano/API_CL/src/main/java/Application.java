@@ -1,4 +1,3 @@
-import Presentacion.LoginHandler;
 import Presentacion.GetUsuariosHandler;
 import Presentacion.GetUsuarioIdHandler;
 import Presentacion.GetComunidadesHandler;
@@ -7,8 +6,6 @@ import Presentacion.GetIncidenteIdComunidadHandler;
 import Presentacion.GetIncidenteIdComunidadAbiertoHandler;
 import Presentacion.GetIncidenteIdComunidadCerradoHandler;
 import Presentacion.GetEntidadesHandler;
-import Presentacion.PostCargaMasivaEntidadesHandler;
-import Presentacion.PostAperturaIncidenteHandler;
 import Presentacion.PostCierreIdIncidenteHandler;
 import Presentacion.PostInsertarTipoUsuarioHandler;
 import Presentacion.PostAlmacenarIncidenteHandler;
@@ -24,7 +21,7 @@ public class Application {
     
         //JAVALIN API
         var app = Javalin.create()
-                .get("/api/login/", ctx -> new LoginHandler())
+                //.get("/api/login/", ctx -> new LoginHandler())
             
                 .get("/api/obtenerUsuarios", ctx -> new GetUsuariosHandler())
             
@@ -49,12 +46,12 @@ public class Application {
                 
                 .get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler())
             
-                .post("/api/cargaMasivaDeEntidades", ctx -> new PostCargaMasivaEntidadesHandler())
+                //.post("/api/cargaMasivaDeEntidades", ctx -> new PostCargaMasivaEntidadesHandler())
 
-                .post("/api/aperturaIncidente/", ctx -> new PostAperturaIncidenteHandler())
+                //.post("/api/aperturaIncidente/", ctx -> new PostAperturaIncidenteHandler())
                       
-                .post("/api/cierreIncidente/{idIncidente}", ctx -> new PostCierreIdIncidenteHandler())
-                      
+                .post("/api/cierreIncidente/", ctx -> new PostCierreIdIncidenteHandler())
+                 
                 .post("/api/insertarTipoUsuario", ctx -> new PostInsertarTipoUsuarioHandler())
                       
                 .get("/api/eliminarTipoUsuario", ctx -> new PostEliminarTipoUsuarioHandler())

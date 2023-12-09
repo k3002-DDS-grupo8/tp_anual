@@ -1,5 +1,3 @@
 package Dominio.ranking;
 
-public abstract class Ranking {
-
-}
+public abstract class Ranking {}

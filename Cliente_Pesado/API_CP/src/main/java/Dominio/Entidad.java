@@ -1,9 +1,16 @@
 package Dominio;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Entidad {
+    @JsonProperty("id")
     private long id;
+    @JsonProperty("nombre")
     private String nombre;
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("descripcion")
     private String descripcion;
 
     public Entidad() {
@@ -12,7 +19,9 @@ public class Entidad {
         this.email = "hola@.com";
         this.descripcion = "hola + hola";
     }
-    public Entidad(long id, String nombre, String email, String descripcion) {
+
+    @JsonCreator
+    public Entidad(@JsonProperty("id") long id,  @JsonProperty("nombre") String nombre, @JsonProperty("email") String email, @JsonProperty("descripcion") String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;

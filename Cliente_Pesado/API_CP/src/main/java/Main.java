@@ -1,10 +1,7 @@
-import Dominio.Entidad;
-import Dominio.EstadoIncidente;
-import Dominio.Incidente;
+import Dominio.*;
 
 import java.util.ArrayList;
 
-import Dominio.TipoUsuario;
 import org.json.JSONObject;
 
 import io.javalin.Javalin;
@@ -12,88 +9,92 @@ import io.javalin.Javalin;
 public class Main {
     public static void main(String[] args) {
         //JAVALIN API
-        var app = Javalin.create()
+        Javalin app = Javalin.create(config -> {
 
-                .get("/obtenerEntidades", ctx -> {
-                    MainApi mainApi = new MainApi();
-                    ArrayList<Entidad> entidades = mainApi.obtenerEntidades();
-                    ctx.json(entidades);
-                }) // TODO: No lo usamos todavía.
+            config.plugins.enableCors(cors -> {
+                cors.add(corsConfig -> {
+                    corsConfig.anyHost();
+                });
+            });
 
-                .post("/insertarEntidad", ctx -> {
-                    String cuerpoSolicitud = ctx.body();
-                    JSONObject json = new JSONObject(cuerpoSolicitud);
-                    Entidad entidad = new Entidad(
-                            json.getLong("id"),
-                            json.getString("nombre"),
-                            json.getString("email"),
-                            json.getString("descripcion")
-                    );
-                    MainApi mainApi = new MainApi();
-                    mainApi.insertarEntidad(entidad);
-                })
+        }).start(7070);
 
-                .get("/obtenerIncidentesComunidad/{idComunidad}", ctx -> {
-                    long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
-                    MainApi mainApi = new MainApi();
-                    ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidad(idComunidad);
-                    ctx.json(incidentes);
-                }) // TODO: No lo usamos todavía.
+        app.get("/obtenerEntidades", ctx -> {
+            MainApi mainApi = new MainApi();
+            ArrayList<Entidad> entidades = mainApi.obtenerEntidades();
+            ctx.json(entidades);
+        }); // TODO: No lo usamos todavía.
 
-                .post("/abrirIncidente/", ctx -> {
-                    String cuerpoSolicitud = ctx.body();
-                    JSONObject json = new JSONObject(cuerpoSolicitud);
-                    Incidente incidente = new Incidente(
-                            json.getLong("id"),
-                            json.getLong("comunidadId"),
-                            json.getLong("servicioIncidente"),
-                            json.getString("detalleIncidente"),
-                            json.getString("estado"),
-                            json.getLong("usuario1Id")
-                    );
-                    MainApi mainApi = new MainApi();
-                    mainApi.abrirIncidente(incidente);
-                })
+        app.post("/insertarEntidad", ctx -> {
+            String cuerpoSolicitud = ctx.body();
+            JSONObject json = new JSONObject(cuerpoSolicitud);
+            Entidad entidad = new Entidad(
+                    json.getLong("id"),
+                    json.getString("nombre"),
+                    json.getString("email"),
+                    json.getString("descripcion")
+            );
+            MainApi mainApi = new MainApi();
+            mainApi.insertarEntidad(entidad);
+        });
 
-                .post("/cierreIncidente", ctx -> {
-                    String cuerpoSolicitud = ctx.body();
-                    JSONObject json = new JSONObject(cuerpoSolicitud);
-                    long id = json.getLong("id");
-                    long usuarioCierre = json.getLong("usuario2Id");
-                    MainApi mainApi = new MainApi();
-                    mainApi.cerrarIncidente(id, usuarioCierre);
-                })
+        app.get("/obtenerIncidentesComunidad/{idComunidad}", ctx -> {
+            long idComunidad = Integer.parseInt(ctx.pathParam("idComunidad"));
+            MainApi mainApi = new MainApi();
+            ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidad(idComunidad);
+            ctx.json(incidentes);
+        }); // TODO: No lo usamos todavía.
 
-                .get("/obtenerTiposUsuario", ctx -> {
-                    MainApi mainApi = new MainApi();
-                    ArrayList<TipoUsuario> tiposUsuario = mainApi.obtenerTiposUsuario();
-                    ctx.json(tiposUsuario);
-                }) // TODO: No lo usamos todavía.
+        app.post("/abrirIncidente/", ctx -> {
+            String cuerpoSolicitud = ctx.body();
+            JSONObject json = new JSONObject(cuerpoSolicitud);
+            Incidente incidente = new Incidente(
+                    json.getLong("id"),
+                    json.getLong("comunidadId"),
+                    json.getLong("servicioIncidenteId"),
+                    json.getString("detalleIncidente"),
+                    json.getString("estado"),
+                    json.getLong("usuario1Id")
+            );
+            MainApi mainApi = new MainApi();
+            mainApi.abrirIncidente(incidente);
+        });
 
-                .post("/insertarTipoUsuario", ctx -> {
-                    String cuerpoSolicitud = ctx.body();
-                    JSONObject json = new JSONObject(cuerpoSolicitud);
-                    long id = json.getLong("id");
-                    String nombre = json.getString("nombre");
-                    MainApi mainApi = new MainApi();
-                    mainApi.insertarTipoUsuario(id, nombre);
-                })
+        app.post("/cerrarIncidente", ctx -> {
+            String cuerpoSolicitud = ctx.body();
+            JSONObject json = new JSONObject(cuerpoSolicitud);
+            long id = json.getLong("id");
+            long usuarioCierre = json.getLong("usuario2Id");
+            MainApi mainApi = new MainApi();
+            mainApi.cerrarIncidente(id, usuarioCierre);
+        });
 
-                .post("/eliminarTipoUsuario", ctx -> {
-                    String cuerpoSolicitud = ctx.body();
-                    JSONObject json = new JSONObject(cuerpoSolicitud);
-                    long id = json.getLong("id");
-                    MainApi mainApi = new MainApi();
-                    mainApi.eliminarTipoUsuario(id);
-                })
+        app.get("/obtenerTiposUsuario", ctx -> {
+            MainApi mainApi = new MainApi();
+            ArrayList<TipoUsuario> tiposUsuario = mainApi.obtenerTiposUsuario();
+            ctx.json(tiposUsuario);
+        });
 
-                .get("/obtenerRankingEntidades/{idRanking}", ctx -> {
-                    long idRanking = Integer.parseInt(ctx.pathParam("idRanking"));
-                    MainApi mainApi = new MainApi();
-                    ArrayList<Entidad> entidadesEnRanking = mainApi.obtenerRankingEntidades(idRanking);
-                    ctx.json(entidadesEnRanking);
-                }) // TODO: No lo usamos todavía. (Hay que cambiar la lógica de la página)
+        app.post("/insertarTipoUsuario", ctx -> {
+            String cuerpoSolicitud = ctx.body();
+            JSONObject json = new JSONObject(cuerpoSolicitud);
+            long id = json.getLong("id");
+            String nombre = json.getString("nombre");
+            MainApi mainApi = new MainApi();
+            mainApi.insertarTipoUsuario(id, nombre);
+        });
 
-                .start(7070);
+        app.get("/eliminarTipoUsuario/{id}", ctx -> {
+            long id = Long.parseLong(ctx.pathParam("id"));
+            MainApi mainApi = new MainApi();
+            mainApi.eliminarTipoUsuario(id);
+        });
+
+        app.get("/obtenerRankingEntidades/{idRanking}", ctx -> {
+            long idRanking = Long.parseLong(ctx.pathParam("idRanking"));
+            MainApi mainApi = new MainApi();
+            ArrayList<Informe> informeEntidades = mainApi.obtenerRankingEntidades(idRanking);
+            ctx.json(informeEntidades);
+        });
     }
 }

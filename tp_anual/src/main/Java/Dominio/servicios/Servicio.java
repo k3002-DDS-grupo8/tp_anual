@@ -13,6 +13,7 @@ public class Servicio implements Servicios{
     final String nombre;
     @OneToOne
     public Establecimiento establecimiento;
+    @Transient
     public ArrayList<Incidente> incidentes;
 
     public Servicio(String nombre, Establecimiento establecimiento, ArrayList<Incidente> incidentes) {

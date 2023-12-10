@@ -1,15 +1,27 @@
 package Dominio;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Incidente {
+    @JsonProperty("id")
     private long id;
+    @JsonProperty("idComunidad")
     private long idComunidad;
+    @JsonProperty("idServicio")
     private long idServicio;
+    @JsonProperty("observaciones")
     String observaciones;
-    private EstadoIncidente estado;
+    @JsonProperty("estado")
+    private String estado;
+    @JsonProperty("horarioDeApertura")
     private LocalDateTime horarioDeApertura;
+    @JsonProperty("horarioDeCierre")
     private LocalDateTime horarioDeCierre;
+    @JsonProperty("idUsuarioApertura")
     private long idUsuarioApertura;
+    @JsonProperty("idUsuarioCierre")
     private long idUsuarioCierre;
 
     public Incidente() {
@@ -17,20 +29,21 @@ public class Incidente {
         this.idComunidad = 1;
         this.idServicio = 1;
         this.observaciones = "";
-        this.estado = EstadoIncidente.ABIERTO;
-        this.horarioDeApertura = LocalDateTime.now();
+        this.estado = "ABIERTO";
+        this.horarioDeApertura = null;
         this.horarioDeCierre = null;
         this.idUsuarioApertura = 1;
         this.idUsuarioCierre = 0;
     }
 
-    public Incidente(long id, long idComunidad, long idServicio, String observaciones, String estado, long idUsuarioCierre) {
+    @JsonCreator
+    public Incidente(@JsonProperty("id") long id, @JsonProperty("idComunidad") long idComunidad, @JsonProperty("idServicio") long idServicio, @JsonProperty("observaciones") String observaciones, @JsonProperty("estado") String estado, @JsonProperty("idUsuarioCierre") long idUsuarioCierre) {
         this.id = id;
         this.idComunidad = idComunidad;
         this.idServicio = idServicio;
         this.observaciones = observaciones;
-        this.estado = EstadoIncidente.valueOf(estado);
-        this.horarioDeApertura = LocalDateTime.now();
+        this.estado = estado;
+        this.horarioDeApertura = null;
         this.horarioDeCierre = null;
         this.idUsuarioApertura = idUsuarioCierre;
         this.idUsuarioCierre = 0;
@@ -52,7 +65,7 @@ public class Incidente {
         this.observaciones = observaciones;
     }
 
-    public void setEstado(EstadoIncidente estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
@@ -88,7 +101,7 @@ public class Incidente {
         return observaciones;
     }
 
-    public EstadoIncidente getEstado() {
+    public String getEstado() {
         return estado;
     }
 

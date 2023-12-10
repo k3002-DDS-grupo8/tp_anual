@@ -2,10 +2,10 @@ import Utils.BDUtils;
 import Dominio.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ArrayList;
 import org.hibernate.*;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 public class MainApi {
@@ -13,7 +13,7 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT  id, nombre, email, descripcion FROM entidad");
+            Query query = session.createSQLQuery("SELECT id, nombre, email, descripcion FROM entidadprestadora");
             List<Object[]> rows = query.getResultList();
             ArrayList<Entidad> entidades = new ArrayList<>();
             for (Object[] row : rows) {
@@ -38,7 +38,7 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query  query = session.createSQLQuery("INSERT INTO entidad VALUES (:id,:nombre,:descripcion,:email)");
+            Query  query = session.createSQLQuery("INSERT INTO entidadprestadora (id, nombre, descripcion, email) VALUES (:id,:nombre,:descripcion,:email)");
             query.setParameter("id", entidad.getId());
             query.setParameter("nombre", entidad.getNombre());
             query.setParameter("descripcion", entidad.getDescripcion());
@@ -57,7 +57,7 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT comunidad, servicio, estado, id FROM incidente WHERE comunidad = :idComunidad");
+            Query query = session.createSQLQuery("SELECT comunidad_id, servicio_idServicio, estado, id FROM incidente WHERE comunidad = :idComunidad");
             query.setParameter("idComunidad", idComunidad);
             List<Object[]> rows = query.getResultList();
             ArrayList<Incidente> incidentes = new ArrayList<>();
@@ -65,7 +65,11 @@ public class MainApi {
                 Incidente incidente = new Incidente();
                 incidente.setIdComunidad(Long.parseLong(row[0].toString()));
                 incidente.setIdServicio(Long.parseLong(row[1].toString()));
-                incidente.setEstado(EstadoIncidente.valueOf(row[2].toString()));
+                if(Integer.parseInt(row[2].toString()) == 0) {
+                    incidente.setEstado("ABIERTO");
+                } else {
+                    incidente.setEstado("CERRADO");
+                }
                 incidente.setId(Long.parseLong(row[3].toString()));
                 incidentes.add(incidente);
             }
@@ -83,13 +87,14 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query  query = session.createSQLQuery("INSERT INTO incidente VALUES (:id,:comunidad,:servicio,:detalle,:estado,:usuarioApertura)");
+            Query  query = session.createSQLQuery("INSERT INTO incidente (id, comunidad_id, servicio_idServicio, observaciones, estado, usuarioApertura_id, tiempoFueraDeServicio) VALUES (:id,:comunidad,:servicio,:observaciones,:estado,:usuarioApertura, :tiempoFueraDeServicio)");
             query.setParameter("id", incidente.getId());
             query.setParameter("comunidad", incidente.getIdComunidad());
             query.setParameter("servicio", incidente.getIdServicio());
-            query.setParameter("detalle", incidente.getObservaciones());
-            query.setParameter("estado", incidente.getEstado());
+            query.setParameter("observaciones", incidente.getObservaciones());
+            query.setParameter("estado", 0);
             query.setParameter("usuarioApertura", incidente.getIdUsuarioApertura());
+            query.setParameter("tiempoFueraDeServicio", 0);
             query.executeUpdate();
             tx.commit();
         } catch (Exception e) {
@@ -104,10 +109,10 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("UPDATE incidente SET estado = :nuevoEstado, idUsuarioCierre = :usuarioCierre WHERE id = :id");
+            Query query = session.createSQLQuery("UPDATE incidente SET estado = :nuevoEstado, usuarioCierre_id = :usuarioCierre WHERE id = :id");
             query.setParameter("id", id);
-            query.setParameter("nuevoEstado", EstadoIncidente.CERRADO);
-            query.setParameter("idUsuarioCierre", usuarioCierre);
+            query.setParameter("nuevoEstado", 1);
+            query.setParameter("usuarioCierre", usuarioCierre);
             query.executeUpdate();
             tx.commit();
         } catch (Exception e) {
@@ -122,7 +127,7 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT  id, nombre FROM tipoUsuario");
+            Query query = session.createSQLQuery("SELECT id, nombre FROM tipousuario");
             List<Object[]> rows = query.getResultList();
             ArrayList<TipoUsuario> tiposUsuario = new ArrayList<>();
             for (Object[] row : rows) {
@@ -145,7 +150,7 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query  query = session.createSQLQuery("INSERT INTO tipoUsuario VALUES (:id,:nombre)");
+            Query  query = session.createSQLQuery("INSERT INTO tipousuario (id, nombre) VALUES (:id,:nombre)");
             query.setParameter("id", id);
             query.setParameter("nombre", nombre);
             query.executeUpdate();
@@ -162,7 +167,7 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createQuery("DELETE FROM tipoUsuario WHERE id = :id");
+            Query query = session.createSQLQuery("DELETE FROM tipousuario WHERE id = :id");
             query.setParameter("id", id);
             query.executeUpdate();
             tx.commit();
@@ -174,21 +179,28 @@ public class MainApi {
         }
     }
 
-    public ArrayList<Entidad> obtenerRankingEntidades(long idRanking) {
+    public ArrayList<Informe> obtenerRankingEntidades(long idRanking) {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id_entidad, nombre_entidad FROM ranking JOIN entidad ON id_entidad = id WHERE id_ranking = :idRanking");
+            Query query = session.createSQLQuery("SELECT ranking.detalle, informe.fecha, informe.posicion, informe.entidad_id, entidadprestadora.nombre FROM ranking JOIN informe ON ranking.id = informe.ranking JOIN entidadprestadora ON informe.entidad_id = entidadprestadora.id WHERE ranking.id = :idRanking"); //Podría poner "AND informe.fecha = '2023-01-01 00:00:00'" (es un ejemplo) pero no lo necesito pq solo tengo datos de prueba de 1 fecha jaja salu2
+            query.setParameter("idRanking", idRanking);
             List<Object[]> rows = query.getResultList();
-            ArrayList<Entidad> entidades = new ArrayList<>();
+            ArrayList<Informe> informeEntidades = new ArrayList<>();
             for (Object[] row : rows) {
-                Entidad entidad = new Entidad();
-                entidad.setId(Long.parseLong(row[0].toString()));
-                entidad.setNombre(row[1].toString());
-                entidades.add(entidad);
+                Informe informeRenglon = new Informe();
+                informeRenglon.setRanking_detalle(row[0].toString());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                LocalDateTime fechaLocalDateTime = LocalDateTime.parse(row[1].toString(), formatter);
+                informeRenglon.setFecha(fechaLocalDateTime);
+                informeRenglon.setPosicion(Integer.parseInt(row[2].toString()));
+                informeRenglon.setEntidad_id(Long.parseLong(row[3].toString()));
+                informeRenglon.setEntidad_nombre(row[4].toString());
+
+                informeEntidades.add(informeRenglon);
             }
             tx.commit();
-            return entidades;
+            return informeEntidades;
         } catch (Exception e) {
             tx.rollback();
             throw e;

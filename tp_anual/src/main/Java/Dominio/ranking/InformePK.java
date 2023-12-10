@@ -11,6 +11,7 @@ public class InformePK implements Serializable {
 
     private Long ranking;
 
+
     private LocalDateTime fecha;
 
     private Integer posicion;

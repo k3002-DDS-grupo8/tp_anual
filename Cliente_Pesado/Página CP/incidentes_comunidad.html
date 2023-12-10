@@ -62,10 +62,10 @@
   <main class="container mx-auto p-8 flex flex-col items-center">
     <h2 id="title" class="text-2xl font-bold mb-4 text-center">Incidentes de Comunidad</h2>
     <div class="flex justify-between mb-4 gap-4">
-      <button onclick="filtrarIncidentes('Abierto')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+      <button onclick="filtrarIncidentes('ABIERTO')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
         Ver Abiertos
       </button>
-      <button onclick="filtrarIncidentes('Cerrado')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+      <button onclick="filtrarIncidentes('CERRADO')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
         Ver Cerrados
       </button>
       <button onclick="mostrarTodos()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
@@ -81,6 +81,10 @@
 
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script>
+    let usuario1Id = 1
+    let usuario2Id = 2
+    let comunidadId;
+
     document.addEventListener('DOMContentLoaded', function () {
       var notificacionesDropdown = document.getElementById('notificacionesDropdown')
       var notificacionesMenu = document.getElementById('notificacionesMenu')
@@ -96,19 +100,9 @@
       })
 
       var params = new URLSearchParams(window.location.search)
-      var comunidadId = params.get('comunidad_id')
+      comunidadId = params.get('comunidad_id')
       var titulo = document.querySelector('#title')
       titulo.textContent = `Incidentes de Comunidad ${comunidadId}`
-
-      async function obtenerIncidentes() {
-        const res = await fetch(`http://localhost:7070/obtenerIncidentes/${comunidadId}`)
-        let incidentes = await res.json()
-        incidentes.forEach(incidente => {
-          //Imprimir cada Incidente
-        })
-      }
-
-      obtenerIncidentes()
     })
 
     function eliminarIncidente(id) {
@@ -120,27 +114,27 @@
     async function cerrarIncidente(id) {
       var incidente = document.getElementById(id)
       var estado = incidente.querySelector('.estadoIncidente')
-      estado.textContent = 'Estado: Cerrado'
+      estado.textContent = 'Estado: CERRADO'
 
       var botonCerrar = incidente.querySelector('.cerrar')
       botonCerrar.style.display = 'none'
 
       var usuarioCierre = document.createElement('p')
       usuarioCierre.classList.add('usuarioCierre', 'mb-2')
-      usuarioCierre.textContent = 'Cerrado por: Usuario 2'
+      usuarioCierre.textContent = `Cerrado por: Usuario ${usuario2Id}`
       incidente.appendChild(usuarioCierre)
 
       const res = await fetch('http://localhost:7070/cerrarIncidente', {
         method: "POST",
-        body: JSON.stringify({ id, usuarioCierre: usuarioCierre.textContent })
+        body: JSON.stringify({ id, usuario2Id })
       })
     }
 
     async function guardarIncidente(id) {
       var incidente = document.getElementById(id)
-      var servicioIncidente = incidente.querySelector('.servicioIncidente').value
+      var servicioIncidenteId = incidente.querySelector('.servicioIncidenteId').value
       var detalleIncidente = incidente.querySelector('.detalleIncidente').value
-      var estado = "Abierto"
+      var estado = "ABIERTO"
 
       var nuevoIncidente = document.createElement('li')
       nuevoIncidente.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'flex-wrap', 'items-center', 'justify-between')
@@ -148,7 +142,7 @@
 
       nuevoIncidente.innerHTML = `
         <div>
-          <h3 class="text-xl font-bold">Servicio: ${servicioIncidente}</h3>
+          <h3 class="text-xl font-bold">Servicio: ${servicioIncidenteId}</h3>
           <p>Detalle: ${detalleIncidente}</p>
           <p>Abierto por: Usuario 1</p>
           <p class="estadoIncidente">Estado: ${estado}</p>
@@ -166,14 +160,14 @@
         cerrarIncidente(id)
       })
 
-      const res = await fetch('http://localhost:7070/guardarIncidente', {
+      const res = await fetch('http://localhost:7070/abrirIncidente', {
         method: "POST",
-        body: JSON.stringify({ id, servicioIncidente, detalleIncidente, estado })
+        body: JSON.stringify({ id, comunidadId, servicioIncidenteId, detalleIncidente, estado, usuario1Id })
       })
     }
 
     function agregarIncidente() {
-      var id = Math.random().toString(36).substring(7)
+      var id = Math.floor(Math.random() * (10000000 - 1 + 1)) + 1
       var incidentesList = document.getElementById('incidentesList')
 
       var nuevoIncidente = document.createElement('li')
@@ -182,7 +176,7 @@
 
       nuevoIncidente.innerHTML = `
         <div class="flex flex-wrap gap-4">
-          <input type="text" class="servicioIncidente p-2 border border-gray-300 rounded" placeholder="Servicio del Incidente">
+          <input type="text" class="servicioIncidenteId p-2 border border-gray-300 rounded" placeholder="ID del Servicio del Incidente">
           <input type="text" class="detalleIncidente p-2 border border-gray-300 rounded" placeholder="Detalle del Incidente">
         </div>
         <div class="flex row gap-4 py-2">

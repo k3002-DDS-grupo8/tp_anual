@@ -60,23 +60,8 @@
   </header>
 
   <main class="container mx-auto p-8 flex flex-col items-center">
-    <h2 class="text-2xl font-bold mb-4 text-center">Rankings de Incidentes</h2>
-    <div class="flex flex-wrap justify-center gap-8">
-      <div class="flex flex-col items-center border border-gray-300 p-4">
-        <h3 class="text-xl font-bold mb-4 text-center">Ranking por Criterio A</h3>
-        <ul id="rankingAList" class="list-none p-0">
-        </ul>
-      </div>
-      <div class="flex flex-col items-center border border-gray-300 p-4">
-        <h3 class="text-xl font-bold mb-4 text-center">Ranking por Criterio B</h3>
-        <ul id="rankingBList" class="list-none p-0">
-        </ul>
-      </div>
-      <div class="flex flex-col items-center border border-gray-300 p-4">
-        <h3 class="text-xl font-bold mb-4 text-center">Ranking por Criterio C</h3>
-        <ul id="rankingCList" class="list-none p-0">
-        </ul>
-      </div>
+    <h2 class="text-2xl font-bold mb-4 text-center">Rankings de Entidades x Incidentes</h2>
+    <div id="containerRankings" class="flex flex-wrap justify-center gap-8">
     </div>
   </main>
 
@@ -97,58 +82,65 @@
         mobileMenu.classList.toggle('hidden')
       })
 
-      obtenerRankings()
+      obtenerRankings() //Podría ser más lindo con un for, pero me dio paja
     })
 
-    async function obtenerRanking(idRanking) {
-      const res = await fetch(`http://localhost:7070/obtenerRankingEntidades/${idRanking}`)
-      let entidades = await res.json()
-      rankings.push({ criterio: idRanking, elementos: entidades })
+    var rankings = []
+
+    async function obtenerRankings() {
+      let res = await fetch("http://localhost:7070/obtenerRankingEntidades/1")
+      let informes = await res.json()
+      rankings.push({ criterio: informes[0].ranking_detalle, elementos: [] })
+      informes.forEach(informe => {
+        rankings[0].elementos.push({ nombre: informe.entidad_nombre, datoExtra: `ID: ${informe.entidad_id}`, posicion: informe.posicion })
+      })
+
+      res = await fetch("http://localhost:7070/obtenerRankingEntidades/2")
+      informes = await res.json()
+      rankings.push({ criterio: informes[0].ranking_detalle, elementos: [] })
+      informes.forEach(informe => {
+        rankings[1].elementos.push({ nombre: informe.entidad_nombre, datoExtra: `ID: ${informe.entidad_id}`, posicion: informe.posicion })
+      })
+
+      res = await fetch("http://localhost:7070/obtenerRankingEntidades/3")
+      informes = await res.json()
+      rankings.push({ criterio: informes[0].ranking_detalle, elementos: [] })
+      informes.forEach(informe => {
+        rankings[2].elementos.push({ nombre: informe.entidad_nombre, datoExtra: `ID: ${informe.entidad_id}`, posicion: informe.posicion })
+      })
+
+      imprimirRankings()
     }
 
-    var rankings = [
-      {
-        criterio: 'A',
-        elementos: [
-          { nombre: 'Entidad 1', datoExtra: 'Dato A', posicion: 1 },
-          { nombre: 'Entidad 2', datoExtra: 'Dato B', posicion: 2 },
-          { nombre: 'Entidad 3', datoExtra: 'Dato C', posicion: 3 }
-        ]
-      },
-      {
-        criterio: 'B',
-        elementos: [
-          { nombre: 'Entidad 4', datoExtra: 'Dato D', posicion: 1 },
-          { nombre: 'Entidad 5', datoExtra: 'Dato E', posicion: 2 },
-          { nombre: 'Entidad 6', datoExtra: 'Dato F', posicion: 3 }
-        ]
-      },
-      {
-        criterio: 'C',
-        elementos: [
-          { nombre: 'Entidad 7', datoExtra: 'Dato G', posicion: 1 },
-          { nombre: 'Entidad 8', datoExtra: 'Dato H', posicion: 2 },
-          { nombre: 'Entidad 9', datoExtra: 'Dato I', posicion: 3 }
-        ]
-      }
-    ]
+    function imprimirRankings() {
+      var rankingContainer = document.getElementById('containerRankings')
 
-    rankings.forEach(function (ranking) {
-      var rankingList = document.getElementById('ranking' + ranking.criterio + 'List')
+      rankings.forEach(ranking => {
+        var nuevaRankingList = document.createElement('div')
+        nuevaRankingList.classList.add('flex', 'flex-col', 'items-center', 'border', 'border-gray-300', 'p-4')
+        nuevaRankingList.innerHTML = `
+          <h3 class="text-xl font-bold mb-4 text-center">${ranking.criterio}</h3>
+          <ul id="ranking${ranking.criterio}List" class="list-none p-0">
+          </ul>
+        `
 
-      ranking.elementos.forEach(function (elemento) {
-        var nuevoElemento = document.createElement('li')
-        nuevoElemento.classList.add('flex', 'flex-wrap', 'justify-between', 'items-center', 'gap-4', 'mb-4', 'border', 'border-gray-300', 'p-4')
-        nuevoElemento.innerHTML = `
+        ranking.elementos.forEach(function (elemento) {
+          var nuevoElemento = document.createElement('li')
+          nuevoElemento.classList.add('flex', 'flex-wrap', 'justify-between', 'items-center', 'gap-4', 'mb-4', 'border', 'border-gray-300', 'p-4', 'w-full')
+          nuevoElemento.innerHTML = `
             <span class="font-bold">${elemento.posicion}. ${elemento.nombre}</span>
             <span>${elemento.datoExtra}</span>
             <button class="text-white bg-blue-500 hover:bg-blue-700 px-3 py-1 rounded-full">
               <i class="far fa-eye"></i> Ver
             </button>
           `
-        rankingList.appendChild(nuevoElemento)
+          nuevaRankingList.appendChild(nuevoElemento)
+        })
+
+        rankingContainer.appendChild(nuevaRankingList)
       })
-    })
+    }
+
   </script>
 </body>
 

@@ -92,9 +92,7 @@
     })
 
     function eliminarEntidad(id) {
-      var entidad = document.getElementById(id)
-      var lista = document.getElementById('entidadesList')
-      lista.removeChild(entidad)
+      //Fake delete
     }
 
     var cargarCSVButton = document.getElementById('cargarCSV')
@@ -123,6 +121,7 @@
             }
 
             entidades.push(entidad)
+            console.log(entidad);
           }
 
           for (var k = 0; k < entidades.length; k++) {
@@ -146,24 +145,18 @@
       nuevaEntidad.innerHTML = `
     <div>
       <h3 class="text-xl font-bold">Nombre: ${entidadData['Nombre']}</h3>
-      <p>Descripción: ${entidadData['Descripcion']}</p>
       <p>Email: ${entidadData['Email']}</p>
+      <p>Descripción: ${entidadData['Descripcion']}</p>
     </div>
     <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar">
       <i class="fas fa-trash"></i>
-    </button>
-  `
+    </button>`
 
       entidadesList.appendChild(nuevaEntidad)
 
-      var botonEliminar = nuevaEntidad.querySelector('.eliminar')
-      botonEliminar.addEventListener('click', function () {
-        eliminarEntidad(entidadData['ID'])
-      })
-
       const res = await fetch('http://localhost:7070/insertarEntidad', {
         method: "POST",
-        body: JSON.stringify({ id: entidadData['ID'], nombre: entidadData['Nombre'], descripcion: entidadData['Descripcion'], email: entidadData['Email'] })
+        body: JSON.stringify({ id: entidadData['ID'], nombre: entidadData['Nombre'], email: entidadData['Email'], descripcion: entidadData['Descripcion'] })
       })
     }
 

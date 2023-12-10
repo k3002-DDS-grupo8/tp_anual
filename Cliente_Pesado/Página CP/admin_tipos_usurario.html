@@ -88,11 +88,20 @@
         mobileMenu.classList.toggle('hidden')
       })
 
-      imprimirTiposUsuarioHTML()
+      obtenerTiposUsuario()
     })
 
     var tiposUsuarioList = document.getElementById('tiposUsuarioList')
     var agregarTipoUsuarioBtn = document.getElementById('agregarTipoUsuario')
+
+    async function obtenerTiposUsuario() {
+      const res = await fetch("http://localhost:7070/obtenerTiposUsuario")
+      let tipos = await res.json()
+      tipos.forEach(tipo => {
+        tiposUsuarios.push(tipo)
+      })
+      imprimirTiposUsuarioHTML()
+    }
 
     var tiposUsuarios = []
 
@@ -105,7 +114,7 @@
       var nuevoTipoUsuario = nuevoTipoUsuarioInput.value.trim()
 
       if (nuevoTipoUsuario !== "") {
-        var id = Math.random().toString(36).substring(7)
+        var id = Math.floor(Math.random() * (10000000 - 1 + 1)) + 1
         var tipoUsuario = {
           id: id,
           nombre: nuevoTipoUsuario
@@ -118,7 +127,7 @@
 
         const res = await fetch('http://localhost:7070/insertarTipoUsuario', {
           method: "POST",
-          body: JSON.stringify(nuevoTipoUsuario)
+          body: JSON.stringify(tipoUsuario)
         })
       }
     }
@@ -138,7 +147,7 @@
 
     async function eliminarTipoUsuario(id) {
       var tipoUsuarioIndex = tiposUsuarios.findIndex(function (tipo) {
-        return tipo.id === id
+        return tipo.id == id
       })
 
       if (tipoUsuarioIndex !== -1) {
@@ -148,10 +157,7 @@
         tipoUsuarioElemento.parentNode.removeChild(tipoUsuarioElemento)
       }
 
-      const res = await fetch('http://localhost:7070/eliminarTipoUsuario', {
-        method: "POST",
-        body: JSON.stringify(id)
-      })
+      const res = await fetch(`http://localhost:7070/eliminarTipoUsuario/${id}`)
     }
 
     function imprimirTiposUsuarioHTML() {

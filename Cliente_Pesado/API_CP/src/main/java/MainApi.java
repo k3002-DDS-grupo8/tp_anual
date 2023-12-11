@@ -57,20 +57,23 @@ public class MainApi {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT comunidad_id, servicio_idServicio, estado, id FROM incidente WHERE comunidad = :idComunidad");
+            Query query = session.createSQLQuery("SELECT id, servicio_idServicio, observaciones, estado, usuarioApertura_id, usuarioCierre_id FROM incidente WHERE comunidad_id = :idComunidad");
             query.setParameter("idComunidad", idComunidad);
             List<Object[]> rows = query.getResultList();
             ArrayList<Incidente> incidentes = new ArrayList<>();
             for (Object[] row : rows) {
                 Incidente incidente = new Incidente();
-                incidente.setIdComunidad(Long.parseLong(row[0].toString()));
+                incidente.setId(Long.parseLong(row[0].toString()));
                 incidente.setIdServicio(Long.parseLong(row[1].toString()));
-                if(Integer.parseInt(row[2].toString()) == 0) {
+                incidente.setObservaciones(row[2].toString());
+                if(Integer.parseInt(row[3].toString()) == 0) {
                     incidente.setEstado("ABIERTO");
+                    incidente.setIdUsuarioApertura(Long.parseLong(row[4].toString()));
                 } else {
                     incidente.setEstado("CERRADO");
+                    incidente.setIdUsuarioApertura(Long.parseLong(row[4].toString()));
+                    incidente.setIdUsuarioCierre(Long.parseLong(row[5].toString()));
                 }
-                incidente.setId(Long.parseLong(row[3].toString()));
                 incidentes.add(incidente);
             }
             tx.commit();

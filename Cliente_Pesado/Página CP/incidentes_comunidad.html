@@ -103,7 +103,17 @@
       comunidadId = params.get('comunidad_id')
       var titulo = document.querySelector('#title')
       titulo.textContent = `Incidentes de Comunidad ${comunidadId}`
+
+      obtenerIncidentes()
     })
+
+    async function obtenerIncidentes() {
+      const res = await fetch(`http://localhost:7070/obtenerIncidentesComunidad/${comunidadId}`)
+      let incidentes = await res.json()
+      incidentes.forEach(incidente => {
+        imprimirIncidenteDB(incidente.id, incidente.idServicio, incidente.observaciones, incidente.estado, incidente.idUsuarioApertura, incidente.idUsuarioCierre)
+      })
+    }
 
     function eliminarIncidente(id) {
       var incidente = document.getElementById(id)
@@ -120,7 +130,7 @@
       botonCerrar.style.display = 'none'
 
       var usuarioCierre = document.createElement('p')
-      usuarioCierre.classList.add('usuarioCierre', 'mb-2')
+      usuarioCierre.classList.add('mb-2')
       usuarioCierre.textContent = `Cerrado por: Usuario ${usuario2Id}`
       incidente.appendChild(usuarioCierre)
 
@@ -144,7 +154,7 @@
         <div>
           <h3 class="text-xl font-bold">Servicio: ${servicioIncidenteId}</h3>
           <p>Detalle: ${detalleIncidente}</p>
-          <p>Abierto por: Usuario 1</p>
+          <p>Abierto por: Usuario ${usuario1Id}</p>
           <p class="estadoIncidente">Estado: ${estado}</p>
         </div>
         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full cerrar">
@@ -229,6 +239,45 @@
       })
     }
 
+    function imprimirIncidenteDB(id, servicioIncidenteId, detalleIncidente, estado, usuarioApertura, usuarioCierre) {
+      var nuevoIncidente = document.createElement('li')
+      nuevoIncidente.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'flex-wrap', 'items-center', 'justify-between')
+      nuevoIncidente.id = id
+
+      if (estado == "ABIERTO") {
+        nuevoIncidente.innerHTML = `
+        <div>
+          <h3 class="text-xl font-bold">Servicio: ${servicioIncidenteId}</h3>
+          <p>Detalle: ${detalleIncidente}</p>
+          <p>Abierto por: Usuario ${usuarioApertura}</p>
+          <p class="estadoIncidente">Estado: ${estado}</p>
+        </div>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full cerrar">
+          Cerrar
+        </button>
+      `
+
+        var incidentesList = document.getElementById('incidentesList')
+        incidentesList.appendChild(nuevoIncidente)
+
+        var botonCerrar = nuevoIncidente.querySelector('.cerrar')
+        botonCerrar.addEventListener('click', function () {
+          cerrarIncidente(id)
+        })
+      } else {
+        nuevoIncidente.innerHTML = `
+        <div>
+          <h3 class="text-xl font-bold">Servicio: ${servicioIncidenteId}</h3>
+          <p>Detalle: ${detalleIncidente}</p>
+          <p>Abierto por: Usuario ${usuarioApertura}</p>
+          <p class="estadoIncidente">Estado: ${estado}</p>
+        </div>
+        <p class="mb-2">Cerrado por: Usuario ${usuarioCierre}</p>`
+
+        var incidentesList = document.getElementById('incidentesList')
+        incidentesList.appendChild(nuevoIncidente)
+      }
+    }
   </script>
 </body>
 

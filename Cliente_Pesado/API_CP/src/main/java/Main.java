@@ -23,7 +23,7 @@ public class Main {
             MainApi mainApi = new MainApi();
             ArrayList<Entidad> entidades = mainApi.obtenerEntidades();
             ctx.json(entidades);
-        }); // TODO: No lo usamos todavía.
+        });
 
         app.post("/insertarEntidad", ctx -> {
             String cuerpoSolicitud = ctx.body();
@@ -43,7 +43,7 @@ public class Main {
             MainApi mainApi = new MainApi();
             ArrayList<Incidente> incidentes = mainApi.obtenerIncidentesComunidad(idComunidad);
             ctx.json(incidentes);
-        }); // TODO: No lo usamos todavía.
+        });
 
         app.post("/abrirIncidente/", ctx -> {
             String cuerpoSolicitud = ctx.body();

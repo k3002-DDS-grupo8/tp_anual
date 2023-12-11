@@ -89,11 +89,22 @@
       toggleMenu.addEventListener('click', function () {
         mobileMenu.classList.toggle('hidden')
       })
+
+      obtenerEntidades()
     })
+
+    async function obtenerEntidades() {
+      const res = await fetch("http://localhost:7070/obtenerEntidades")
+      let entidades = await res.json()
+      entidades.forEach(entidad => {
+        imprimirEntidad(entidad.id, entidad.nombre, entidad.email, entidad.descripcion)
+      })
+    }
 
     function eliminarEntidad(id) {
       //Fake delete
     }
+
 
     var cargarCSVButton = document.getElementById('cargarCSV')
     cargarCSVButton.addEventListener('click', function () {
@@ -140,7 +151,7 @@
 
       var nuevaEntidad = document.createElement('div')
       nuevaEntidad.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'items-center', 'justify-between')
-      nuevaEntidad.id = entidadData['ID']
+      nuevaEntidad.id = entidadData['ID'] //Otra opción es generar el ID en vez de recibirlo del CSV
 
       nuevaEntidad.innerHTML = `
     <div>
@@ -158,6 +169,26 @@
         method: "POST",
         body: JSON.stringify({ id: entidadData['ID'], nombre: entidadData['Nombre'], email: entidadData['Email'], descripcion: entidadData['Descripcion'] })
       })
+    }
+
+    function imprimirEntidad(id, nombre, email, descripcion) {
+      var entidadesList = document.getElementById('entidadesList')
+
+      var nuevaEntidad = document.createElement('div')
+      nuevaEntidad.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'items-center', 'justify-between')
+      nuevaEntidad.id = id
+
+      nuevaEntidad.innerHTML = `
+      <div>
+        <h3 class="text-xl font-bold">Nombre: ${nombre}</h3>
+        <p>Email: ${email}</p>
+        <p>Descripción: ${descripcion}</p>
+      </div>
+      <button class="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded-full eliminar">
+        <i class="fas fa-trash"></i>
+      </button>`
+
+      entidadesList.appendChild(nuevaEntidad)
     }
 
   </script>

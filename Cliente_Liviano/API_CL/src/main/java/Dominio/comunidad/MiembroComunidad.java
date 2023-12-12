@@ -4,21 +4,20 @@ import Dominio.incidente.Incidente;
 
 import javax.persistence.*;
 import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
 public class MiembroComunidad {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("idMiembro")
     private long idMiembro;
-    @OneToOne
+    @JsonProperty("usuario")
     final UsuarioPersona usuario;
-    @OneToOne
+    @JsonProperty("comunidad")
     final Comunidad comunidad;
-
-    @Enumerated
+    @JsonProperty("tipoUsuario")
     Optional<TipoUsuario> tipoUsuario;
 
+    @JsonCreator
     public MiembroComunidad(long idMiembro, UsuarioPersona usuario, Comunidad comunidad, Optional<TipoUsuario> tipoUsuario) {
         this.idMiembro = idMiembro;
         this.usuario = usuario;
@@ -26,6 +25,7 @@ public class MiembroComunidad {
         this.tipoUsuario = tipoUsuario;
     }
 
+    @JsonCreator
     public MiembroComunidad(UsuarioPersona usuario, Optional<TipoUsuario> tipoUsuario, Comunidad comunidad) {
         this.usuario = usuario;
         this.tipoUsuario = tipoUsuario;

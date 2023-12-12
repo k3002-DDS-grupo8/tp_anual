@@ -13,24 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
+
+
 public class Comunidad {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @JsonProperty("id")
     long id;
+    @JsonProperty("nombre")
     String nombre;
+    @JsonProperty("miembros")
     ArrayList<MiembroComunidad> miembros;
+    @JsonProperty("serviciosDeInteres")
     ArrayList<Servicios> serviciosDeInteres;
-
-    @OneToMany
+    @JsonProperty("incidentes")
     List<Incidente> incidentes;
-
+    @JsonProperty("gradoConfianza")
     private GradoConfianza gradoConfianza;
+    @JsonProperty("activo")
     private boolean activo;
 
+    @JsonCreator
     public Comunidad() {}
 
+    @JsonCreator
     public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, ArrayList<Servicios> serviciosDeInteres, List<Incidente> incidentes, GradoConfianza gradoConfianza, boolean activo) {
         this.nombre = nombre;
         this.miembros = miembros;
@@ -56,18 +64,18 @@ public class Comunidad {
         ArrayList<Incidente> incidentesDeseados = (ArrayList<Incidente>) incidentes.stream().filter((Incidente incidenteActual) -> incidenteActual.estado == estadoSolicitado);
         return incidentesDeseados;
     }
-    public void notificarIncidenteCercano() {
-        ArrayList<Incidente> incidentesAbiertos = consultarIncidentesSegunEstado(EstadoIncidente.ABIERTO);
-        miembros.forEach(miembroComunidad -> {
-            Usuario usuarioComunidad = miembroComunidad.usuario;
-            incidentesAbiertos.forEach(incidenteAbierto -> {
-                if(usuarioComunidad.getLocalizacionActual().estaEnCercania(incidenteAbierto.getLocalizacionIncidente())) {
-                    AdapterNotificacion notificacion = new AdapterNotificacion();
-                    usuarioComunidad.notificar(notificacion);
-                }
-            });
-        });
-    }
+    //public void notificarIncidenteCercano() {
+    //    ArrayList<Incidente> incidentesAbiertos = consultarIncidentesSegunEstado(EstadoIncidente.ABIERTO);
+    //    miembros.forEach(miembroComunidad -> {
+    //        Usuario usuarioComunidad = miembroComunidad.usuario;
+    //        incidentesAbiertos.forEach(incidenteAbierto -> {
+    //            if(usuarioComunidad.getLocalizacionActual().estaEnCercania(incidenteAbierto.getLocalizacionIncidente())) {
+    //                AdapterNotificacion notificacion = new AdapterNotificacion();
+    //                usuarioComunidad.notificar(notificacion);
+    //            }
+    //        });
+    //    });
+    //}
 
     public void asignarAdministrador(MiembroComunidad miembro){
         RepoTipoUsuario repoTipos = new RepoTipoUsuario();

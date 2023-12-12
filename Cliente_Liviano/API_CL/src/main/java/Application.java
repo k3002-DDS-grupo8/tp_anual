@@ -18,45 +18,47 @@ import org.quartz.*;
 
 public class Application {
     public static void main(String[] args) throws SchedulerException {
-    
-        //JAVALIN API
-        var app = Javalin.create()
+
+                Javalin app = Javalin.create(config -> {
+
+                config.plugins.enableCors(cors -> {
+                    cors.add(corsConfig -> {
+                        corsConfig.anyHost();
+                    });
+                });
+
+                }).start(7070);
+
                 //.get("/api/login/", ctx -> new LoginHandler())
             
-                .get("/api/obtenerUsuarios", ctx -> new GetUsuariosHandler())
+                app.get("/api/obtenerUsuarios", ctx -> new GetUsuariosHandler());
             
-                .get("/api/obtenerUsuarios/{id}", new GetUsuarioIdHandler())
+                app.get("/api/obtenerUsuarios/{id}", new GetUsuarioIdHandler());
             
-                .get("/api/obtenerComunidades", ctx -> new GetComunidadesHandler())
+                app.get("/api/obtenerComunidades", ctx -> new GetComunidadesHandler());
 
-                .get("/api/obtenerComunidades/{id}", ctx -> {
+                app.get("/api/obtenerComunidades/{id}", ctx -> {
                     long id = Integer.parseInt(ctx.pathParam("id"));
                     GetComunidadIdHandler comunidadId = new GetComunidadIdHandler();
-                    })
-                // este no se si es PostAlmacenarIncidenteHandler o PostIncidenteHandler
-                .post("/api/aperturaIncidente", ctx -> new PostAperturaIncidenteHandler())
+                    });
 
-                // estaba GetIncidentesComunidadHandler pero no estaba el get original sin el id
-                .get("/api/obtenerIncidentesComunidad/{idComunidad}", ctx -> new GetIncidenteIdComunidadHandler())
+                app.post("/api/aperturaIncidente", ctx -> new PostAperturaIncidenteHandler());
 
-                .get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> new GetIncidenteIdComunidadAbiertoHandler())
+                app.get("/api/obtenerIncidentesComunidad/{idComunidad}", ctx -> new GetIncidenteIdComunidadHandler());
+
+                app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> new GetIncidenteIdComunidadAbiertoHandler());
                 
-                .get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> new GetIncidenteIdComunidadCerradoHandler())
+                app.get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> new GetIncidenteIdComunidadCerradoHandler());
 
-                .get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler())
-            
-                //.post("/api/cargaMasivaDeEntidades", ctx -> new PostCargaMasivaEntidadesHandler())
+                app.get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler());
+                      
+                app.post("/api/cierreIncidente/", ctx -> new PostCierreIdIncidenteHandler());
 
-                //.post("/api/aperturaIncidente/", ctx -> new PostAperturaIncidenteHandler())
+                app.post("/api/insertarTipoUsuario", ctx -> new PostInsertarTipoUsuarioHandler());
                       
-                .post("/api/cierreIncidente/", ctx -> new PostCierreIdIncidenteHandler())
-
-                .post("/api/insertarTipoUsuario", ctx -> new PostInsertarTipoUsuarioHandler())
+                app.get("/api/eliminarTipoUsuario", ctx -> new PostEliminarTipoUsuarioHandler());
                       
-                .get("/api/eliminarTipoUsuario", ctx -> new PostEliminarTipoUsuarioHandler())
-                      
-                .get("/api/obtenerRankingEntidades", ctx -> new GetObtenerRankingEntidadesHandler())
-                      
-                .start(7070);
+                app.get("/api/obtenerRankingEntidades", ctx -> new GetObtenerRankingEntidadesHandler());
     }
+
 }

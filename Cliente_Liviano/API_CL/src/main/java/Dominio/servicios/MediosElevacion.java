@@ -26,7 +26,7 @@ public class MediosElevacion extends Servicio {
         this.fin = fin;
     }
 
-    public MediosElevacion(String nombre, String inicio, Establecimiento establecimiento, ArrayList<Incidente> incidentes) {
+    public MediosElevacion(String nombre, String inicio, long establecimiento, ArrayList<Long> incidentes, String fin) {
         super(nombre, establecimiento, incidentes);
         this.inicio = inicio;
         this.fin = fin;

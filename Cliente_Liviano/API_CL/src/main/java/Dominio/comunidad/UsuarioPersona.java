@@ -11,16 +11,23 @@ import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
 public class UsuarioPersona extends Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @JsonProperty("id")
     private long id;
+    @JsonProperty("apellido")
     final String apellido;
+    @JsonProperty("medioComunicacion")
     final MedioComunicacion medioComunicacion;
+    @JsonProperty("horarioDeNotificaciones")
     ArrayList<HorariosPosibles> horarioDeNotificaciones;
+    @JsonProperty("eeoDeInteres")
     ArrayList<EEO> eeoDeInteres;
+
+    @JsonCreator
     public UsuarioPersona(String nombre, String email, String telefono, ArrayList<Servicios> serviciosDeInteres, Localizacion localizacion, String apellido, ArrayList<Comunidad> comunidades, MedioComunicacion medioComunicacion, ArrayList<HorariosPosibles> horarioDeNotificaciones, ArrayList<EEO> eeoDeInteres, String contrasenia) {
         super(nombre, email, contrasenia, telefono, serviciosDeInteres, localizacion, comunidades);
         this.apellido = apellido;

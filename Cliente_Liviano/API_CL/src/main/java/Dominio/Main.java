@@ -1,6 +1,7 @@
 package Dominio;
 
 import Dominio.Utils.BDUtils;
+import Dominio.comunidad.Comunidad;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -11,10 +12,10 @@ public class Main {
         BDUtils.comenzarTransaccion(em);
 
         //JPQL Query
-        List<Comunidad> comunidades = em
+        List<Comunidad> comunidades = em.createQuery("select c.nombre FROM Comunidad c").getResultList(); //ojo, query no tipada
                 // equivalente a: select * from persona where persona.nombre = 'Julian'
-                .createQuery("select c.nombre FROM Comunidad c") //ojo, query no tipada
-                .getResultList();
+
+
 
         System.out.println(comunidades);
 

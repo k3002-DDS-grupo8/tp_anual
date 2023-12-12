@@ -11,34 +11,38 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import Dominio.servicios.Servicios;
 import kotlin.text.UStringsKt;
 
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     long id;
+    @JsonProperty("nombre")
     private String nombre;
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("contrasenia")
     String contrasenia;
+    @JsonProperty("telefono")
     private String telefono;
+    @JsonProperty("puntosConfianza")
     private float puntosConfianza;
+    @JsonProperty("gradoConfianza")
     private GradoConfianza gradoConfianza;
+    @JsonProperty("activo")
     private boolean activo;
-
-    //servicio cambia a Servicios
-    @ManyToMany
+    @JsonProperty("serviciosDeInteres")
     private List<Servicios> serviciosDeInteres;
-    @Transient
+    @JsonProperty("localizacionDeInteres")
     Localizacion localizacionDeInteres;
-    @Transient
+    @JsonProperty("localizacionActual")
     Localizacion localizacionActual;
-    @OneToMany
+    @JsonProperty("entidadesPrestadorasFav")
     List<EntidadPrestadora> entidadesPrestadorasFav;
-    @ManyToMany
+    @JsonProperty("comunidades")
     List<Comunidad> comunidades;
 
 
@@ -98,7 +102,8 @@ public class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
-    
+
+    @JsonCreator
     public Usuario(String nombre, String email, String contrasenia, String telefono, ArrayList<Servicios> serviciosDeInteres, Localizacion localizacionActual, ArrayList<Comunidad> comunidades) {
         this.nombre = nombre;
         this.email = email;

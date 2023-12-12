@@ -11,25 +11,31 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-@Entity
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Incidente {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   
+   @JsonProperty("id")
     private long id;
-    @OneToOne
+   @JsonProperty("comunidad")
     long comunidad;
-
-    @OneToOne
+   @JsonProperty("servicio")
     long servicio;
-    @OneToOne
+   @JsonProperty("usuarioOpen")
     long usuarioOpen;
-    @OneToOne
+   @JsonProperty("usuarioClose")
     long usuarioClose;
+    @JsonProperty("observaciones")
     String observaciones;
+    @JsonProperty("estado")
     public EstadoIncidente estado = EstadoIncidente.ABIERTO;
+    @JsonProperty("horarioDeApertura")
     public LocalDateTime horarioDeApertura = LocalDateTime.now();
+    @JsonProperty("horarioDeCierre")
     public LocalDateTime horarioDeCierre;
+    @JsonProperty("tiempoFueraDeServicio")
     public float tiempoFueraDeServicio;
 
 
@@ -116,6 +122,7 @@ public class Incidente {
 
 
     //  @FEDE para las consultas de sql aca hay algo raro, si nosotros solemos pedir idUsuarioApertura pero aca pide un usuario
+    @JsonCreator
     public Incidente(long idComunidad, long idServicio, long usuarioApertura, String observaciones) {
         this.comunidad = comunidad;
         this.servicio = servicio;
@@ -127,7 +134,7 @@ public class Incidente {
         this.usuarioClose = 0;
     }
 
-
+    @JsonCreator
     public Incidente(long comunidad, long servicio, long usuarioApertura, String observaciones, EstadoIncidente EstadoIncidente, LocalDateTime horarioDeApertura, LocalDateTime horarioDeCierre, long usuarioCierre) {
         this.comunidad = comunidad;
         this.servicio = servicio;

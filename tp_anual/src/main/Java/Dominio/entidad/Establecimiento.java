@@ -14,9 +14,10 @@ public class Establecimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    
     final String nombre;
-    @Transient
-    public final Localizacion ubicacionGeografica;
+    
+    public final String ubicacionGeografica;
 
     // tanto grupoServicios como servicios deberian ser un unico atributo, una lista de tipo interfaz Servicios
     @Transient

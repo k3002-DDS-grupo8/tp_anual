@@ -1,4 +1,4 @@
-package Dominio.incidente;
+package Dominio.ranking;
 
 import Dominio.entidad.EntidadPrestadora;
 

@@ -1,7 +1,5 @@
 package Dominio.ranking;
 
-import Dominio.incidente.TipoRanking;
-
 import java.util.ArrayList;
 
 public class TipoInforme {

@@ -5,6 +5,11 @@ public abstract class Ranking {
     private long id;
     private String detalle;
 
+    public Ranking(long id, String detalle) {
+        this.id = id;
+        this.detalle = detalle;
+    }
+
     public long getId() {
         return id;
     }

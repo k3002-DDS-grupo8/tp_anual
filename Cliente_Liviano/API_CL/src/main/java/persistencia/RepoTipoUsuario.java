@@ -50,4 +50,20 @@ public class RepoTipoUsuario {
             session.close();
         }
     }
+
+    public void eliminarTipoUsuario(long id) {
+        Session session = BDUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createSQLQuery("DELETE FROM tipousuario WHERE id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
 }

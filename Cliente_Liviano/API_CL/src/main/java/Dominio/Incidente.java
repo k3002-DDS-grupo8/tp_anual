@@ -83,10 +83,10 @@ public class Incidente {
         this.idUsuarioCierre = idUsuarioCierre;
     }
 
-    public Incidente(long idComunidad, long idServicio, long idUsuarioApertura) {
+    public Incidente(long idComunidad, long idServicio, long idUsuarioApertura, String observaciones) {
         this.idComunidad = idComunidad;
         this.idServicio = idServicio;
-        this.observaciones = "";
+        this.observaciones = observaciones;
         this.estado = EstadoIncidente.ABIERTO;
         this.horarioDeApertura = LocalDateTime.now();
         this.horarioDeCierre = null;

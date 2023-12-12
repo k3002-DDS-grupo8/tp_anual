@@ -1,12 +1,10 @@
 package Dominio.ranking;
 
 import Dominio.entidad.EntidadPrestadora;
-import Dominio.incidente.TipoRanking;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BinaryOperator;
 
 public class SegunTiempoDeCierre {
     public ArrayList<TipoRanking> calcular(ArrayList<EntidadPrestadora> entidades){

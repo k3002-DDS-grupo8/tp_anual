@@ -2,9 +2,7 @@ package Dominio.ranking;
 
 import Dominio.entidad.EntidadPrestadora;
 import Dominio.entidad.RepositorioEntidadesPrestadoras;
-import Dominio.incidente.TipoRanking;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class RepositorioRankings {

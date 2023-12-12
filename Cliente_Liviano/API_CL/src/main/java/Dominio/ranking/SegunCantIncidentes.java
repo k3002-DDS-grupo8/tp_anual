@@ -2,13 +2,11 @@ package Dominio.ranking;
 
 import Dominio.entidad.EntidadPrestadora;
 import Dominio.incidente.EstadoIncidente;
-import Dominio.incidente.TipoRanking;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class SegunCantIncidentes {
     public ArrayList<TipoRanking> calcular(ArrayList<EntidadPrestadora> entidades){

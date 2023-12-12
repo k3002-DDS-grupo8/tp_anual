@@ -10,7 +10,7 @@ import Presentacion.PostCierreIdIncidenteHandler;
 import Presentacion.PostInsertarTipoUsuarioHandler;
 import Presentacion.PostAperturaIncidenteHandler;
 import Presentacion.PostEliminarTipoUsuarioHandler;
-import Presentacion.GetObtenerRankingIncidentesHandler;
+import Presentacion.GetObtenerRankingEntidadesHandler;
 
 
 import io.javalin.Javalin;
@@ -55,7 +55,7 @@ public class Application {
                       
                 .get("/api/eliminarTipoUsuario", ctx -> new PostEliminarTipoUsuarioHandler())
                       
-                .get("/api/obtenerRankingIncidentes", ctx -> new GetObtenerRankingIncidentesHandler())
+                .get("/api/obtenerRankingEntidades", ctx -> new GetObtenerRankingEntidadesHandler())
                       
                 .start(7070);
     }

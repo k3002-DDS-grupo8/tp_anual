@@ -17,14 +17,15 @@ public class RepoIncidente {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT * FROM incidente");
+            Query query = session.createSQLQuery("SELECT idComunidad, idServicio, idUsuarioApertura, observaciones FROM incidente");
             List<Object[]> rows = query.getResultList();
             ArrayList<Incidente> incidentes = new ArrayList<>();
             for (Object[] row : rows) {
                 Incidente incidente = new Incidente(
                         Long.parseLong(row[0].toString()),
                         Long.parseLong(row[1].toString()),
-                        Long.parseLong(row[2].toString())
+                        Long.parseLong(row[2].toString()),
+                        row[3].toString()
                 );
                 incidentes.add(incidente);
             }
@@ -37,14 +38,15 @@ public class RepoIncidente {
             session.close();
         }
     }
-    public static boolean abrirIncidente(long idComunidad, long idServicio, long idUsuarioApertura) {
+    public static boolean abrirIncidente(long idComunidad, long idServicio, long idUsuarioApertura, String observaciones) {
         try {
             Session session = BDUtils.getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
-            org.hibernate.query.Query sqlQuery = session.createSQLQuery(String.format("INSERT INTO incidente VALUES SET idComunidad = '%s', idServicio = %s, idUsuarioApertura = %s)",
+            org.hibernate.query.Query sqlQuery = session.createSQLQuery(String.format("INSERT INTO incidente VALUES SET idComunidad = '%s', idServicio = %s, idUsuarioApertura = %s, observaciones = %s)",
                     idComunidad,
                     idServicio,
-                    idUsuarioApertura
+                    idUsuarioApertura,
+                    observaciones
             ));
             tx.commit();
             return true;
@@ -70,4 +72,3 @@ public class RepoIncidente {
     }
 }
 
-//long idComunidad, long idServicio, long idUsuarioApertura

@@ -9,15 +9,24 @@ import persistencia.RepoRanking;
 import java.util.Optional;
 
 public class GetObtenerRankingEntidadesHandler implements Handler {
-    private final RepoRanking repoRanking;
 
-    public GetObtenerRankingEntidadesHandler() {
-        this.repoRanking = new RepoRanking();
-    }
+    private final RepoRanking repoRanking;
 
     @Override
     public void handle(@NotNull Context context) throws Exception {
         Integer idBuscado = context.pathParamAsClass("idRanking", Integer.class).get();
-        context.json(repoRanking.obtenerRankingEntidades(idBuscado));
+        final Optional<Informe> resultadoBusqueda = repoRanking.obtenerTodos().stream()
+                .filter(informe -> informe.getRanking_id() == idBuscado);
+        if(resultadoBusqueda.isPresent()) {
+            context.status(200).json(resultadoBusqueda.get());
+        } else {
+            context.status(404);
+        }
     }
+
+    public GetObtenerRankingEntidadesHandler() {
+        this.repoRanking = new RepoRanking();
+
+    }
+
 }

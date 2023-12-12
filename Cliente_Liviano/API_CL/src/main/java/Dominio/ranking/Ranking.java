@@ -1,6 +1,7 @@
 package Dominio.ranking;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class Ranking {
 

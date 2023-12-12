@@ -1,24 +1,25 @@
 package Dominio.entidad;
 import Dominio.comunidad.EEO;
 import Dominio.localizacion.Localizacion;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class EntidadPrestadora {
-    @Id
+    @JsonProperty("idEntidad")
     private long idEntidad;
+    @JsonProperty("nombre")
     final String nombre;
-    @OneToMany
+    @JsonProperty("listaEstablecimientos")
     public final List<Establecimiento> listaEstablecimientos;
-    @Transient
+    @JsonProperty("localizacion")
     final ArrayList<Localizacion> localizacion;
-    @OneToOne
+    @JsonProperty("usuarioEEO")
     final EEO usuarioEEO;
-
+    
+    @JsonCreator
     public EntidadPrestadora(String nombre, List<Establecimiento> listaEstablecimientos, ArrayList<Localizacion> localizacion, EEO usuarioEEO) {
         this.nombre = nombre;
         this.listaEstablecimientos = listaEstablecimientos;

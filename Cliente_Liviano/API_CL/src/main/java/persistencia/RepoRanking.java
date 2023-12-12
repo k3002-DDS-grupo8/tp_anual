@@ -16,12 +16,11 @@ import java.util.List;
 
 public class RepoRanking {
 
-    public ArrayList<Informe> obtenerRankingEntidades(long idRanking) {
+    public ArrayList<Informe> obtenerRankingEntidades() {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT ranking.detalle, informe.fecha, informe.posicion, informe.entidad_id, entidadprestadora.nombre FROM ranking JOIN informe ON ranking.id = informe.ranking JOIN entidadprestadora ON informe.entidad_id = entidadprestadora.id WHERE ranking.id = :idRanking"); //Podría poner "AND informe.fecha = '2023-01-01 00:00:00'" (es un ejemplo) pero no lo necesito pq solo tengo datos de prueba de 1 fecha jaja salu2
-            query.setParameter("idRanking", idRanking);
+            Query query = session.createSQLQuery("SELECT ranking.detalle, informe.fecha, informe.posicion, informe.entidad_id, entidadprestadora.nombre, ranking.id FROM ranking JOIN informe ON ranking.id = informe.ranking JOIN entidadprestadora ON informe.entidad_id = entidadprestadora.id");
             List<Object[]> rows = query.getResultList();
             ArrayList<Informe> informeEntidades = new ArrayList<>();
             for (Object[] row : rows) {
@@ -33,6 +32,7 @@ public class RepoRanking {
                 informeRenglon.setPosicion(Integer.parseInt(row[2].toString()));
                 informeRenglon.setEntidad_id(Long.parseLong(row[3].toString()));
                 informeRenglon.setEntidad_nombre(row[4].toString());
+                informeRenglon.setRanking_id(Long.parseLong(row[5].toString()));
 
                 informeEntidades.add(informeRenglon);
             }

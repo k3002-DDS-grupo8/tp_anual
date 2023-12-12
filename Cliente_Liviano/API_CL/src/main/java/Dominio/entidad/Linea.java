@@ -1,19 +1,21 @@
 package Dominio.entidad;
 import Dominio.comunidad.EEO;
 import Dominio.localizacion.Localizacion;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import java.util.ArrayList;
 
-@Entity
 public class Linea extends EntidadPrestadora {
-    @Enumerated
+    
+    @JsonProperty("tipo")
     final TipoMedio tipo;
-    @OneToOne
+    @JsonProperty("estacionOrigen")
     final Establecimiento estacionOrigen;
-    @OneToOne
+    @JsonProperty("estacionDestino")
     final Establecimiento estacionDestino;
 
+    @JsonCreator
     public Linea(String nombre, ArrayList<Establecimiento> listaEstablecimientos, ArrayList<Localizacion> localizacion, EEO usuarioEEO, TipoMedio tipo, Establecimiento estacionOrigen, Establecimiento estacionDestino) {
         super(nombre, listaEstablecimientos, localizacion, usuarioEEO);
         this.tipo = tipo;

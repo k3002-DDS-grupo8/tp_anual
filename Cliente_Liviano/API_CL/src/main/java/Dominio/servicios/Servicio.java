@@ -4,17 +4,20 @@ import Dominio.entidad.Establecimiento;
 import Dominio.incidente.Incidente;
 import javax.persistence.*;
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Servicio implements Servicios{
-    @Id
+    @JsonProperty("idServicio")
     private long idServicio;
+    @JsonProperty("nombre")
     final String nombre;
-    @OneToOne
+    @JsonProperty("establecimiento")
     public long establecimiento;
+    @JsonProperty("incidentes")
     public ArrayList<Long> incidentes;
 
+    @JsonCreator
     public Servicio(String nombre, long establecimiento, ArrayList<Long> incidentes) {
         this.nombre = nombre;
         this.establecimiento = establecimiento;
@@ -27,8 +30,7 @@ public class Servicio implements Servicios{
     public boolean prestadoHabitualmente() {
         return false;
     }
-
-    @Override
+    
     public void darDeBaja(Establecimiento unEstablecimineto) {
 
     }

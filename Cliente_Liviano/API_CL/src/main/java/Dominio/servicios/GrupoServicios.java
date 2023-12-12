@@ -1,25 +1,25 @@
 package Dominio.servicios;
 
 import Dominio.entidad.Establecimiento;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 public class GrupoServicios implements Servicios {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("idGrupoServicio")
     private long idGrupoServicio;
+    @JsonProperty("nombre")
     final String nombre;
-    @ManyToMany
+    @JsonProperty("servicio")
     final List<Servicio> servicio;
 
+    @JsonCreator
     public GrupoServicios(String nombre, List<Servicio> servicio) {
         this.nombre = nombre;
         this.servicio = servicio;
     }
 
-    @Override
     public void darDeBaja(Establecimiento unEstablecimineto) {
 
     }

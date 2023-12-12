@@ -1,8 +1,16 @@
 package Dominio.localizacion;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 public class Localizacion {
+    @JsonProperty("provincia")
+    Lugar provincia;
+    @JsonProperty("departamento")
+    Lugar departamento;
+    @JsonProperty("municipio")
+    Lugar municipio;
+    
     public Lugar getProvincia() {
         return provincia;
     }
@@ -27,10 +35,8 @@ public class Localizacion {
         this.municipio = municipio;
     }
 
-    Lugar provincia;
-    Lugar departamento;
-    Lugar municipio;
 
+    @JsonCreator
     public Localizacion(Lugar provincia, Lugar departamento, Lugar municipio) {
         this.provincia = provincia;
         this.departamento = departamento;

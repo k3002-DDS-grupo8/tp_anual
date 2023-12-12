@@ -12,10 +12,10 @@ INSERT INTO entidadprestadora (id, descripcion, email, nombre) VALUES
 (2, 'Ferrocarriles Argentinos', 'ferrocarriles.ar@example.com', 'Ferrocarriles Argentinos'),
 (3, 'Ferrocarriles del Sur', 'ferrocarrilesDelSur.ar@example.com', 'Ferrocarriles Argentinos del Sur');
 
-INSERT INTO establecimiento (id, nombre, entidadPrestadora_id) VALUES
-(1,  'Estacion Caballito - Subterráneo Linea A', 1),
-(2,  'Estacion Florida - Subterráneo Linea B', 1),
-(3,  'Estacion Ramos Mejia - Tren Sarmiento', 2)
+INSERT INTO establecimiento (id, nombre, entidadPrestadora_id, ubicacionGeografica) VALUES
+(1,  'Estacion Caballito - Subterráneo Linea A', 1, 'Caballito, Buenos Aires, Argentina'),
+(2,  'Estacion Florida - Subterráneo Linea B', 1, 'Florida, Buenos Aires, Argentina'),
+(3,  'Estacion Ramos Mejia - Tren Sarmiento', 2, 'Ramos Mejia, Buenos Aires, Argentina');
 
 INSERT INTO servicio (DTYPE, idServicio, nombre, establecimiento_id)VALUES
 ('Medio de Elevacion', 1, 'Escalera mecanica', 1),

@@ -29,7 +29,7 @@ public class Application {
 
                 }).start(7070);
 
-                //.get("/api/login/", ctx -> new LoginHandler())
+               
             
                 app.get("/api/obtenerUsuarios", ctx -> new GetUsuariosHandler());
             

@@ -31,3 +31,9 @@ public class GetIncidenteIdCercanoHandler implements Handler {
         }
     }
 }
+
+// en un repo miembro comunidad SELECT * FROM miembrocomunidad
+// Primero comunidades del usuario en un array
+// para cada comunidad, obtener incidentes con sus ubicaciones
+// chequear que ubicacion usuario == ubicacion incidente
+// chequear que iDMiembro = idUsuario && usuario.ubicacion == incidente.servicio.establecimiento.ubicacion &&  (select * from miembroComunidad where idMiembro == idUsuario) miembrocomunidad.comunidad = comunidad.id

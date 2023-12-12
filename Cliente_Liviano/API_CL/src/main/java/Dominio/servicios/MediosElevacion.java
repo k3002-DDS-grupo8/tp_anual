@@ -5,10 +5,13 @@ import Dominio.incidente.Incidente;
 
 import javax.persistence.Entity;
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
 public class MediosElevacion extends Servicio {
+    @JsonProperty("inicio")
     private String inicio;
+    @JsonProperty("fin")
     private String fin;
 
     public String getInicio() {
@@ -22,6 +25,7 @@ public class MediosElevacion extends Servicio {
     public void setInicio(String inicio) {
         this.inicio = inicio;
     }
+    
     public void setFin(String fin) {
         this.fin = fin;
     }

@@ -37,10 +37,7 @@ public class Application {
             
                 app.get("/api/obtenerComunidades", ctx -> new GetComunidadesHandler());
 
-                app.get("/api/obtenerComunidades/{id}", ctx -> {
-                    long id = Integer.parseInt(ctx.pathParam("id"));
-                    GetComunidadIdHandler comunidadId = new GetComunidadIdHandler();
-                    });
+                app.get("/api/obtenerComunidades/{id}", ctx -> new GetComunidadIdHandler());
 
                 app.post("/api/aperturaIncidente", ctx -> new PostAperturaIncidenteHandler());
 

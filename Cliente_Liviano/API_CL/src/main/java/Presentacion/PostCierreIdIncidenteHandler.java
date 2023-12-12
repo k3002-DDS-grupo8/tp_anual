@@ -1,11 +1,9 @@
 package Presentacion;
 
-import Dominio.Incidente;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 import persistencia.RepoIncidente;
-import persistencia.RepoUsuario;
 
 public class PostCierreIdIncidenteHandler implements Handler {
 

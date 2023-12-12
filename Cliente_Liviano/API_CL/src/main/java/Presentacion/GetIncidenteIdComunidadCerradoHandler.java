@@ -1,12 +1,12 @@
 package Presentacion;
 
-import Dominio.EstadoIncidente;
-import Dominio.Incidente;
+import Dominio.incidente.EstadoIncidente;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 import persistencia.RepoIncidente;
 import java.util.Optional;
+import Dominio.incidente.Incidente;
 
 public class GetIncidenteIdComunidadCerradoHandler implements Handler  {
 
@@ -17,7 +17,7 @@ public class GetIncidenteIdComunidadCerradoHandler implements Handler  {
         Integer idBuscado = context.pathParamAsClass("idComunidad", Integer.class).get();
         final Optional<Incidente> resultadoBusqueda = repoIncidente.obtenerTodos().stream()
                 .filter(incidente -> incidente.getId() == idBuscado)
-                .filter(incidente -> incidente.getEstado() == incidente.getEstado().CERRADO) //no se si esto esta bien
+                .filter(incidente -> incidente.getEstado() == EstadoIncidente.CERRADO) //no se si esto esta bien
                 .findFirst();
         if(resultadoBusqueda.isPresent()) {
             context.status(200).json(resultadoBusqueda.get());

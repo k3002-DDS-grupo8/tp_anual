@@ -109,7 +109,7 @@ public class Usuario {
         this.comunidades = comunidades;
     }
 
-    public void agregarNuevoIncidente(Comunidad comunidad, Servicio servicioAfectado, Usuario usuarioOpen, String observaciones) {
+    public void agregarNuevoIncidente(Comunidad comunidad, Servicio servicioAfectado, long usuarioOpen, String observaciones) {
         // Por cada una de las comunidades a las que pertenece el Usuario, creo un incidente.
         comunidades.forEach((comu -> {
             Incidente incidenteReportado = new Incidente(comunidad.getId(), servicioAfectado.getId(), usuarioOpen, observaciones);

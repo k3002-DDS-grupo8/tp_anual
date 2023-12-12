@@ -1,11 +1,8 @@
 package persistencia;
 
 
-import Dominio.Entidad;
 import Dominio.Utils.BDUtils;
-import Dominio.Utils.LocalDateTimeParser;
 import Dominio.ranking.Informe;
-import Dominio.ranking.InformePK;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import javax.persistence.Query;
@@ -16,7 +13,7 @@ import java.util.List;
 
 public class RepoRanking {
 
-    public ArrayList<Informe> obtenerRankingEntidades() {
+    public List<Informe> obtenerRankingEntidades() {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {

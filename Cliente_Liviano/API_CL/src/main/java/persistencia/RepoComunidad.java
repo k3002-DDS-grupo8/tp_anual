@@ -1,17 +1,20 @@
 package persistencia;
 
-import Dominio.Comunidad;
-import Dominio.Usuario;
 import Dominio.Utils.BDUtils;
+import Dominio.comunidad.Comunidad;
 import Dominio.comunidad.GradoConfianza;
+import Dominio.comunidad.MiembroComunidad;
+import Dominio.comunidad.Usuario;
+import Dominio.incidente.Incidente;
+import Dominio.localizacion.Localizacion;
+import Dominio.servicios.Servicio;
+import Dominio.servicios.Servicios;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RepoComunidad {
 
@@ -19,16 +22,18 @@ public class RepoComunidad {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT c.nombre FROM Comunidad c");
+            Query query = session.createSQLQuery("SELECT * FROM Comunidad c");
             List<Object[]> rows = query.getResultList();
             ArrayList<Comunidad> comunidades = new ArrayList<>();
 
             for (Object[] row : rows) {
                 Comunidad comunidad = new Comunidad(
-                        Long.parseLong(row[0].toString()),
-                        (List<Long>) row[1],
-                        (GradoConfianza) row[2],
-                        (Boolean) row[3]
+                        row[0].toString(),
+                        (ArrayList<MiembroComunidad>) row[1],
+                        (ArrayList<Servicios>) row[2],
+                        (ArrayList<Incidente>) row[3],
+                        (GradoConfianza) row[4],
+                        (Boolean) row[5]
                 );
                 comunidades.add(comunidad);
             }

@@ -1,6 +1,6 @@
 package Presentacion;
 
-import Dominio.Incidente;
+import Dominio.incidente.Incidente;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ public class PostAperturaIncidenteHandler implements Handler  {
         // yo no voy a poder crear una clase incidente
 
         Incidente incidente = context.bodyAsClass(Incidente.class);
-        if (repoIncidente.abrirIncidente(incidente.getIdComunidad(), incidente.getIdServicio(), incidente.getIdUsuarioApertura(), incidente.getObservaciones())){
+        if (repoIncidente.abrirIncidente(incidente.getComunidad(), incidente.getServicio(), incidente.getIdUsuarioApertura(), incidente.getObservaciones())){
             context.status(201);
         }
     }

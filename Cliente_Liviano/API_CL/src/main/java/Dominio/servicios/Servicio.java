@@ -12,11 +12,10 @@ public class Servicio implements Servicios{
     private long idServicio;
     final String nombre;
     @OneToOne
-    public Establecimiento establecimiento;
-    public ArrayList<Incidente> incidentes;
+    public long establecimiento;
+    public ArrayList<Long> incidentes;
 
-
-    public Servicio(String nombre, Establecimiento establecimiento, ArrayList<Incidente> incidentes) {
+    public Servicio(String nombre, long establecimiento, ArrayList<Long> incidentes) {
         this.nombre = nombre;
         this.establecimiento = establecimiento;
         this.incidentes = incidentes;

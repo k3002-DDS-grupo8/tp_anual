@@ -5,6 +5,7 @@ import Dominio.incidente.Incidente;
 import Dominio.notificacion.AdapterNotificacion;
 import Dominio.servicios.Servicio;
 import Dominio.comunidad.GradoConfianza;
+import Dominio.servicios.Servicios;
 import persistencia.RepoTipoUsuario;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Comunidad {
     long id;
     String nombre;
     ArrayList<MiembroComunidad> miembros;
-    Servicio[] serviciosDeInteres;
+    ArrayList<Servicios> serviciosDeInteres;
 
     @OneToMany
     List<Incidente> incidentes;
@@ -30,7 +31,7 @@ public class Comunidad {
 
     public Comunidad() {}
 
-    public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, Servicio[] serviciosDeInteres, List<Incidente> incidentes, GradoConfianza gradoConfianza, boolean activo) {
+    public Comunidad(String nombre, ArrayList<MiembroComunidad> miembros, ArrayList<Servicios> serviciosDeInteres, List<Incidente> incidentes, GradoConfianza gradoConfianza, boolean activo) {
         this.nombre = nombre;
         this.miembros = miembros;
         this.serviciosDeInteres = serviciosDeInteres;

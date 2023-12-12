@@ -1,29 +1,31 @@
 package persistencia;
 
-import Dominio.Entidad;
-import Dominio.Usuario;
 import Dominio.Utils.BDUtils;
+import Dominio.comunidad.EEO;
+import Dominio.entidad.Establecimiento;
+import Dominio.localizacion.Localizacion;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import Dominio.entidad.EntidadPrestadora;
 
 public class RepoEntidad {
-    public List<Entidad> obtenerTodos(){
+    public List<EntidadPrestadora> obtenerTodos(){
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
             Query query = session.createSQLQuery("SELECT * FROM entidad");
             List<Object[]> rows = query.getResultList();
-            ArrayList<Entidad> entidades = new ArrayList<>();
+            ArrayList<EntidadPrestadora> entidades = new ArrayList<>();
             for (Object[] row : rows) {
-                Entidad entidad = new Entidad(
-                        Long.parseLong(row[0].toString()),
-                        row[1].toString(),
-                        row[2].toString(),
-                        row[3].toString()
+                EntidadPrestadora entidad = new EntidadPrestadora(
+                        row[0].toString(),
+                        (List<Establecimiento>) row[1],
+                        (ArrayList<Localizacion>) row[2],
+                        (EEO) row[3]
                 );
                 entidades.add(entidad);
             }
@@ -38,4 +40,3 @@ public class RepoEntidad {
     }
 }
 
-//long id, String nombre, String email, String descripcion

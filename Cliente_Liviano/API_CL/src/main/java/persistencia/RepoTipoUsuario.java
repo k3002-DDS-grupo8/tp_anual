@@ -1,7 +1,6 @@
 package persistencia;
 
 import Dominio.comunidad.TipoUsuario;
-import Dominio.Usuario;
 import Dominio.Utils.BDUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,7 +8,6 @@ import org.hibernate.Transaction;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class RepoTipoUsuario {
     public List<TipoUsuario> obtenerTodos(){

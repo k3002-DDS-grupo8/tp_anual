@@ -1,15 +1,15 @@
 package persistencia;
-import Dominio.Usuario;
 import Dominio.Utils.BDUtils;
+import Dominio.comunidad.Comunidad;
+import Dominio.comunidad.Usuario;
+import Dominio.localizacion.Localizacion;
+import Dominio.servicios.Servicios;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Arrays.asList;
 
 
 public class RepoUsuario {
@@ -23,13 +23,24 @@ public class RepoUsuario {
             ArrayList<Usuario> usuarios = new ArrayList<>();
             for (Object[] row : rows) {
                 Usuario usuario = new Usuario(
-                        Long.parseLong(row[0].toString()),
-                        Float.parseFloat(row[1].toString()),
-                        Boolean.parseBoolean(row[2].toString()),
+                        row[0].toString(),
+                        row[1].toString(),
+                        row[2].toString(),
                         row[3].toString(),
-                        row[4].toString(),
-                        row[4].toString()
+                        (ArrayList<Servicios>) row[4],
+                        (Localizacion) row[5],
+                        (ArrayList<Comunidad>) row[6]
+
+        // @AYUDA NO SE SI LOS ULTIMOS 3 ESTAN BIEN
+        /*    String nombre,
+        String email,
+        String contrasenia,
+        String telefono,
+        ArrayList<Servicios> serviciosDeInteres,
+        Localizacion localizacionActual,
+        ArrayList<Comunidad> comunidades) {*/
                 );
+
                 usuarios.add(usuario);
             }
             tx.commit();

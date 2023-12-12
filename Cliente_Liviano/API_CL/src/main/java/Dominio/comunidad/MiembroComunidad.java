@@ -19,6 +19,13 @@ public class MiembroComunidad {
     @Enumerated
     Optional<TipoUsuario> tipoUsuario;
 
+    public MiembroComunidad(long idMiembro, UsuarioPersona usuario, Comunidad comunidad, Optional<TipoUsuario> tipoUsuario) {
+        this.idMiembro = idMiembro;
+        this.usuario = usuario;
+        this.comunidad = comunidad;
+        this.tipoUsuario = tipoUsuario;
+    }
+
     public MiembroComunidad(UsuarioPersona usuario, Optional<TipoUsuario> tipoUsuario, Comunidad comunidad) {
         this.usuario = usuario;
         this.tipoUsuario = tipoUsuario;

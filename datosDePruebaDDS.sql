@@ -14,7 +14,7 @@ INSERT INTO usuario (id, nombre, contrasenia, email, telefono, activo, puntosCon
 (2, 'Ana Gómez', 'pswSegura', 'ana.gomez@example.com', '987654321', 1, 0),
 (3, 'Carlos Dominguez', 'password123', 'carlitos.dominguez@example.com', '555666777', 1,0);
 
-INSERT INTO miembrocomunidad(idMiembro, comunidad_id) VALUES
+INSERT INTO miembrocomunidad(usuario_id, comunidad_id) VALUES
 (1,2),
 (1,4),
 (2,2);

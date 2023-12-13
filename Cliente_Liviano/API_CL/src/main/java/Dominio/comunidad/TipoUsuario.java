@@ -11,19 +11,25 @@ public class TipoUsuario {
     @JsonProperty("nombre")
     private String nombre;
 
+
+
+    @JsonCreator
+    public TipoUsuario(@JsonProperty("id") long id, @JsonProperty("nombre") String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    public TipoUsuario() {
+        this.id = 0;
+        this.nombre = "";
+    }
+
     public String getNombre() {
         return this.nombre;
     }
 
-    @JsonCreator
-    public TipoUsuario(long id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-    }
-    @JsonCreator
-    public TipoUsuario() {
-        this.id = 0;
-        this.nombre = "";
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {

@@ -2,42 +2,35 @@ package Dominio.comunidad;
 
 import Dominio.incidente.Incidente;
 
-import javax.persistence.*;
 import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MiembroComunidad {
-    @JsonProperty("idMiembro")
-    private long idMiembro;
-    @JsonProperty("usuario")
-    final UsuarioPersona usuario;
-    @JsonProperty("comunidad")
-    final Comunidad comunidad;
-    @JsonProperty("tipoUsuario")
-    Optional<TipoUsuario> tipoUsuario;
+    @JsonProperty("usuarioId")
+    private long usuarioId;
+    @JsonProperty("comunidadId")
+    private long comunidadId;
 
     @JsonCreator
-    public MiembroComunidad(long idMiembro, UsuarioPersona usuario, Comunidad comunidad, Optional<TipoUsuario> tipoUsuario) {
-        this.idMiembro = idMiembro;
-        this.usuario = usuario;
-        this.comunidad = comunidad;
-        this.tipoUsuario = tipoUsuario;
+    public MiembroComunidad(@JsonProperty("usuarioId") long usuarioId, @JsonProperty("comunidadId") long comunidadId) {
+        this.usuarioId = usuarioId;
+        this.comunidadId = comunidadId;
     }
 
-    @JsonCreator
-    public MiembroComunidad(UsuarioPersona usuario, Optional<TipoUsuario> tipoUsuario, Comunidad comunidad) {
-        this.usuario = usuario;
-        this.tipoUsuario = tipoUsuario;
-        this.comunidad = comunidad;
+    public long getUsuarioId() {
+        return usuarioId;
     }
 
-    public void cambiarTipoUsuario(Optional<TipoUsuario> nuevoTipoUsuario){
-
-        this.tipoUsuario = nuevoTipoUsuario;
+    public void setUsuarioId(long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
-    public void cerrarIncidente(Incidente incidente){
-        incidente.cerrar();
+    public long getComunidadId() {
+        return comunidadId;
+    }
+
+    public void setComunidadId(long comunidadId) {
+        this.comunidadId = comunidadId;
     }
 }

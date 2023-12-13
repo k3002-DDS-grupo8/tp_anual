@@ -1,9 +1,13 @@
 package Presentacion;
 
+import Dominio.comunidad.Usuario;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 import persistencia.RepoUsuario;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GetUsuariosHandler implements Handler  {
     private final RepoUsuario repoUsuario;
@@ -13,6 +17,11 @@ public class GetUsuariosHandler implements Handler  {
     }
     @Override
     public void handle(@NotNull Context context) throws Exception {
-        context.json(repoUsuario.obtenerTodos());
+        for (Usuario usuario : repoUsuario.obtenerTodos()) {
+            System.out.print(usuario.toString());
+        }
+        //context.json(repoUsuario.obtenerTodos());
+        //context.result(repoUsuario.obtenerTodos().toString());
+        context.result("hola");
     }
 }

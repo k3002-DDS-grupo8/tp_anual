@@ -3,8 +3,8 @@ package persistencia;
 import Dominio.Utils.BDUtils;
 import Dominio.comunidad.MiembroComunidad;
 import Dominio.comunidad.TipoUsuario;
-import Dominio.comunidad.UsuarioPersona;
 import Dominio.comunidad.Comunidad;
+import Dominio.comunidad.Usuario;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -19,16 +19,14 @@ public class RepoMiembroComunidad {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT * FROM miembroComunidad");
+            Query query = session.createSQLQuery("SELECT usuario_id, comunidad_id FROM miembroComunidad");
             List<Object[]> rows = query.getResultList();
             ArrayList<MiembroComunidad> miembroComunidades = new ArrayList<>();
 
             for (Object[] row : rows) {
                 MiembroComunidad miembroComunidad = new MiembroComunidad(
                         Long.parseLong(row[0].toString()),
-                        (UsuarioPersona) row[1],
-                        (Comunidad) row[2],
-                        (Optional<TipoUsuario>) row[3]
+                        Long.parseLong(row[1].toString())
                 );
                 miembroComunidades.add(miembroComunidad);
             }
@@ -41,4 +39,5 @@ public class RepoMiembroComunidad {
             session.close();
         }
     }
+
 }

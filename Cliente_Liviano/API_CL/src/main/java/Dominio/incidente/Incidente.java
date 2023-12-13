@@ -1,55 +1,40 @@
 package Dominio.incidente;
-import Dominio.comunidad.Usuario;
-import Dominio.localizacion.Localizacion;
-import Dominio.servicios.Servicio;
 
-import Dominio.comunidad.Comunidad;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Incidente {
 
-   
-   @JsonProperty("id")
+
+    @JsonProperty("id")
     private long id;
-   @JsonProperty("comunidad")
-    long comunidad;
-   @JsonProperty("servicio")
-    long servicio;
-   @JsonProperty("usuarioOpen")
-    long usuarioOpen;
-   @JsonProperty("usuarioClose")
-    long usuarioClose;
+    @JsonProperty("comunidadId")
+    private long comunidadId;
+    @JsonProperty("servicioId")
+    private long servicioId;
+    @JsonProperty("usuarioAperturaId")
+    private long usuarioAperturaId;
+    @JsonProperty("usuarioCierreId")
+    private long usuarioCierreId;
     @JsonProperty("observaciones")
-    String observaciones;
+    private String observaciones;
     @JsonProperty("estado")
-    public EstadoIncidente estado = EstadoIncidente.ABIERTO;
-    @JsonProperty("horarioDeApertura")
-    public LocalDateTime horarioDeApertura = LocalDateTime.now();
-    @JsonProperty("horarioDeCierre")
-    public LocalDateTime horarioDeCierre;
-    @JsonProperty("tiempoFueraDeServicio")
-    public float tiempoFueraDeServicio;
+    private String estado;
 
-
-    public void cerrar() {
-        this.estado = EstadoIncidente.CERRADO;
-        tiempoFueraDeServicio = ChronoUnit.SECONDS.between(LocalDateTime.now(), horarioDeApertura);
-        horarioDeCierre = LocalDateTime.now();
+    @JsonCreator
+    public Incidente(@JsonProperty("id") long id, @JsonProperty("comunidadId") long comunidadId, @JsonProperty("servicioId") long servicioId, @JsonProperty("usuarioAperturaId") long usuarioAperturaId, @JsonProperty("usuarioCierreId") long usuarioCierreId, @JsonProperty("observaciones") String observaciones, @JsonProperty("estado") String estado) {
+        this.id = id;
+        this.comunidadId = comunidadId;
+        this.servicioId = servicioId;
+        this.usuarioAperturaId = usuarioAperturaId;
+        this.usuarioCierreId = usuarioCierreId;
+        this.observaciones = observaciones;
+        this.estado = estado;
     }
-
-    public void importancia() {}
-
-    //public Localizacion getLocalizacionIncidente() {
-    //    return this.servicio.establecimiento.ubicacionGeografica;
-    //}
+    public Incidente() {}
 
     public long getId() {
         return id;
@@ -59,20 +44,36 @@ public class Incidente {
         this.id = id;
     }
 
-    public long getComunidad() {
-        return comunidad;
+    public long getComunidadId() {
+        return comunidadId;
     }
 
-    public void setComunidad(long comunidad) {
-        this.comunidad = comunidad;
+    public void setComunidadId(long comunidadId) {
+        this.comunidadId = comunidadId;
     }
 
-    public long getServicio() {
-        return servicio;
+    public long getServicioId() {
+        return servicioId;
     }
 
-    public void setServicio(long servicio) {
-        this.servicio = servicio;
+    public void setServicioId(long servicioId) {
+        this.servicioId = servicioId;
+    }
+
+    public long getUsuarioAperturaId() {
+        return usuarioAperturaId;
+    }
+
+    public void setUsuarioAperturaId(long usuarioAperturaId) {
+        this.usuarioAperturaId = usuarioAperturaId;
+    }
+
+    public long getUsuarioCierreId() {
+        return usuarioCierreId;
+    }
+
+    public void setUsuarioCierreId(long usuarioCierreId) {
+        this.usuarioCierreId = usuarioCierreId;
     }
 
     public String getObservaciones() {
@@ -82,71 +83,12 @@ public class Incidente {
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
-    public EstadoIncidente getEstado() {
+
+    public String getEstado() {
         return estado;
     }
-    public void setEstado(EstadoIncidente estado) {
+
+    public void setEstado(String estado) {
         this.estado = estado;
-    }
-    public LocalDateTime getHorarioDeApertura() {
-        return horarioDeApertura;
-    }
-
-    public void setHorarioDeApertura(LocalDateTime horarioDeApertura) {
-        this.horarioDeApertura = horarioDeApertura;
-    }
-
-    public LocalDateTime getHorarioDeCierre() {
-        return horarioDeCierre;
-    }
-
-    public void setHorarioDeCierre(LocalDateTime horarioDeCierre) {
-        this.horarioDeCierre = horarioDeCierre;
-    }
-
-    public long getIdUsuarioApertura() {
-        return usuarioOpen;
-    }
-
-    public void setIdUsuarioApertura(long usuarioApertura) {
-        this.usuarioOpen = usuarioApertura;
-    }
-
-    public long getIdUsuarioCierre() {
-        return usuarioClose;
-    }
-
-    public void setIdUsuarioCierre(long usuarioCierre) {
-        this.usuarioClose = usuarioCierre;
-    }
-
-
-    //  @FEDE para las consultas de sql aca hay algo raro, si nosotros solemos pedir idUsuarioApertura pero aca pide un usuario
-    @JsonCreator
-    public Incidente(long idComunidad, long idServicio, long usuarioApertura, String observaciones) {
-        this.comunidad = comunidad;
-        this.servicio = servicio;
-        this.observaciones = observaciones;
-        this.estado = EstadoIncidente.ABIERTO;
-        this.horarioDeApertura = LocalDateTime.now();
-        this.horarioDeCierre = null;
-        this.usuarioOpen = usuarioApertura;
-        this.usuarioClose = 0;
-    }
-
-    @JsonCreator
-    public Incidente(long comunidad, long servicio, long usuarioApertura, String observaciones, EstadoIncidente EstadoIncidente, LocalDateTime horarioDeApertura, LocalDateTime horarioDeCierre, long usuarioCierre) {
-        this.comunidad = comunidad;
-        this.servicio = servicio;
-        this.observaciones = observaciones;
-        this.estado = EstadoIncidente;
-        this.horarioDeApertura = horarioDeApertura;
-        this.horarioDeCierre = horarioDeCierre;
-        this.usuarioOpen = usuarioApertura;
-        this.usuarioClose = usuarioCierre;
-    }
-
-    public void actualizarEstado(EstadoIncidente nuevoEstado) {
-        this.estado = nuevoEstado;
     }
 }

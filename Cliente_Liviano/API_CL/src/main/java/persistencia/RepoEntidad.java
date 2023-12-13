@@ -1,9 +1,6 @@
 package persistencia;
 
 import Dominio.Utils.BDUtils;
-import Dominio.comunidad.EEO;
-import Dominio.entidad.Establecimiento;
-import Dominio.localizacion.Localizacion;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -17,15 +14,16 @@ public class RepoEntidad {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT * FROM entidad");
+            Query query = session.createSQLQuery("SELECT id, nombre, email, descripcion, usuarioEEO_id FROM entidad");
             List<Object[]> rows = query.getResultList();
             ArrayList<EntidadPrestadora> entidades = new ArrayList<>();
             for (Object[] row : rows) {
                 EntidadPrestadora entidad = new EntidadPrestadora(
-                        row[0].toString(),
-                        (List<Establecimiento>) row[1],
-                        (ArrayList<Localizacion>) row[2],
-                        (EEO) row[3]
+                        Long.parseLong(row[0].toString()),
+                        row[1].toString(),
+                        row[2].toString(),
+                        row[3].toString(),
+                        Long.parseLong(row[4].toString())
                 );
                 entidades.add(entidad);
             }

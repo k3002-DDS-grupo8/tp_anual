@@ -18,11 +18,9 @@ public class PostCierreIdIncidenteHandler implements Handler {
         Incidente incidente = context.bodyAsClass(Incidente.class);
 
         long idIncidente = incidente.getId();
-        long idUsuarioCierre = incidente.getIdUsuarioCierre();
+        long idUsuarioCierre = incidente.getUsuarioCierreId();
 
-     if(repoIncidente.cerrarIncidente(idIncidente, idUsuarioCierre))
-     {
-         context.status(201);
-     }
+     repoIncidente.cerrarIncidente(idIncidente, idUsuarioCierre);
+     context.status(201);
     }
 }

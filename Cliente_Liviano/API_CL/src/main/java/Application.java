@@ -1,3 +1,4 @@
+import Dominio.Utils.BDUtils;
 import Presentacion.GetUsuariosHandler;
 import Presentacion.GetUsuarioIdHandler;
 import Presentacion.GetComunidadesHandler;
@@ -16,6 +17,8 @@ import Presentacion.GetObtenerRankingEntidadesHandler;
 import io.javalin.Javalin;
 import org.quartz.*;
 
+import javax.persistence.EntityManager;
+
 public class Application {
     public static void main(String[] args) throws SchedulerException {
 
@@ -29,9 +32,16 @@ public class Application {
 
                 }).start(7070);
 
-               
+               app.get("/api", ctx -> {
+                    System.out.printf("hola");
+
+                   ctx.result("Hello");
+               });
             
-                app.get("/api/obtenerUsuarios", ctx -> new GetUsuariosHandler());
+               app.get("/api/obtenerUsuarios", ctx ->{
+                   GetUsuariosHandler handlerUsuario = new GetUsuariosHandler();
+                   handlerUsuario.handle(ctx);
+               });
             
                 app.get("/api/obtenerUsuarios/{id}", new GetUsuarioIdHandler());
             

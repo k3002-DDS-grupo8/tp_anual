@@ -1,9 +1,8 @@
 package Dominio.servicios;
 
-import Dominio.entidad.Establecimiento;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.*;
+
 import java.util.List;
 
 public class GrupoServicios implements Servicios {

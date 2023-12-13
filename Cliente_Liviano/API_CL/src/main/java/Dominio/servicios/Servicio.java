@@ -1,8 +1,5 @@
 package Dominio.servicios;
 
-import Dominio.entidad.Establecimiento;
-import Dominio.incidente.Incidente;
-import javax.persistence.*;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

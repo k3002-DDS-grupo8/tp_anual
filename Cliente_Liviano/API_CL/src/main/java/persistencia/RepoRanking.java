@@ -22,7 +22,7 @@ public class RepoRanking {
             ArrayList<Informe> informeEntidades = new ArrayList<>();
             for (Object[] row : rows) {
                 Informe informeRenglon = new Informe();
-                informeRenglon.setRanking_detalle(row[0].toString());
+                informeRenglon.setDetalle(row[0].toString());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
                 LocalDateTime fechaLocalDateTime = LocalDateTime.parse(row[1].toString(), formatter);
                 informeRenglon.setFecha(fechaLocalDateTime);

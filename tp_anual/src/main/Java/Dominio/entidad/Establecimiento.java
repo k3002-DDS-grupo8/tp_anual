@@ -29,7 +29,7 @@ public class Establecimiento {
     @OneToOne
     public EntidadPrestadora entidadPrestadora;
 
-    public Establecimiento(String nombre, Localizacion ubicacionGeografica, List<GrupoServicios> grupoServicios, List<Servicio> servicios) {
+    public Establecimiento(String nombre, String ubicacionGeografica, List<GrupoServicios> grupoServicios, List<Servicio> servicios) {
         this.nombre = nombre;
         this.ubicacionGeografica = ubicacionGeografica;
         this.grupoServicios = grupoServicios;

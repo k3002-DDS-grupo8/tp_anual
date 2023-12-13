@@ -47,18 +47,6 @@ public class Comunidad {
         ArrayList<Incidente> incidentesDeseados = (ArrayList<Incidente>) incidentes.stream().filter((Incidente incidenteActual) -> incidenteActual.estado == estadoSolicitado);
         return incidentesDeseados;
     }
-    public void notificarIncidenteCercano() {
-        ArrayList<Incidente> incidentesAbiertos = consultarIncidentesSegunEstado(EstadoIncidente.ABIERTO);
-        miembros.forEach(miembroComunidad -> {
-            Usuario usuarioComunidad = miembroComunidad.usuario;
-            incidentesAbiertos.forEach(incidenteAbierto -> {
-                if(usuarioComunidad.getLocalizacionActual().estaEnCercania(incidenteAbierto.getLocalizacionIncidente())) {
-                    AdapterNotificacion notificacion = new AdapterNotificacion();
-                    usuarioComunidad.notificar(notificacion);
-                }
-            });
-        });
-    }
 
     public void asignarAdministrador(MiembroComunidad miembro){
         //miembro.cambiarTipoUsuario(1);

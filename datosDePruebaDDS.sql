@@ -4,8 +4,20 @@ INSERT INTO comunidad ( id, nombre, gradoConfianza, activo ) VALUES
 (3, 'Comunidad C', 2, TRUE),
 (4, 'Comunidad D', 3 , FALSE);
 
+INSERT INTO tipousuario(id, nombre) VALUES 
+(1, 'Administrador'),
+(2, 'Usuario'),
+(3, 'Observador');
+
+INSERT INTO usuario (id, nombre, contrasenia, email, telefono, activo, puntosConfianza)VALUES
+(1, 'Juan Pérez', '1234', 'juan.perez@example.com', '123456789', 1, 0),
+(2, 'Ana Gómez', 'pswSegura', 'ana.gomez@example.com', '987654321', 1, 0),
+(3, 'Carlos Dominguez', 'password123', 'carlitos.dominguez@example.com', '555666777', 1,0);
+
 INSERT INTO miembrocomunidad(idMiembro, comunidad_id) VALUES
-(1,4);
+(1,2),
+(1,4),
+(2,2);
 
 INSERT INTO entidadprestadora (id, descripcion, email, nombre) VALUES
 (1, 'Subterráneos de Buenos Aires', 'subte.ba@example.com', 'Subterráneos de Buenos Aires'),
@@ -37,16 +49,6 @@ VALUES
 (1, 'SegunTiempoDeCierre'),
 (2, 'SegunGradoDeImpacto'),
 (3, 'SegunCantIncidentes');
-
-INSERT INTO tipousuario(id, nombre) VALUES 
-(1, 'Administrador'),
-(2, 'Usuario'),
-(3, 'Observador');
-
-INSERT INTO usuario (id, nombre, contrasenia, email, telefono, activo, puntosConfianza)VALUES
-(1, 'Juan Pérez', '1234', 'juan.perez@example.com', '123456789', 1, 0),
-(2, 'Ana Gómez', 'pswSegura', 'ana.gomez@example.com', '987654321', 1, 0),
-(3, 'Carlos Dominguez', 'password123', 'carlitos.dominguez@example.com', '555666777', 1,0);
 
 INSERT INTO informe (fecha, posicion, ranking, entidad_id) VALUES 
 ('2023-10-10 10:10:10',1,1,1),

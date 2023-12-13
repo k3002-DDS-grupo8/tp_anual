@@ -45,8 +45,4 @@ public class Incidente {
     }
     public void importancia() {}
 
-    public Localizacion getLocalizacionIncidente() {
-        return this.servicio.establecimiento.ubicacionGeografica;
-    }
-
 }

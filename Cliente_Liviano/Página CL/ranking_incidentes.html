@@ -7,6 +7,8 @@
   <title>Rankings de Incidentes</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 
 <body class="bg-white">
@@ -83,73 +85,27 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var notificacionesDropdown = document.getElementById('notificacionesDropdown')
-      var notificacionesMenu = document.getElementById('notificacionesMenu')
-      var toggleMenu = document.getElementById('toggleMenu')
-      var mobileMenu = document.getElementById('mobileMenu')
+        var app = new Vue({
+        el: "#appVue",
+        data: {
+            // mascotasHardcode: [{id: 1, nombre: "Juan", raza: "PEPE"}, {id: 1, nombre: "Juana", raza: "PEPA"}],
+            rankings: []
+        },
+        created () {
 
-      notificacionesDropdown.addEventListener('click', function () {
-        notificacionesMenu.classList.toggle('hidden')
-      })
+            setTimeout(()=> { //para demorar la ejecución 5 segundos
 
-      toggleMenu.addEventListener('click', function () {
-        mobileMenu.classList.toggle('hidden')
-      })
 
-      obtenerRankings()
-    })
+                fetch('http://localhost:8080/api/obtenerRankingEntidades')
+                    // .then(response => response.json())
+                    .then(data => {
+                        this.rankings = data
+                    })
 
-    async function obtenerRankings() {
-      const res = await fetch("http://localhost:7070/obtenerTiposUsuario")
-      let tipos = await res.json()
-      rankings.forEach(ranking => {
-        rankings.push(ranking)
-      })
-    }
 
-    var rankings = [
-      {
-        criterio: 'A',
-        elementos: [
-          { nombre: 'Entidad 1', datoExtra: 'Dato A', posicion: 1 },
-          { nombre: 'Entidad 2', datoExtra: 'Dato B', posicion: 2 },
-          { nombre: 'Entidad 3', datoExtra: 'Dato C', posicion: 3 }
-        ]
-      },
-      {
-        criterio: 'B',
-        elementos: [
-          { nombre: 'Entidad 4', datoExtra: 'Dato D', posicion: 1 },
-          { nombre: 'Entidad 5', datoExtra: 'Dato E', posicion: 2 },
-          { nombre: 'Entidad 6', datoExtra: 'Dato F', posicion: 3 }
-        ]
-      },
-      {
-        criterio: 'C',
-        elementos: [
-          { nombre: 'Entidad 7', datoExtra: 'Dato G', posicion: 1 },
-          { nombre: 'Entidad 8', datoExtra: 'Dato H', posicion: 2 },
-          { nombre: 'Entidad 9', datoExtra: 'Dato I', posicion: 3 }
-        ]
-      }
-    ]
+            }, 5000)
 
-    rankings.forEach(function (ranking) {
-      var rankingList = document.getElementById('ranking' + ranking.criterio + 'List')
-
-      ranking.elementos.forEach(function (elemento) {
-        var nuevoElemento = document.createElement('li')
-        nuevoElemento.classList.add('flex', 'flex-wrap', 'justify-between', 'items-center', 'gap-4', 'mb-4', 'border', 'border-gray-300', 'p-4')
-        nuevoElemento.innerHTML = `
-            <span class="font-bold">${elemento.posicion}. ${elemento.nombre}</span>
-            <span>${elemento.datoExtra}</span>
-            <button class="text-white bg-blue-500 hover:bg-blue-700 px-3 py-1 rounded-full">
-              <i class="far fa-eye"></i> Ver
-            </button>
-          `
-        rankingList.appendChild(nuevoElemento)
-      })
+        }
     })
   </script>
 </body>

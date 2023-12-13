@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Mascotas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</head>
+<body>
+
+    <h3>Mi tabla con Vue</h3>
+    <div id="appVue">
+
+        <table class="table table-bordered table-striped">
+            <tr v-for="comunidad in comunidades">
+                <td>{{comunidad.nombre}}</td>
+                <td>{{comunidad.gradoConfianza}}</td>
+            </tr>
+        </table>
+
+    </div>
+
+
+<script>
+    var app = new Vue({
+        el: "#appVue",
+        data: {
+            // mascotasHardcode: [{id: 1, nombre: "Juan", raza: "PEPE"}, {id: 1, nombre: "Juana", raza: "PEPA"}],
+            comunidades: []
+        },
+        created () {
+
+            setTimeout(()=> { //para demorar la ejecución 5 segundos
+
+
+                fetch('http://localhost:8080/api/obtenerComunidades')
+                    // .then(response => response.json())
+                    .then(data => {
+                        this.comunidades = data
+                    })
+
+
+            }, 5000)
+
+        }
+    })
+</script>
+</body>
+</html>

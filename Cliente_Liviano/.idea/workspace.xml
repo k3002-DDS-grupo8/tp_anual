@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a7ed8e9-1190-4e28-9a93-9f12360d4108" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/API_CL/src/main/java/Presentacion/LoginHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API_CL/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/java/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Página CL/admin_tipos_usurario.html" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/resources/static/admin_tipos_usurario.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Página CL/carga_datos.html" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/resources/static/carga_datos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Página CL/incidentes_comunidad.html" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/resources/static/incidentes_comunidad.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Página CL/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/resources/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Página CL/inicio_sesion.html" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/resources/static/inicio_sesion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Página CL/lista_comunidades.html" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/resources/static/lista_comunidades.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Página CL/ranking_incidentes.html" beforeDir="false" afterPath="$PROJECT_DIR$/API_CL/src/main/resources/static/ranking_incidentes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Página CL/incidentes_comunidad.html" beforeDir="false" afterPath="$PROJECT_DIR$/Página CL/incidentes_comunidad.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Página CL/ranking_incidentes.html" beforeDir="false" afterPath="$PROJECT_DIR$/Página CL/ranking_incidentes.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

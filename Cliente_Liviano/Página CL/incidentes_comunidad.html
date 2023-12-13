@@ -7,6 +7,8 @@
   <title>Incidentes Comunidad</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 
 <body class="bg-white">
@@ -76,11 +78,49 @@
       Abrir Incidente
     </button>
     <ul id="incidentesList" class="list-none p-0 w-full">
+      <!-- Elementos en VUE -->
+      <div id="appVue">
+        <div v-for="incidente in incidentesHardcode" class="mb-4 border border-gray-300 p-4 flex flex-wrap items-center justify-between">
+          <div>
+            <h3 class="text-xl font-bold">Id: {{incidente.id}}</h3>
+            <p>Servicio: {{incidente.servicio}}</p>
+            <p class="estadoIncidente">Estado: {{incidente.estado}}</p>
+          </div>
+          <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full cerrar">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
     </ul>
   </main>
 
+
+
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script>
+
+var app = new Vue({
+        el: "#appVue",
+        data: {
+            incidentesHardcode: [{id: 1, servicio: "Subte", estado: "Abierto"}, {id: 2, servicio: "Tren", estado: "Cerrado"}, {id: 3, servicio: "Ecobici", estado: "Abierto"}],
+            incidentes: []
+        },
+        created () {
+
+              var params = new URLSearchParams(window.location.search)
+              var comunidadId = params.get('comunidad_id')
+              var titulo = document.querySelector('#title')
+              titulo.textContent = `Incidentes de Comunidad ${comunidadId}`
+
+              fetch('http://localhost:8080/api/obtenerRankingEntidades')
+                  // .then(response => response.json())
+                  .then(data => {
+                      this.rankings = data
+                  })
+
+        }
+    })
     document.addEventListener('DOMContentLoaded', function () {
       var notificacionesDropdown = document.getElementById('notificacionesDropdown')
       var notificacionesMenu = document.getElementById('notificacionesMenu')
@@ -95,13 +135,8 @@
         mobileMenu.classList.toggle('hidden')
       })
 
-      var params = new URLSearchParams(window.location.search)
-      var comunidadId = params.get('comunidad_id')
-      var titulo = document.querySelector('#title')
-      titulo.textContent = `Incidentes de Comunidad ${comunidadId}`
-
       async function obtenerIncidentes() {
-        const res = await fetch(`http://localhost:7070/obtenerIncidentes/${comunidadId}`)
+        const res = await fetch(`http://localhost:8080/api/obtenerIncidentesComunidad/${comunidadId}`)
         let incidentes = await res.json()
         incidentes.forEach(incidente => {
           //Imprimir cada Incidente

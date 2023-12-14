@@ -36,14 +36,7 @@ public class Application {
                     handler.handle(ctx);
                 });
             
-<<<<<<< HEAD
                 app.get("/api/obtenerComunidades", new GetComunidadesHandler());
-=======
-                app.get("/api/obtenerComunidades", ctx -> {
-                    GetComunidadesHandler handler = new GetComunidadesHandler();
-                    handler.handle(ctx);
-                });
->>>>>>> d5fc6119c2a8a838d436b2929a084acde14e6ad2
 
                 app.get("/api/obtenerComunidades/{id}", ctx -> {
                     GetComunidadIdHandler handler = new GetComunidadIdHandler();
@@ -55,14 +48,7 @@ public class Application {
                     handler.handle(ctx);
                 });
 
-<<<<<<< HEAD
                 app.get("/api/obtenerIncidentesComunidad/{idComunidad}", new GetIncidenteIdComunidadHandler());
-=======
-                app.get("/api/obtenerIncidentesComunidad/{idComunidad}",  ctx -> {
-                    GetIncidenteIdComunidadHandler handler = new GetIncidenteIdComunidadHandler();
-                    handler.handle(ctx);
-                });
->>>>>>> d5fc6119c2a8a838d436b2929a084acde14e6ad2
 
                 app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> {
                     GetIncidenteIdComunidadAbiertoHandler handler = new GetIncidenteIdComunidadAbiertoHandler();
@@ -84,14 +70,7 @@ public class Application {
                     handler.handle(ctx);
                 });
                       
-<<<<<<< HEAD
                 app.post("/api/cierreIncidente/{idIncidente}", new PostCierreIdIncidenteHandler());
-=======
-                app.post("/api/cierreIncidente/",  ctx -> {
-                    PostCierreIdIncidenteHandler handler = new PostCierreIdIncidenteHandler();
-                    handler.handle(ctx);
-                });
->>>>>>> d5fc6119c2a8a838d436b2929a084acde14e6ad2
 
                 app.post("/api/insertarTipoUsuario",  ctx -> {
                     PostInsertarTipoUsuarioHandler handler = new PostInsertarTipoUsuarioHandler();

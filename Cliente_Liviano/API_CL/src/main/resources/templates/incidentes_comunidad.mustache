@@ -158,10 +158,6 @@
       var detalleIncidente = incidente.querySelector('.detalleIncidente').value
       var estado = "ABIERTO"
 
-      var nuevoIncidente = document.createElement('li')
-      nuevoIncidente.classList.add('mb-4', 'border', 'border-gray-300', 'p-4', 'flex', 'flex-wrap', 'items-center', 'justify-between')
-      nuevoIncidente.id = id
-
       const res = await fetch('http://localhost:7070/abrirIncidente', {
         method: "POST",
         body: JSON.stringify({ id, comunidadId, servicioIncidenteId, detalleIncidente, estado, usuario1Id })

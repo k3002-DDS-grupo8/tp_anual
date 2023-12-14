@@ -1,17 +1,5 @@
 import Dominio.Utils.BDUtils;
-import Presentacion.GetUsuariosHandler;
-import Presentacion.GetUsuarioIdHandler;
-import Presentacion.GetComunidadesHandler;
-import Presentacion.GetComunidadIdHandler;
-import Presentacion.GetIncidenteIdComunidadHandler;
-import Presentacion.GetIncidenteIdComunidadAbiertoHandler;
-import Presentacion.GetIncidenteIdComunidadCerradoHandler;
-import Presentacion.GetEntidadesHandler;
-import Presentacion.PostCierreIdIncidenteHandler;
-import Presentacion.PostInsertarTipoUsuarioHandler;
-import Presentacion.PostAperturaIncidenteHandler;
-import Presentacion.PostEliminarTipoUsuarioHandler;
-import Presentacion.GetObtenerRankingEntidadesHandler;
+import Presentacion.*;
 
 
 import io.javalin.Javalin;
@@ -32,10 +20,10 @@ public class Application {
 
                 }).start(7070);
 
-               app.get("/api", ctx -> {
-                    System.out.printf("hola");
 
-                   ctx.result("Hello");
+               app.get("/api/login", ctx -> {
+                   LoginHandler login = new LoginHandler();
+                   login.handle(ctx);
                });
             
                app.get("/api/obtenerUsuarios", ctx ->{
@@ -56,6 +44,8 @@ public class Application {
                 app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> new GetIncidenteIdComunidadAbiertoHandler());
                 
                 app.get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> new GetIncidenteIdComunidadCerradoHandler());
+
+                app.get("/api/obtenerIncidentesCercanos/{idUsuario}", ctx -> new GetIncidenteIdCercanoHandler());
 
                 app.get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler());
                       

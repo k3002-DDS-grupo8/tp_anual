@@ -15,8 +15,7 @@ public class GetIncidenteIdComunidadAbiertoHandler implements Handler  {
     public void handle(@NotNull Context context) throws Exception {
         Integer idBuscado = context.pathParamAsClass("idComunidad", Integer.class).get();
         final Optional<Incidente> resultadoBusqueda = repoIncidente.obtenerTodos().stream()
-                .filter(incidente -> incidente.getId() == idBuscado)
-                .filter(incidente -> incidente.getEstado() == "ABIERTO") // CREO QUE ESTA MAL
+                .filter(incidente -> incidente.getId() == idBuscado && incidente.getEstado() == "ABIERTO")
                 .findFirst();
         if(resultadoBusqueda.isPresent()) {
             context.status(200).json(resultadoBusqueda.get());

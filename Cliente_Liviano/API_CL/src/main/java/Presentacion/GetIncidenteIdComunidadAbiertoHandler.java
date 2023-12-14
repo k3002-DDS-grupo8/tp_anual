@@ -4,7 +4,11 @@ import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 import persistencia.RepoIncidente;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import Dominio.incidente.Incidente;
 
 public class GetIncidenteIdComunidadAbiertoHandler implements Handler  {
@@ -14,14 +18,12 @@ public class GetIncidenteIdComunidadAbiertoHandler implements Handler  {
     @Override
     public void handle(@NotNull Context context) throws Exception {
         Integer idBuscado = context.pathParamAsClass("idComunidad", Integer.class).get();
-        final Optional<Incidente> resultadoBusqueda = repoIncidente.obtenerTodos().stream()
-                .filter(incidente -> incidente.getId() == idBuscado && incidente.getEstado() == "ABIERTO")
-                .findFirst();
-        if(resultadoBusqueda.isPresent()) {
-            context.status(200).json(resultadoBusqueda.get());
-        } else {
-            context.status(404);
-        }
+        final List<Incidente> resultadoBusqueda = repoIncidente.obtenerTodos().stream()
+                .filter(incidente -> incidente.getComunidadId() == idBuscado && incidente.getEstado() == "ABIERTO")
+                .collect(Collectors.toList());
+
+        context.status(200).json(resultadoBusqueda);
+
     }
 
     public GetIncidenteIdComunidadAbiertoHandler() {

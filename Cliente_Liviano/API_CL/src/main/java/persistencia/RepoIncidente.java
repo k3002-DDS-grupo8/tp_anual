@@ -88,7 +88,7 @@ public class RepoIncidente {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT incidente.id, incidente.comunidad_id, incidente.servicio_idServicio, incidente.usuarioApertura_id, incidente.observaciones FROM miembrocomunidad JOIN incidente ON miembrocomunidad.comunidad_id = incidente.comunidad_id WHERE miembrocomunidad.usuario_id = :idBuscado and incidente.estado = 'ABIERTO'");
+            Query query = session.createSQLQuery("SELECT incidente.id, incidente.comunidad_id, incidente.servicio_idServicio, incidente.usuarioApertura_id, incidente.observaciones, incidente.estado FROM miembrocomunidad JOIN incidente ON miembrocomunidad.comunidad_id = incidente.comunidad_id WHERE miembrocomunidad.usuario_id = :idBuscado AND incidente.estado = 0");
             query.setParameter("idBuscado", idBuscado);
             List<Object[]> rows = query.getResultList();
             ArrayList<Incidente> incidentes = new ArrayList<>();
@@ -99,6 +99,11 @@ public class RepoIncidente {
                         incidente.setServicioId(Long.parseLong(row[2].toString()));
                         incidente.setUsuarioAperturaId(Long.parseLong(row[3].toString()));
                         incidente.setObservaciones(row[4].toString());
+                        if(Integer.parseInt(row[5].toString()) == 0) {
+                        incidente.setEstado("ABIERTO");
+                        } else {
+                        incidente.setEstado("CERRADO");
+                        }
                 incidentes.add(incidente);
             }
             tx.commit();

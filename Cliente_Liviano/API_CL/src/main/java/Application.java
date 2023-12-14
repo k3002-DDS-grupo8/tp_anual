@@ -31,31 +31,70 @@ public class Application {
                    handlerUsuario.handle(ctx);
                });
             
-                app.get("/api/obtenerUsuarios/{id}", new GetUsuarioIdHandler());
+                app.get("/api/obtenerUsuarios/{id}", ctx -> {
+                    GetUsuarioIdHandler handler = new GetUsuarioIdHandler();
+                    handler.handle(ctx);
+                });
             
-                app.get("/api/obtenerComunidades", ctx -> new GetComunidadesHandler());
+                app.get("/api/obtenerComunidades", ctx -> {
+                    GetComunidadesHandler handler = new GetComunidadesHandler();
+                    handler.handle(ctx);
+                });
 
-                app.get("/api/obtenerComunidades/{id}", ctx -> new GetComunidadIdHandler());
+                app.get("/api/obtenerComunidades/{id}", ctx -> {
+                    GetComunidadIdHandler handler = new GetComunidadIdHandler();
+                    handler.handle(ctx);
+                });
 
-                app.post("/api/aperturaIncidente", ctx -> new PostAperturaIncidenteHandler());
+                app.post("/api/aperturaIncidente",  ctx -> {
+                    PostAperturaIncidenteHandler handler = new PostAperturaIncidenteHandler();
+                    handler.handle(ctx);
+                });
 
-                app.get("/api/obtenerIncidentesComunidad/{idComunidad}", ctx -> new GetIncidenteIdComunidadHandler());
+                app.get("/api/obtenerIncidentesComunidad/{idComunidad}",  ctx -> {
+                    GetIncidenteIdComunidadHandler handler = new GetIncidenteIdComunidadHandler();
+                    handler.handle(ctx);
+                });
 
-                app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> new GetIncidenteIdComunidadAbiertoHandler());
-                
-                app.get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> new GetIncidenteIdComunidadCerradoHandler());
+                app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> {
+                    GetIncidenteIdComunidadAbiertoHandler handler = new GetIncidenteIdComunidadAbiertoHandler();
+                    handler.handle(ctx);
+                });
 
-                app.get("/api/obtenerIncidentesCercanos/{idUsuario}", ctx -> new GetIncidenteIdCercanoHandler());
+                app.get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> {
+                    GetIncidenteIdComunidadCerradoHandler handler = new GetIncidenteIdComunidadCerradoHandler();
+                    handler.handle(ctx);
+                });
 
-                app.get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler());
+                app.get("/api/obtenerIncidentesCercanos/{idUsuario}", ctx -> {
+                    GetIncidenteIdCercanoHandler handler = new GetIncidenteIdCercanoHandler();
+                    handler.handle(ctx);
+                });
+
+                app.get("/api/obtenerEntidades",  ctx -> {
+                    GetEntidadesHandler handler = new GetEntidadesHandler();
+                    handler.handle(ctx);
+                });
                       
-                app.post("/api/cierreIncidente/", ctx -> new PostCierreIdIncidenteHandler());
+                app.post("/api/cierreIncidente/",  ctx -> {
+                    PostCierreIdIncidenteHandler handler = new PostCierreIdIncidenteHandler();
+                    handler.handle(ctx);
+                });
 
-                app.post("/api/insertarTipoUsuario", ctx -> new PostInsertarTipoUsuarioHandler());
+                app.post("/api/insertarTipoUsuario",  ctx -> {
+                    PostInsertarTipoUsuarioHandler handler = new PostInsertarTipoUsuarioHandler();
+                    handler.handle(ctx);
+                });
                       
-                app.get("/api/eliminarTipoUsuario", ctx -> new PostEliminarTipoUsuarioHandler());
+                app.post("/api/eliminarTipoUsuario",  ctx -> {
+                    PostEliminarTipoUsuarioHandler handler = new PostEliminarTipoUsuarioHandler();
+                    handler.handle(ctx);
+                });
                       
-                app.get("/api/obtenerRankingEntidades", ctx -> new GetObtenerRankingEntidadesHandler());
+                app.get("/api/obtenerRankingEntidades/{idRanking}",  ctx -> {
+                    GetObtenerRankingEntidadesHandler handler = new GetObtenerRankingEntidadesHandler();
+                    handler.handle(ctx);
+                });
     }
 
 }

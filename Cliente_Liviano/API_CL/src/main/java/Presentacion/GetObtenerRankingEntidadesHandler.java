@@ -6,6 +6,7 @@ import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 import persistencia.RepoRanking;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,12 +19,12 @@ public class GetObtenerRankingEntidadesHandler implements Handler {
     @Override
     public void handle(@NotNull Context context) throws Exception {
         Integer idBuscado = context.pathParamAsClass("idRanking", Integer.class).get();
-        final List<Informe> resultadoBusqueda = repoRanking.obtenerRankingEntidades()
-                .stream().filter(informe -> informe.getRanking_id() == idBuscado).collect(Collectors.toList());
+        final List<Informe> resultadoBusqueda = repoRanking.obtenerRankingEntidades().stream()
+                .filter(informe -> informe.getRanking_id() == idBuscado)
+                .collect(Collectors.toList());
 
         if(!resultadoBusqueda.isEmpty()) {
             context.status(200).json(resultadoBusqueda);
-            // aca @FEDE busca como genera el json para un List
         } else {
             context.status(404);
         }

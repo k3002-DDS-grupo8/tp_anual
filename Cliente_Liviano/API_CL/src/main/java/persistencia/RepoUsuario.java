@@ -15,7 +15,7 @@ public class RepoUsuario {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id, email, nombre, contrasenia FROM usuario");
+            Query query = session.createSQLQuery("SELECT id, nombre, email, contrasenia FROM usuario");
             List<Object[]> rows = query.getResultList();
             ArrayList<Usuario> usuarios = new ArrayList<>();
             for (Object[] row : rows) {

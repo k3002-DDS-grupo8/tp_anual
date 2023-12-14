@@ -17,11 +17,7 @@ public class GetUsuariosHandler implements Handler  {
     }
     @Override
     public void handle(@NotNull Context context) throws Exception {
-        for (Usuario usuario : repoUsuario.obtenerTodos()) {
-            System.out.print(usuario.toString());
-        }
-        //context.json(repoUsuario.obtenerTodos());
-        //context.result(repoUsuario.obtenerTodos().toString());
-        context.result("hola");
+        context.json(repoUsuario.obtenerTodos());
+
     }
 }

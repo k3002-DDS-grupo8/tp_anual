@@ -2,9 +2,6 @@ package persistencia;
 
 import Dominio.Utils.BDUtils;
 import Dominio.comunidad.Comunidad;
-import Dominio.comunidad.MiembroComunidad;
-import Dominio.incidente.Incidente;
-import Dominio.servicios.Servicios;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

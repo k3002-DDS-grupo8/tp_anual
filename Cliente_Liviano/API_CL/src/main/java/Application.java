@@ -1,17 +1,5 @@
 import Dominio.Utils.BDUtils;
-import Presentacion.GetUsuariosHandler;
-import Presentacion.GetUsuarioIdHandler;
-import Presentacion.GetComunidadesHandler;
-import Presentacion.GetComunidadIdHandler;
-import Presentacion.GetIncidenteIdComunidadHandler;
-import Presentacion.GetIncidenteIdComunidadAbiertoHandler;
-import Presentacion.GetIncidenteIdComunidadCerradoHandler;
-import Presentacion.GetEntidadesHandler;
-import Presentacion.PostCierreIdIncidenteHandler;
-import Presentacion.PostInsertarTipoUsuarioHandler;
-import Presentacion.PostAperturaIncidenteHandler;
-import Presentacion.PostEliminarTipoUsuarioHandler;
-import Presentacion.GetObtenerRankingEntidadesHandler;
+import Presentacion.*;
 
 
 import io.javalin.Javalin;
@@ -32,10 +20,10 @@ public class Application {
 
                 }).start(7070);
 
-               app.get("/api", ctx -> {
-                    System.out.printf("hola");
 
-                   ctx.result("Hello");
+               app.get("/api/login", ctx -> {
+                   LoginHandler login = new LoginHandler();
+                   login.handle(ctx);
                });
             
                app.get("/api/obtenerUsuarios", ctx ->{
@@ -43,29 +31,82 @@ public class Application {
                    handlerUsuario.handle(ctx);
                });
             
-                app.get("/api/obtenerUsuarios/{id}", new GetUsuarioIdHandler());
+                app.get("/api/obtenerUsuarios/{id}", ctx -> {
+                    GetUsuarioIdHandler handler = new GetUsuarioIdHandler();
+                    handler.handle(ctx);
+                });
             
+<<<<<<< HEAD
                 app.get("/api/obtenerComunidades", new GetComunidadesHandler());
+=======
+                app.get("/api/obtenerComunidades", ctx -> {
+                    GetComunidadesHandler handler = new GetComunidadesHandler();
+                    handler.handle(ctx);
+                });
+>>>>>>> d5fc6119c2a8a838d436b2929a084acde14e6ad2
 
-                app.get("/api/obtenerComunidades/{id}", ctx -> new GetComunidadIdHandler());
+                app.get("/api/obtenerComunidades/{id}", ctx -> {
+                    GetComunidadIdHandler handler = new GetComunidadIdHandler();
+                    handler.handle(ctx);
+                });
 
-                app.post("/api/aperturaIncidente", ctx -> new PostAperturaIncidenteHandler());
+                app.post("/api/aperturaIncidente",  ctx -> {
+                    PostAperturaIncidenteHandler handler = new PostAperturaIncidenteHandler();
+                    handler.handle(ctx);
+                });
 
+<<<<<<< HEAD
                 app.get("/api/obtenerIncidentesComunidad/{idComunidad}", new GetIncidenteIdComunidadHandler());
+=======
+                app.get("/api/obtenerIncidentesComunidad/{idComunidad}",  ctx -> {
+                    GetIncidenteIdComunidadHandler handler = new GetIncidenteIdComunidadHandler();
+                    handler.handle(ctx);
+                });
+>>>>>>> d5fc6119c2a8a838d436b2929a084acde14e6ad2
 
-                app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> new GetIncidenteIdComunidadAbiertoHandler());
-                
-                app.get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> new GetIncidenteIdComunidadCerradoHandler());
+                app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> {
+                    GetIncidenteIdComunidadAbiertoHandler handler = new GetIncidenteIdComunidadAbiertoHandler();
+                    handler.handle(ctx);
+                });
 
-                app.get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler());
+                app.get("/api/obtenerIncidentesComunidadCerrado/{idComunidad}", ctx -> {
+                    GetIncidenteIdComunidadCerradoHandler handler = new GetIncidenteIdComunidadCerradoHandler();
+                    handler.handle(ctx);
+                });
+
+                app.get("/api/obtenerIncidentesCercanos/{idUsuario}", ctx -> {
+                    GetIncidenteIdCercanoHandler handler = new GetIncidenteIdCercanoHandler();
+                    handler.handle(ctx);
+                });
+
+                app.get("/api/obtenerEntidades",  ctx -> {
+                    GetEntidadesHandler handler = new GetEntidadesHandler();
+                    handler.handle(ctx);
+                });
                       
+<<<<<<< HEAD
                 app.post("/api/cierreIncidente/{idIncidente}", new PostCierreIdIncidenteHandler());
+=======
+                app.post("/api/cierreIncidente/",  ctx -> {
+                    PostCierreIdIncidenteHandler handler = new PostCierreIdIncidenteHandler();
+                    handler.handle(ctx);
+                });
+>>>>>>> d5fc6119c2a8a838d436b2929a084acde14e6ad2
 
-                app.post("/api/insertarTipoUsuario", ctx -> new PostInsertarTipoUsuarioHandler());
+                app.post("/api/insertarTipoUsuario",  ctx -> {
+                    PostInsertarTipoUsuarioHandler handler = new PostInsertarTipoUsuarioHandler();
+                    handler.handle(ctx);
+                });
                       
-                app.get("/api/eliminarTipoUsuario", ctx -> new PostEliminarTipoUsuarioHandler());
+                app.post("/api/eliminarTipoUsuario",  ctx -> {
+                    PostEliminarTipoUsuarioHandler handler = new PostEliminarTipoUsuarioHandler();
+                    handler.handle(ctx);
+                });
                       
-                app.get("/api/obtenerRankingEntidades", ctx -> new GetObtenerRankingEntidadesHandler());
+                app.get("/api/obtenerRankingEntidades/{idRanking}",  ctx -> {
+                    GetObtenerRankingEntidadesHandler handler = new GetObtenerRankingEntidadesHandler();
+                    handler.handle(ctx);
+                });
     }
 
 }

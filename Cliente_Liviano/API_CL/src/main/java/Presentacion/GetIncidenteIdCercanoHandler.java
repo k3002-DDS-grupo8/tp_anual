@@ -20,7 +20,8 @@ public class GetIncidenteIdCercanoHandler implements Handler {
     public void handle(@NotNull Context context) throws Exception {
         Integer idBuscado = context.pathParamAsClass("idUsuario", Integer.class).get();
 
-        final Optional<Incidente> resultadoBusqueda = repoIncidente.obtenerCercanos(idBuscado).stream().findFirst();
+        final Optional<Incidente> resultadoBusqueda = repoIncidente.obtenerCercanos(idBuscado)
+                .stream().findFirst();
 
         if(resultadoBusqueda.isPresent()) {
             context.status(200).json(resultadoBusqueda.get());

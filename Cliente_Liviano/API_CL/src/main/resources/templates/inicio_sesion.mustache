@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="bg-white p-10 rounded shadow-lg w-96">
+    <h2 class="text-3xl font-bold mb-8 text-center">Iniciar Sesión</h2>
+    <form name="login" onsubmit="return redirectToIndex(event)">
+      <div class="mb-6">
+        <label class="block text-gray-700 text-lg font-bold mb-2" for="username">
+          Nombre de Usuario
+        </label>
+        <input class="border border-gray-300 p-3 w-full rounded-lg" type="text" id="username" name="username" required>
+      </div>
+      <div class="mb-8">
+        <label class="block text-gray-700 text-lg font-bold mb-2" for="password">
+          Contraseña
+        </label>
+        <input class="border border-gray-300 p-3 w-full rounded-lg" type="password" id="password" name="password" required>
+      </div>
+      <div class="flex justify-center">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full">
+          Iniciar Sesión
+        </button>
+      </div>
+    </form>
+  </div>
+
+    <script>
+      async function redirectToIndex(event) {
+        event.preventDefault();
+        let username = document.forms["login"]["username"].value
+        let password = document.forms["login"]["password"].value
+
+        console.log(username)
+        
+        await fetch(`http://localhost:7070/login/${username}/${password}`, {
+          method: "POST"
+        })
+
+        location.reload()
+        
+        return false; // Esto previene que el formulario se envíe realmente (ya que no tenemos un backend real)
+      }
+
+      document.getElementById('triggerButton').addEventListener('click', function() {
+    // Crear un contenedor para la alerta
+    let alertContainer = document.createElement('div');
+    alertContainer.className = 'alert-container';
+
+    // Añadir texto a la alerta
+    alertContainer.innerHTML = "<p>Hay un incidente cerca tuyo. ¿El incidente persiste?</p>";
+
+    // Crear botón "Sí"
+    let yesButton = document.createElement('button');
+    yesButton.textContent = 'Sí';
+    yesButton.className = 'alert-button yes-button';
+    yesButton.addEventListener('click', function() {
+        document.body.removeChild(alertContainer);
+    });
+
+    // Crear botón "No"
+    let noButton = document.createElement('button');
+    noButton.textContent = 'No';
+    noButton.className = 'alert-button no-button';
+    noButton.addEventListener('click', function() {
+        document.body.removeChild(alertContainer);
+    });
+
+    // Añadir botones al contenedor
+    alertContainer.appendChild(yesButton);
+    alertContainer.appendChild(noButton);
+
+    // Añadir el contenedor de la alerta al cuerpo del documento
+    document.body.appendChild(alertContainer);
+});
+    </script>
+
+<style>
+  /* Estilos para el botón que desencadena la alerta */
+  #triggerButton {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  /* Estilos para el contenedor de la alerta */
+  .alert-container {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f2f2f2;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      text-align: center;
+      z-index: 1000;
+  }
+
+  /* Estilos para los botones de la alerta */
+  .alert-button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  /* Colores específicos para cada botón */
+  .yes-button {
+      background-color: #4CAF50;
+      color: white;
+  }
+
+  .no-button {
+      background-color: #f44336;
+      color: white;
+  }
+</style>
+
+</body>
+
+</html>

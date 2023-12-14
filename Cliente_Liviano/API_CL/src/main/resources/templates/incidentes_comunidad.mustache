@@ -16,21 +16,19 @@
     <div class="container mx-auto">
       <div class="flex justify-between items-center">
         <div>
-          <a href="index.html" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
+          <a href="http://localhost:7070/api/obtenerComunidades" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
         </div>
         <div class="hidden md:flex space-x-4">
-          <a href="carga_datos.html" class="text-white hover:text-gray-500">Carga de Datos</a>
-          <div class="h-6 border-l border-gray-500"></div>
           <a href="http://localhost:7070/api/obtenerComunidades" class="text-white hover:text-gray-500">Lista de Comunidades</a>
           <div class="h-6 border-l border-gray-500"></div>
-          <a href="ranking_incidentes.html" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
+          <a href="http://localhost:7070/api/obtenerRankingEntidades" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
           <div class="h-6 border-l border-gray-500"></div>
-          <a href="admin_tipos_usurario.html" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
+          <a href="http://localhost:7070/api/obtenerTiposUsuario" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
           <div class="h-6 border-l border-gray-500"></div>
-          <a href="inicio_sesion.html" class="text-white hover:text-gray-500">Log In</a>
+          <a href="http://localhost:7070/login" class="text-white hover:text-gray-500">Log In</a>
         </div>
         <div class="relative inline-block">
-          <button id="notificacionesDropdown" class="text-white focus:outline-none hover:text-gray-500">
+          <button id="triggerButton" class="text-white focus:outline-none hover:text-gray-500">
             <i class="fas fa-bell"></i>
           </button>
           <div id="notificacionesMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
@@ -206,7 +204,87 @@
       location.reload()
     }
 
+    document.getElementById('triggerButton').addEventListener('click', function() {
+    // Crear un contenedor para la alerta
+    let alertContainer = document.createElement('div');
+    alertContainer.className = 'alert-container';
+
+    // Añadir texto a la alerta
+    alertContainer.innerHTML = "<p>Hay un incidente cerca tuyo. ¿El incidente persiste?</p>";
+
+    // Crear botón "Sí"
+    let yesButton = document.createElement('button');
+    yesButton.textContent = 'Sí';
+    yesButton.className = 'alert-button yes-button';
+    yesButton.addEventListener('click', function() {
+        document.body.removeChild(alertContainer);
+    });
+
+    // Crear botón "No"
+    let noButton = document.createElement('button');
+    noButton.textContent = 'No';
+    noButton.className = 'alert-button no-button';
+    noButton.addEventListener('click', function() {
+        document.body.removeChild(alertContainer);
+    });
+
+    // Añadir botones al contenedor
+    alertContainer.appendChild(yesButton);
+    alertContainer.appendChild(noButton);
+
+    // Añadir el contenedor de la alerta al cuerpo del documento
+    document.body.appendChild(alertContainer);
+});
+
   </script>
+
+<style>
+  /* Estilos para el botón que desencadena la alerta */
+  #triggerButton {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  /* Estilos para el contenedor de la alerta */
+  .alert-container {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f2f2f2;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      text-align: center;
+      z-index: 1000;
+  }
+
+  /* Estilos para los botones de la alerta */
+  .alert-button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  /* Colores específicos para cada botón */
+  .yes-button {
+      background-color: #4CAF50;
+      color: white;
+  }
+
+  .no-button {
+      background-color: #f44336;
+      color: white;
+  }
+</style>
 </body>
 
 </html>

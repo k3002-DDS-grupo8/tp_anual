@@ -1,0 +1,26 @@
+.hidden {
+    display: none;
+  }
+  
+  #notificationContainer {
+    width: 300px;
+    border: 1px solid #000;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    background-color: white;
+  }
+  
+  .notification {
+    background-color: purple;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  button {
+    /* Style your button as needed */
+  }

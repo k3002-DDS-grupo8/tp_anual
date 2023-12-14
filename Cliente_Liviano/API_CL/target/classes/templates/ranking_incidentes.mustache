@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Comunidades</title>
+  <title>Rankings de Incidentes</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/components/modal/">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 
 <body class="bg-white">
@@ -16,19 +16,19 @@
     <div class="container mx-auto">
       <div class="flex justify-between items-center">
         <div>
-          <a href="#" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
+          <a href="http://localhost:7070/api/obtenerComunidades" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
         </div>
         <div class="hidden md:flex space-x-4">
-          <a href="#" class="text-white hover:text-gray-500">Lista de Comunidades</a>
+          <a href="http://localhost:7070/api/obtenerComunidades" class="text-white hover:text-gray-500">Lista de Comunidades</a>
           <div class="h-6 border-l border-gray-500"></div>
-          <a href="http://localhost:7070/api/obtenerRankingEntidades" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
+          <a href="#" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
           <div class="h-6 border-l border-gray-500"></div>
           <a href="http://localhost:7070/api/obtenerTiposUsuario" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
           <div class="h-6 border-l border-gray-500"></div>
           <a href="http://localhost:7070/login" class="text-white hover:text-gray-500">Log In</a>
         </div>
         <div class="relative inline-block">
-          <button type="button" id="triggerButton" data-toggle="modal" data-target="#exampleModal" class="text-white focus:outline-none hover:text-gray-500">
+          <button id="triggerButton" class="text-white focus:outline-none hover:text-gray-500">
             <i class="fas fa-bell"></i>
           </button>
           <div id="notificacionesMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
@@ -44,9 +44,9 @@
             <i class="fas fa-bars"></i>
           </button>
           <div id="mobileMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
-            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Lista de Comunidades</a>
+            <a href="http://localhost:7070/api/obtenerComunidades" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Lista de Comunidades</a>
             <hr class="my-1 border-gray-100">
-            <a href="http://localhost:7070/api/obtenerRankingEntidades" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Rankings de Incidentes</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Rankings de Incidentes</a>
             <hr class="my-1 border-gray-100">
             <a href="http://localhost:7070/api/obtenerTiposUsuario" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Administrar Tipos de Usuario</a>
             <hr class="my-1 border-gray-100">
@@ -57,30 +57,47 @@
     </div>
   </header>
 
+  <!-- Hay que hacer los 3 tipos de ranking del lado del servidor. Luego, se pasan con put al modelo para ser impresos acá usando loops de Mustache. -->
   <main class="container mx-auto p-8 flex flex-col items-center">
-    <h2 class="text-2xl font-bold mb-4 text-center">Lista de Comunidades</h2>
-    <ul id="comunidadesList" class="list-none p-0 w-full">
-      {{#listaComunidades}}
-      <div class="flex items-center flex-wrap justify-between mb-4 border border-gray-300 p-4">
-        <h3 class="text-xl font-bold mr-4">{{nombre}}</h3>
-        <div class="py-4 flex flex-wrap gap-4">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-              <i class="fas fa-eye"></i> Comunidad
-          </button>
-          <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-              <i class="fas fa-users"></i> Usuarios
-          </button>
-          <a href="obtenerIncidentesComunidad/{{id}}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-            <i class="fas fa-exclamation-triangle"></i> Incidentes
-          </a>
-        </div>
-      </div>
-      {{/listaComunidades}}
-    </ul>
+    <h2 class="text-2xl font-bold mb-4 text-center">Rankings de Incidentes</h2>
+    <div id="containerRankings" class="flex w-50 flex-wrap justify-center gap-8 container">
+      {{#listaInformes}}
+        <div class="font-bold clase-{{ranking_id}}">{{posicion}}. Entidad: {{entidad_nombre}}</li>
+      {{/listaInformes}}
+    </div>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
   <script>
+window.onload = function() {
+  // Función para crear un contenedor y mover elementos de una clase a él
+  function crearContenedorYAgregarElementos(clase, titulo) {
+    var contenedor = document.createElement('div');
+    contenedor.classList.add('contenedor-' + clase);
+    contenedor.classList.add('container');
+
+    var nuevoElemento = document.createElement('h1')
+    nuevoElemento.classList.add("mb-3")
+    nuevoElemento.classList.add("h1")
+    nuevoElemento.innerHTML = `
+            <h1>Ranking segun ${titulo}</h1>
+          `
+    contenedor.appendChild(nuevoElemento);
+
+    var elementos = document.querySelectorAll('.' + clase);
+    elementos.forEach(function(elemento) {
+      contenedor.appendChild(elemento);
+    });
+
+    document.body.appendChild(contenedor);
+  }
+
+  // Crear contenedores para cada grupo y agregar elementos
+  crearContenedorYAgregarElementos('clase-1', "Tiempo de cierre");
+  crearContenedorYAgregarElementos('clase-2', "Grado de impacto");
+  crearContenedorYAgregarElementos('clase-3', "Cantidad de incidentes");
+};
+
 document.getElementById('triggerButton').addEventListener('click', function() {
     // Crear un contenedor para la alerta
     let alertContainer = document.createElement('div');
@@ -113,8 +130,20 @@ document.getElementById('triggerButton').addEventListener('click', function() {
     document.body.appendChild(alertContainer);
 });
   </script>
+  <style>
+.contenedor-clase-1, .contenedor-clase-2, .contenedor-clase-3 {
+  border: 2px solid #000;
+  padding: 10px;
+  margin-bottom: 15px;
+}
 
-<style>
+.contenedor-clase-1 > div, .contenedor-clase-2 > div, .contenedor-clase-3 > div {
+  margin: 5px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+}
+
   /* Estilos para el botón que desencadena la alerta */
   #triggerButton {
       padding: 10px 20px;
@@ -160,8 +189,7 @@ document.getElementById('triggerButton').addEventListener('click', function() {
       background-color: #f44336;
       color: white;
   }
-</style>
-
+  </style>
 </body>
 
 </html>

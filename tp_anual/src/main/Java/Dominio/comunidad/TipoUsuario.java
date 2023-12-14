@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class TipoUsuario {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nombre;
 

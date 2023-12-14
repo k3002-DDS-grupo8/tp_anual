@@ -1,11 +1,8 @@
-import Dominio.Utils.BDUtils;
 import Presentacion.*;
 
 
 import io.javalin.Javalin;
 import org.quartz.*;
-
-import javax.persistence.EntityManager;
 
 public class Application {
     public static void main(String[] args) throws SchedulerException {
@@ -21,10 +18,8 @@ public class Application {
                 }).start(7070);
 
 
-               app.get("/api/login", ctx -> {
-                   LoginHandler login = new LoginHandler();
-                   login.handle(ctx);
-               });
+               app.get("/login", new GetLoginHandler());
+               app.post("/login/{usuarioNombre}/{contrasenia}", new PostLoginHandler());
             
                app.get("/api/obtenerUsuarios", ctx ->{
                    GetUsuariosHandler handlerUsuario = new GetUsuariosHandler();
@@ -69,23 +64,17 @@ public class Application {
                     GetEntidadesHandler handler = new GetEntidadesHandler();
                     handler.handle(ctx);
                 });
-                      
+
+                app.get("/api/obtenerTiposUsuario", new GetObtenerTiposUsuarioHandler());
+                app.post("/api/insertarTipoUsuario/{nombre}", new PostInsertarTipoUsuarioHandler());
+
                 app.post("/api/cierreIncidente/{idIncidente}", new PostCierreIdIncidenteHandler());
 
-                app.post("/api/insertarTipoUsuario",  ctx -> {
-                    PostInsertarTipoUsuarioHandler handler = new PostInsertarTipoUsuarioHandler();
-                    handler.handle(ctx);
-                });
+
                       
-                app.post("/api/eliminarTipoUsuario",  ctx -> {
-                    PostEliminarTipoUsuarioHandler handler = new PostEliminarTipoUsuarioHandler();
-                    handler.handle(ctx);
-                });
+                app.post("/api/eliminarTipoUsuario/{idTipoUsuario}", new PostEliminarTipoUsuarioHandler());
                       
-                app.get("/api/obtenerRankingEntidades/{idRanking}",  ctx -> {
-                    GetObtenerRankingEntidadesHandler handler = new GetObtenerRankingEntidadesHandler();
-                    handler.handle(ctx);
-                });
+                app.get("/api/obtenerRankingEntidades", new GetObtenerRankingEntidadesHandler());
     }
 
 }

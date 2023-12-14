@@ -33,12 +33,11 @@ public class RepoTipoUsuario {
             session.close();
         }
     }
-    public void insertarTipoUsuario(long id,String nombre) {
+    public void insertarTipoUsuario(String nombre) {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query  query = session.createSQLQuery("INSERT INTO tipousuario (id, nombre) VALUES (:id,:nombre)");
-            query.setParameter("id", id);
+            Query  query = session.createSQLQuery("INSERT INTO tipousuario (nombre) VALUES (:nombre)");
             query.setParameter("nombre", nombre);
             query.executeUpdate();
             tx.commit();

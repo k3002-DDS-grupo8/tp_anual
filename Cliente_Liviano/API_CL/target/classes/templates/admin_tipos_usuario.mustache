@@ -4,11 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Comunidades</title>
+  <title>Interfaz Principal</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/components/modal/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
 <body class="bg-white">
@@ -16,19 +15,19 @@
     <div class="container mx-auto">
       <div class="flex justify-between items-center">
         <div>
-          <a href="#" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
+          <a href="http://localhost:7070/api/obtenerComunidades" class="text-2xl font-bold text-white hover:text-gray-500">M.E.S.T.P.E. 🗺</a>
         </div>
         <div class="hidden md:flex space-x-4">
-          <a href="#" class="text-white hover:text-gray-500">Lista de Comunidades</a>
+          <a href="http://localhost:7070/api/obtenerComunidades" class="text-white hover:text-gray-500">Lista de Comunidades</a>
           <div class="h-6 border-l border-gray-500"></div>
           <a href="http://localhost:7070/api/obtenerRankingEntidades" class="text-white hover:text-gray-500">Rankings de Incidentes</a>
           <div class="h-6 border-l border-gray-500"></div>
-          <a href="http://localhost:7070/api/obtenerTiposUsuario" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
+          <a href="#" class="text-white hover:text-gray-500">Administrar Tipos de Usuario</a>
           <div class="h-6 border-l border-gray-500"></div>
           <a href="http://localhost:7070/login" class="text-white hover:text-gray-500">Log In</a>
         </div>
         <div class="relative inline-block">
-          <button type="button" id="triggerButton" data-toggle="modal" data-target="#exampleModal" class="text-white focus:outline-none hover:text-gray-500">
+          <button id="triggerButton" class="text-white focus:outline-none hover:text-gray-500">
             <i class="fas fa-bell"></i>
           </button>
           <div id="notificacionesMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
@@ -44,13 +43,15 @@
             <i class="fas fa-bars"></i>
           </button>
           <div id="mobileMenu" class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg hidden">
-            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Lista de Comunidades</a>
+            <a href="carga_datos.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Carga de Datos</a>
             <hr class="my-1 border-gray-100">
-            <a href="http://localhost:7070/api/obtenerRankingEntidades" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Rankings de Incidentes</a>
+            <a href="lista_comunidades.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Lista de Comunidades</a>
             <hr class="my-1 border-gray-100">
-            <a href="http://localhost:7070/api/obtenerTiposUsuario" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Administrar Tipos de Usuario</a>
+            <a href="ranking_incidentes.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Rankings de Incidentes</a>
             <hr class="my-1 border-gray-100">
-            <a href="http://localhost:7070/login" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Log In</a>
+            <a href="admin_tipos_usurario.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Administrar Tipos de Usuario</a>
+            <hr class="my-1 border-gray-100">
+            <a href="inicio_sesion.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900">Log In</a>
           </div>
         </div>
       </div>
@@ -58,30 +59,46 @@
   </header>
 
   <main class="container mx-auto p-8 flex flex-col items-center">
-    <h2 class="text-2xl font-bold mb-4 text-center">Lista de Comunidades</h2>
-    <ul id="comunidadesList" class="list-none p-0 w-full">
-      {{#listaComunidades}}
-      <div class="flex items-center flex-wrap justify-between mb-4 border border-gray-300 p-4">
-        <h3 class="text-xl font-bold mr-4">{{nombre}}</h3>
-        <div class="py-4 flex flex-wrap gap-4">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-              <i class="fas fa-eye"></i> Comunidad
+    <h2 class="text-2xl font-bold mb-4 text-center">Gestión de Tipos de Usuario</h2>
+
+    <div class="flex items-center gap-4 mb-4">
+      <input type="text" id="nuevoTipoUsuario" class="p-2 border border-gray-300 rounded" placeholder="Nuevo Tipo de Usuario">
+      <button onclick="agregarTipoUsuario()" id="agregarTipoUsuario" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar</button>
+    </div>
+
+    <ul id="tiposUsuarioList" class="list-group p-0 m-0 w-full" style="display: flex; align-items: center; justify-content: center;">
+      {{#tiposUsuario}}
+        <li class="list-group-item" style="display: flex; justify-content: space-between; width: 30vw;">
+          <strong>{{nombre}} con id: {{id}}</strong>
+          <button type="button" class="btn btn-danger" onclick="eliminarTipoUsuario('{{id}}')">
+            Eliminar
           </button>
-          <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mr-2">
-              <i class="fas fa-users"></i> Usuarios
-          </button>
-          <a href="obtenerIncidentesComunidad/{{id}}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-            <i class="fas fa-exclamation-triangle"></i> Incidentes
-          </a>
-        </div>
-      </div>
-      {{/listaComunidades}}
+        </li>
+      {{/tiposUsuario}}
     </ul>
   </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-  <script>
-document.getElementById('triggerButton').addEventListener('click', function() {
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+
+<script>
+    async function eliminarTipoUsuario(id) {
+      let idInt = parseInt(id);
+      let res = await fetch("http://localhost:7070/api/eliminarTipoUsuario/" + id, {
+        method: "POST"
+      })
+      location.reload()
+    }
+
+    async function agregarTipoUsuario() {
+      let nuevoTipo = document.getElementById("nuevoTipoUsuario").value
+      let res = await fetch("http://localhost:7070/api/insertarTipoUsuario/" + nuevoTipo, {
+        method: "POST"
+      })
+      location.reload()
+    }
+
+    document.getElementById('triggerButton').addEventListener('click', function() {
     // Crear un contenedor para la alerta
     let alertContainer = document.createElement('div');
     alertContainer.className = 'alert-container';
@@ -112,7 +129,7 @@ document.getElementById('triggerButton').addEventListener('click', function() {
     // Añadir el contenedor de la alerta al cuerpo del documento
     document.body.appendChild(alertContainer);
 });
-  </script>
+</script>
 
 <style>
   /* Estilos para el botón que desencadena la alerta */
@@ -161,7 +178,5 @@ document.getElementById('triggerButton').addEventListener('click', function() {
       color: white;
   }
 </style>
-
-</body>
 
 </html>

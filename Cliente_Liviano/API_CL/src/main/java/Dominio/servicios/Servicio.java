@@ -28,7 +28,5 @@ public class Servicio implements Servicios{
         return false;
     }
     
-    public void darDeBaja(Establecimiento unEstablecimineto) {
 
-    }
 }

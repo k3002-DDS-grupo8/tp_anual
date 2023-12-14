@@ -45,13 +45,13 @@ public class Application {
             
                 app.get("/api/obtenerUsuarios/{id}", new GetUsuarioIdHandler());
             
-                app.get("/api/obtenerComunidades", ctx -> new GetComunidadesHandler());
+                app.get("/api/obtenerComunidades", new GetComunidadesHandler());
 
                 app.get("/api/obtenerComunidades/{id}", ctx -> new GetComunidadIdHandler());
 
                 app.post("/api/aperturaIncidente", ctx -> new PostAperturaIncidenteHandler());
 
-                app.get("/api/obtenerIncidentesComunidad/{idComunidad}", ctx -> new GetIncidenteIdComunidadHandler());
+                app.get("/api/obtenerIncidentesComunidad/{idComunidad}", new GetIncidenteIdComunidadHandler());
 
                 app.get("/api/obtenerIncidentesComunidadAbierto/{idComunidad}", ctx -> new GetIncidenteIdComunidadAbiertoHandler());
                 
@@ -59,7 +59,7 @@ public class Application {
 
                 app.get("/api/obtenerEntidades", ctx -> new GetEntidadesHandler());
                       
-                app.post("/api/cierreIncidente/", ctx -> new PostCierreIdIncidenteHandler());
+                app.post("/api/cierreIncidente/{idIncidente}", new PostCierreIdIncidenteHandler());
 
                 app.post("/api/insertarTipoUsuario", ctx -> new PostInsertarTipoUsuarioHandler());
                       

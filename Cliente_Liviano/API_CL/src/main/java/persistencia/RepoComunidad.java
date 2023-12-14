@@ -18,7 +18,7 @@ public class RepoComunidad {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id, nombre, activo FROM Comunidad");
+            Query query = session.createSQLQuery("SELECT id, nombre, activo FROM comunidad");
             List<Object[]> rows = query.getResultList();
             ArrayList<Comunidad> comunidades = new ArrayList<>();
 

@@ -15,12 +15,10 @@ public class PostCierreIdIncidenteHandler implements Handler {
     }
  @Override
     public void handle(@NotNull Context context) throws Exception {
-        Incidente incidente = context.bodyAsClass(Incidente.class);
-
-        long idIncidente = incidente.getId();
-        long idUsuarioCierre = incidente.getUsuarioCierreId();
-
+        Integer idIncidente = context.pathParamAsClass("idIncidente", Integer.class).get();
+        long idUsuarioCierre = 1;
+        System.out.println("Intento de cierre de incidente! ID: " + idIncidente);
      repoIncidente.cerrarIncidente(idIncidente, idUsuarioCierre);
-     context.status(201);
+     context.status(200);
     }
 }

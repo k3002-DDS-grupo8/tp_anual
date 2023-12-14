@@ -16,7 +16,7 @@ public class RepoIncidente {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("SELECT id, observaciones, comunidad_id, servicio_idServicio, estado, usuarioApertura_id, usuarioCierre_id FROM incidente");
+            Query query = session.createSQLQuery("SELECT id, observaciones, comunidad_id, servicio_idServicio, estado, usuarioOpen_id, usuarioClose_id FROM incidente");
             List<Object[]> rows = query.getResultList();
             ArrayList<Incidente> incidentes = new ArrayList<>();
             for (Object[] row : rows) {
@@ -66,11 +66,11 @@ public class RepoIncidente {
         }
     }
 
-    public static void cerrarIncidente(long idIncidente, long idUsuarioCierre) {
+    public static void cerrarIncidente(Integer idIncidente, long idUsuarioCierre) {
         Session session = BDUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Query query = session.createSQLQuery("UPDATE incidente SET estado = :nuevoEstado, usuarioCierre_id = :usuarioCierre WHERE id = :id");
+            Query query = session.createSQLQuery("UPDATE incidente SET estado = :nuevoEstado, usuarioClose_id = :usuarioCierre WHERE id = :id");
             query.setParameter("id", idIncidente);
             query.setParameter("nuevoEstado", 1);
             query.setParameter("usuarioCierre", idUsuarioCierre);

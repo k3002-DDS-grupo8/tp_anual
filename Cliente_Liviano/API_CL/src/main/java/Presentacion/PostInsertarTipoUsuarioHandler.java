@@ -16,7 +16,7 @@ public class PostInsertarTipoUsuarioHandler implements Handler {
   @Override
     public void handle(@NotNull Context context) throws Exception {
     String nombreTipoUsuario = context.pathParamAsClass("nombre", String.class).get();
-    repoTipoUsuario.insertarTipoUsuario(nombreTipoUsuario);
+    // repoTipoUsuario.insertarTipoUsuario(nombreTipoUsuario);
     context.status(201);
     }
 }

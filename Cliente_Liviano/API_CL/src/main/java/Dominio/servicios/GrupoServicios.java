@@ -19,7 +19,4 @@ public class GrupoServicios implements Servicios {
         this.servicio = servicio;
     }
 
-    public void darDeBaja(Establecimiento unEstablecimineto) {
-
-    }
 }

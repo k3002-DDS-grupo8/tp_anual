@@ -12,7 +12,7 @@ public class Main {
         BDUtils.comenzarTransaccion(em);
 
         //JPQL Query
-        List<Comunidad> comunidades = em.createQuery("select c.nombre FROM Comunidad c").getResultList(); //ojo, query no tipada
+        List<Comunidad> comunidades = em.createQuery("select c.nombre FROM comunidad c").getResultList(); //ojo, query no tipada
                 // equivalente a: select * from persona where persona.nombre = 'Julian'
 
 

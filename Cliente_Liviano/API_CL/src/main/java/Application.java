@@ -27,7 +27,7 @@ public class Application {
                    handlerUsuario.handle(ctx);
                });
             
-                app.get("/api/obtenerUsuarios/{id}", ctx -> {
+                app.get("/api/obtenerUsuarios/{email}", ctx -> {
                     GetUsuarioIdHandler handler = new GetUsuarioIdHandler();
                     handler.handle(ctx);
                 });

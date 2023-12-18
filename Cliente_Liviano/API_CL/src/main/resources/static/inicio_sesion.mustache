@@ -79,9 +79,9 @@
         firebase.auth().signInWithPopup(provider).then(async function(result) {
           var user = result.user;
           var email = user.email;
-          let response = await fetch(`http://localhost:7070/api/usuarios/${email}`);
+          let response = await fetch(`http://localhost:7070/api/obtenerUsuarios/${email}`);
           if(response.status == 200)
-            window.location.replace("http://localhost:7070/obtenerComunidades")
+            window.location.replace("http://localhost:7070/api/obtenerComunidades")
         })
       }
 

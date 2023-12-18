@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
 </head>
 
 <body class="flex items-center justify-center h-screen bg-gray-100">
@@ -30,7 +31,20 @@
         </button>
       </div>
     </form>
+      <div id="gSignInWrapper" onclick="logConGoogle()">
+        <div id="customBtn" class="customGPlusSignIn mt-3">
+          <span class="icon"></span>
+          <span class="buttonText">Iniciar sesión con Google</span>
+        </div>
+      </div>
   </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-firestore.js"></script>
+
 
     <script>
       async function redirectToIndex(event) {
@@ -49,37 +63,30 @@
         return false; // Esto previene que el formulario se envíe realmente (ya que no tenemos un backend real)
       }
 
-      document.getElementById('triggerButton').addEventListener('click', function() {
-    // Crear un contenedor para la alerta
-    let alertContainer = document.createElement('div');
-    alertContainer.className = 'alert-container';
+      const firebaseConfig = {
+        apiKey: "AIzaSyAiNviaz0ILRah65DadXVBZFEyGg0WDnm0",
+        authDomain: "dds-login-8ac80.firebaseapp.com",
+        projectId: "dds-login-8ac80",
+        storageBucket: "dds-login-8ac80.appspot.com",
+        messagingSenderId: "963348600652",
+        appId: "1:963348600652:web:b1f1686b5fd993178761e9"
+      };
 
-    // Añadir texto a la alerta
-    alertContainer.innerHTML = "<p>Hay un incidente cerca tuyo. ¿El incidente persiste?</p>";
+      function logConGoogle() {
+        firebase.initializeApp(firebaseConfig);
+  
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(async function(result) {
+          var user = result.user;
+          var email = user.email;
+          let response = await fetch(`http://localhost:7070/api/usuarios/${email}`);
+          if(response.status == 200)
+            window.location.replace("http://localhost:7070/obtenerComunidades")
+        })
+      }
 
-    // Crear botón "Sí"
-    let yesButton = document.createElement('button');
-    yesButton.textContent = 'Sí';
-    yesButton.className = 'alert-button yes-button';
-    yesButton.addEventListener('click', function() {
-        document.body.removeChild(alertContainer);
-    });
+      
 
-    // Crear botón "No"
-    let noButton = document.createElement('button');
-    noButton.textContent = 'No';
-    noButton.className = 'alert-button no-button';
-    noButton.addEventListener('click', function() {
-        document.body.removeChild(alertContainer);
-    });
-
-    // Añadir botones al contenedor
-    alertContainer.appendChild(yesButton);
-    alertContainer.appendChild(noButton);
-
-    // Añadir el contenedor de la alerta al cuerpo del documento
-    document.body.appendChild(alertContainer);
-});
     </script>
 
 <style>
@@ -128,6 +135,43 @@
       background-color: #f44336;
       color: white;
   }
+
+  #customBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white; /* Fondo blanco */
+  color: black; /* Texto negro */
+  border: 1px solid #ccc; /* Borde gris claro */
+  width: 240px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10 10; /* Centrar el botón */
+}
+
+#customBtn:hover {
+  background-color: #f6f7f8; /* Color de fondo al pasar el ratón */
+}
+
+.icon {
+  background-image: url('https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA');
+  background-size: cover;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 15px; /* Espacio entre el icono y el texto */
+}
+
+.buttonText {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#gSignInWrapper {
+  text-align: center; /* Centrar el botón dentro de este div */
+}
 </style>
 
 </body>

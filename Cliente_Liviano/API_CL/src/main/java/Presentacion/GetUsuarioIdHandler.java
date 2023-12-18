@@ -14,9 +14,9 @@ public class GetUsuarioIdHandler implements Handler  {
 
     @Override
     public void handle(@NotNull Context context) throws Exception {
-        Integer idBuscado = context.pathParamAsClass("id", Integer.class).get();
+        String emailBuscado = context.pathParamAsClass("email", String.class).get();
         final Optional<Usuario> resultadoBusqueda = repoUsuario.obtenerTodos().stream()
-                .filter(usuario -> usuario.getId() == idBuscado)
+                .filter(usuario ->  (usuario.getEmail().compareTo(emailBuscado) == 0))
                 .findFirst();
         if(resultadoBusqueda.isPresent()) {
             context.status(200).json(resultadoBusqueda.get());

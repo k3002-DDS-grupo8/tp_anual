@@ -1,7 +1,5 @@
 package Presentacion;
 
-import Dominio.comunidad.Comunidad;
-import Dominio.entidad.EntidadPrestadora;
 import Dominio.ranking.Informe;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -9,8 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import persistencia.RepoRanking;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GetObtenerRankingEntidadesHandler implements Handler {
 
@@ -22,7 +18,7 @@ public class GetObtenerRankingEntidadesHandler implements Handler {
         Map<String, Object> model = new HashMap<>();
         System.out.println(listaInformes);
         model.put("listaInformes", listaInformes);
-        context.render("templates/ranking_incidentes.mustache", model);
+        context.render("static/ranking_incidentes.mustache", model);
     }
 
     public GetObtenerRankingEntidadesHandler() {

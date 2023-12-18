@@ -1,12 +1,10 @@
 package Presentacion;
 
-import Dominio.comunidad.Comunidad;
 import Dominio.comunidad.TipoUsuario;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 import persistencia.RepoTipoUsuario;
-import persistencia.RepoUsuario;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +22,7 @@ public class GetObtenerTiposUsuarioHandler implements Handler {
         List<TipoUsuario> listaTipos = this.repoTipoUsuario.obtenerTodos();
         Map<String, Object> model = new HashMap<>();
         model.put("tiposUsuario", listaTipos);
-        context.render("templates/admin_tipos_usuario.mustache", model);
+        context.render("static/admin_tipos_usuario.mustache", model);
         context.status(201);
     }
 }

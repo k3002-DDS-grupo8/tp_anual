@@ -1,0 +1,16 @@
+<!-- src/main/webapp/WEB-INF/web.xml -->
+
+<context-param>
+    <param-name>com.auth0.domain</param-name>
+    <param-value>dev-hh5t0p18hmxf7hu3.us.auth0.com</param-value>
+</context-param>
+
+<context-param>
+<param-name>com.auth0.clientId</param-name>
+<param-value>GNoBVsWRzn2Eu3ai2c26oyuIiGOESQQd</param-value>
+</context-param>
+
+<context-param>
+<param-name>com.auth0.clientSecret</param-name>
+<param-value>5caQ0sXZONSTr0vRxyF_7wUqEP3712noSriCBM6gO9yuLWnoC4Y4Uo9zco8TJ6ue</param-value>
+</context-param>

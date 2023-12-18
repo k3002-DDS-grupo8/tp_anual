@@ -19,6 +19,7 @@ public class Application {
 
 
                app.get("/login", new GetLoginHandler());
+
                app.post("/login/{usuarioNombre}/{contrasenia}", new PostLoginHandler());
             
                app.get("/api/obtenerUsuarios", ctx ->{
